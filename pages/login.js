@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import Layout from './../components/Layout.tsx';
 import { Basic, Combined, Animated, bounce } from '../styles/style';
@@ -50,6 +51,11 @@ export default function Login() {
               <Field name="email" type="email" />
               <Field name="password" type="password" />
               <button type="submit">Submit</button>
+              <Link href="/register">
+                <a>
+                  <div>Create An Account</div>
+                </a>
+              </Link>
             </Form>
           </Formik>
         </div>

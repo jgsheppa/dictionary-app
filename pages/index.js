@@ -3,48 +3,16 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import Layout from './../components/Layout.tsx';
 import { Basic, Combined, Animated, bounce } from '../styles/style';
-// import dotenv from 'dotenv';
-
-// require('dotenv').config();
-
-// dotenv.config();
-
-// const key = process.env.YANDEXAPIKEY;
-const key =
-  'dict.1.1.20200929T091851Z.445db0450d9781cb.57bd96bd31734ca7fe6ee693c05278dda643a9a0';
-
-const exCall = `https://dictionary.yandex.net/api/v1/dicservice/lookup?key=${key}&lang=en-ru&text=call`;
-
-const fetchData = fetch(
-  `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=en-ru&text=call`,
-  // {
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Accept: 'application/json',
-  //   },
-  // },
-)
-  .then((resp) => resp.json())
-  .then(function (data) {
-    console.log(data.def[1].tr[1]);
-    return data.def[1].tr[1];
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
-console.log(fetchData);
-
-async function getTranslations() {
-  const entry = await fetchData;
-  return entry.text;
-}
-
-const searchTerm = getTranslations();
-
-console.log(searchTerm);
+import { useState } from 'react';
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState('');
+  console.log(searchTerm);
+
+  const handleTermChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <>
       <Head>
@@ -54,8 +22,14 @@ export default function Home() {
       <Layout>
         <div>Hello World!</div>
         <div>
-          <input placeholder="Search for a term"></input>
-          <button>Search</button>
+          <input
+            value={searchTerm}
+            placeholder="Search for a term"
+            onChange={handleTermChange}
+          ></input>
+          <Link href={`/${searchTerm}`}>
+            <a>Search</a>
+          </Link>
         </div>
         {/* <Link href={`/${searchTerm.text}`}></Link> */}
       </Layout>

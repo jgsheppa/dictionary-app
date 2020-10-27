@@ -8,7 +8,7 @@ export const globalStyles = (
       body {
         padding: 3rem 1rem;
         margin: 0;
-        background: papayawhip;
+        /* background: papayawhip; */
         min-height: 100%;
         font-family: Helvetica, Arial, sans-serif;
         font-size: 24px;
@@ -19,12 +19,12 @@ export const globalStyles = (
 
 export const verbStylesVollendet = css`
   border: solid;
-  border-color: #000;
+  border-color: #5054f5;
   padding: 10px 30px;
 `;
 export const verbStylesUnvollendet = css`
   border: double;
-  border-color: #000;
+  border-color: #fae36e;
 `;
 
 export const basicStyles = css`

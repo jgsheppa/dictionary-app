@@ -57,7 +57,7 @@ export default function Header() {
             <Link href="/">
               <a style={navStyles}>Word of the Day</a>
             </Link>
-            <Link href="/">
+            <Link href="/login">
               <a style={navStyles}>Log In</a>
             </Link>
           </div>

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from './../components/Layout.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import { verbStylesUnvollendet, verbStylesVollendet } from '../styles/style';
 
@@ -74,6 +74,7 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const searchTerm = context.query.word;
   const key = process.env.customKey;
+  console.log(context);
 
   const res = await fetch(
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=en-ru&text=${searchTerm}`,
