@@ -1,0 +1,11 @@
+const extractHerokuDataBaseVars = require('./util/setPostgresDefaultsOnHeroku');
+
+extractHerokuDataBaseVars();
+
+const options = {};
+
+if (process.env.NODE_ENV === 'production') {
+  options.ssl = { rejectUnauthorized: false };
+}
+
+module.exports = options;

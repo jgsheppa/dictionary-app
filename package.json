@@ -2,33 +2,31 @@
   "name": "dictionary-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "migrate": "dotenv ley"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
+    "apollo-server": "^2.18.2",
+    "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
+    "dotenv-webpack": "^4.0.0",
+    "emotion": "^10.0.27",
+    "emotion-server": "^10.0.27",
+    "formik": "^2.2.1",
+    "fs": "^0.0.1-security",
+    "graphql": "^15.4.0",
+    "ley": "^0.6.0",
+    "next": "9.5.5",
+    "next-iron-session": "^4.1.9",
+    "postgres": "^1.0.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "swr": "^0.3.6",
+    "typescript": "^4.0.5"
   }
 }
