@@ -28,19 +28,6 @@ const navStyles: Style = {
   marginLeft: '20px',
 };
 
-const shoppingCartStyles: Style = {
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const cartStyles: Style = {
-  margin: '-5px 0 0 20px',
-};
-
-const numStyles: Style = {
-  marginLeft: '30px',
-};
-
 export default function Header() {
   return (
     <>

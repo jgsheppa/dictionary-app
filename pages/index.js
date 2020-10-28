@@ -27,7 +27,7 @@ export default function Home() {
             placeholder="Search for a term"
             onChange={handleTermChange}
           ></input>
-          <Link href={`/${searchTerm}`}>
+          <Link href={`/words/${searchTerm}`}>
             <a>Search</a>
           </Link>
         </div>

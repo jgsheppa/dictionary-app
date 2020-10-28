@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import Layout from './../components/Layout.tsx';
-import { Basic, Combined, Animated, bounce } from '../styles/style';
 import { Formik, Field, Form } from 'formik';
+import { registerFormStyles } from '../styles/style';
+import { css } from '@emotion/core';
 
 export default function Login() {
   return (
@@ -22,10 +22,22 @@ export default function Login() {
             }}
           >
             <Form>
-              <Field name="email" type="email" />
-              <Field name="password" type="password" />
-              <Field name="password" type="password" />
-              <button type="submit">Submit</button>
+              <div>
+                <div className="registerFormStyles">
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="Enter a Valid E-mail Address"
+                  />
+                  <Field
+                    name="password"
+                    type="password"
+                    placeholder="Create a Password"
+                  />
+                  {/* <Field name="password" type="password" /> */}
+                  <button type="submit">Submit</button>
+                </div>
+              </div>
             </Form>
           </Formik>
         </div>

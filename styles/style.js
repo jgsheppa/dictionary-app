@@ -6,9 +6,8 @@ export const globalStyles = (
     styles={css`
       html,
       body {
-        padding: 3rem 1rem;
+        padding: 0 2rem;
         margin: 0;
-        /* background: papayawhip; */
         min-height: 100%;
         font-family: Helvetica, Arial, sans-serif;
         font-size: 24px;
@@ -22,6 +21,7 @@ export const verbStylesVollendet = css`
   border-color: #5054f5;
   padding: 10px 30px;
 `;
+
 export const verbStylesUnvollendet = css`
   border: double;
   border-color: #fae36e;
@@ -39,6 +39,13 @@ export const basicStyles = css`
   padding: 1rem 0.5rem;
 `;
 
+export const registerFormStyles = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const hoverStyles = css`
   &:hover {
     color: white;
@@ -50,10 +57,10 @@ export const hoverStyles = css`
 export const bounce = keyframes`
   from {
     transform: scale(1.01);
-  }
+  };
   to {
     transform: scale(0.99);
-  }
+  };
 `;
 
 export const Basic = styled('div')`
