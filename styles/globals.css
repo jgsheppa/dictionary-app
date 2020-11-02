@@ -15,20 +15,6 @@ a {
   box-sizing: border-box;
 }
 
-.russian-verb-vollendet {
-  background-color: #34a1ff;
-  border-radius: 8px;
-  padding: 0.3rem 1rem 0.3rem 0.25rem;
-  width: 8rem;
-}
-
-.russian-verb-unvollendet {
-  background-color: #ffe216;
-  border-radius: 8px;
-  padding: 0.3rem 1rem 0.3rem 0.25rem;
-  width: 8rem;
-}
-
 /* Styles for register.js */
 .registerFormStyles {
   display: flex;
@@ -54,14 +40,4 @@ a {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-}
-
-.noun-styles {
-  display: flex;
-  flex-direction: row;
-}
-
-.noun-styles div {
-  margin: 10px;
-  text-align: left;
 }

@@ -1,5 +1,4 @@
 import { keyframes, css, Global } from '@emotion/core';
-import styled from '@emotion/styled';
 
 export const globalStyles = (
   <Global
@@ -15,12 +14,6 @@ export const globalStyles = (
     `}
   />
 );
-
-export const verbStylesVollendet = css`
-  border: solid;
-  border-color: #5054f5;
-  padding: 10px 30px;
-`;
 
 export const verbStylesUnvollendet = css`
   border: double;
@@ -61,24 +54,4 @@ export const bounce = keyframes`
   to {
     transform: scale(0.99);
   };
-`;
-
-export const Basic = styled('div')`
-  ${basicStyles};
-`;
-
-export const Combined = styled('div')`
-  ${basicStyles};
-  ${hoverStyles};
-  & code {
-    background-color: linen;
-  }
-`;
-export const Animated = styled('div')`
-  ${basicStyles};
-  ${hoverStyles};
-  & code {
-    background-color: linen;
-  }
-  animation: ${(props) => props.animation} 0.2s infinite ease-in-out alternate;
 `;

@@ -1,4 +1,5 @@
 import { Style } from '../util/types';
+import React from 'react';
 
 const footerStyles: Style = {
   padding: '20px',
@@ -14,7 +15,7 @@ const footerStyles: Style = {
 export default function Footer() {
   return (
     <>
-      <footer style={footerStyles}>Copyright 2020</footer>
+      <footer style={footerStyles}>Copyright 2020 - Powered by Yandex</footer>
     </>
   );
 }

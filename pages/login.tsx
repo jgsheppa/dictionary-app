@@ -1,0 +1,151 @@
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { css } from '@emotion/core';
+import nextCookies from 'next-cookies';
+import { GetServerSidePropsContext } from 'next';
+import { isSessionTokenValid } from '../util/auth';
+import Layout from './../components/Layout';
+
+const headerStyles = css`
+  text-align: center;
+  font-weight: 100;
+`;
+const formContainerStyles = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  form div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+
+    input {
+      padding: 10px 30px;
+      border: solid 1px #8c8c8c;
+      border-radius: 4px;
+      font-size: 24px;
+      width: 300px;
+      margin-bottom: 40px;
+    }
+    input:focus {
+      outline: none !important;
+      border: solid 2px #1ac23f;
+    }
+
+    button {
+      color: #fff;
+      padding: 10px 30px;
+      text-decoration: none;
+      text-align: center;
+      background-color: #1ac23f;
+      border-radius: 4px;
+      border: none;
+      width: 300px;
+      font-size: 24px;
+      transition: ease background-color 0.5s;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #35df5a;
+    }
+  }
+
+  .register {
+    text-decoration: none;
+    color: #258ae1;
+    font-size: 16px;
+
+    p {
+      color: #258ae1;
+    }
+  }
+`;
+
+type Props = { loggedIn: boolean; redirectDestination: string; user: string };
+
+export default function Login(props: Props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+
+  return (
+    <>
+      <Head>
+        <title>TransDiwan</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        <h1 css={headerStyles}>Sign In</h1>
+        <div css={formContainerStyles}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+
+              const response = await fetch('/api/words/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+              });
+
+              const { success } = await response.json();
+
+              if (!success) {
+                setErrorMessage('Login failed!');
+              } else {
+                setErrorMessage('');
+                router.push(props.redirectDestination);
+              }
+            }}
+          >
+            <div>
+              <input
+                value={username}
+                placeholder="Username"
+                onChange={(e) => setUsername(e.currentTarget.value)}
+              />
+              <input
+                value={password}
+                placeholder="Password"
+                type="password"
+                onChange={(e) => setPassword(e.currentTarget.value)}
+              />
+              <button>Log in</button>
+            </div>
+          </form>
+          <Link href="/register">
+            <a className="register">
+              <p>Don't have an account? Register here.</p>
+            </a>
+          </Link>
+        </div>
+      </Layout>
+    </>
+  );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { session: token } = nextCookies(context);
+  const redirectDestination = context?.query?.returnTo ?? '/';
+
+  if (await isSessionTokenValid(token)) {
+    return {
+      redirect: {
+        destination: redirectDestination,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { loggedIn: false, redirectDestination: redirectDestination },
+  };
+}
