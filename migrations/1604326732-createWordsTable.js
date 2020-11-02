@@ -11,6 +11,6 @@ exports.up = async (sql) => {
 
 exports.down = async (sql) => {
   await sql`
-    DROP TABLE IF EXISTS wordLists;
+    DROP TABLE IF EXISTS words;
 	`;
 };

@@ -5,8 +5,8 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const { newListName } = request.body;
-  const user = await insertVocabList(newListName);
+  const { newListName, id } = request.body;
+  const user = await insertVocabList(newListName, id);
 
   if (typeof user === 'undefined') {
     // TODO: Return proper message from the server

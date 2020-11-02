@@ -6,13 +6,18 @@ type Props = {
   wordList;
   searchTerm;
   vocabLists;
+  user;
 };
 
 export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const [newListName, setNewListName] = useState('');
-  console.log('lists', props.vocabLists);
+  const [id, setId] = useState(props.user.id);
+  const [wordList, setWordList] = useState(props.vocabLists);
+  const totalList = [...wordList, { newListName }];
+
+  console.log('vocab', totalList);
 
   return (
     <div className="modal">
@@ -27,7 +32,7 @@ export default function Popup(props: Props) {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ newListName }),
+              body: JSON.stringify({ newListName, id }),
             });
 
             const { success } = await response.json();
@@ -42,9 +47,9 @@ export default function Popup(props: Props) {
         >
           <h3>List</h3>
           <div>
-            {props.vocabLists.map((name) => {
+            {wordList.map((name) => {
               return (
-                <div>
+                <div key={name.id}>
                   <input type="checkbox" />
                   <div>{name.listName}</div>
                 </div>

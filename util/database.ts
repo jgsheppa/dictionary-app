@@ -217,21 +217,39 @@ export async function getUserBySessionToken(token: string | undefined) {
   return users.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function insertVocabList(list: string) {
+export async function insertVocabList(list: string, id: number) {
   const lists = await sql<string[]>`
+ 
     INSERT INTO wordlists
-      (list_name)
+      (list_name, user_id_num)
     VALUES
-      (${list})
+      (${list}, ${id})
     RETURNING *;
   `;
 
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function getVocabLists() {
+export async function getVocabLists(id: number) {
   const lists = await sql<string[]>`
-    SELECT * FROM wordlists;
+    SELECT * FROM wordlists
+    WHERE 
+    ${id} = wordlists.user_id_num;
   `;
   return lists.map((u) => camelcaseKeys(u));
+}
+
+// Not sure if this works
+export async function deleteListById(id: string) {
+  // Return undefined if the id is not
+  // in the correct format
+  if (!/^\d+$/.test(id)) return undefined;
+
+  const lists = await sql<string[]>`
+    DELETE FROM wordlists
+      WHERE id = ${id}
+      RETURNING *;
+  `;
+
+  return lists.map((u) => camelcaseKeys(u))[0];
 }

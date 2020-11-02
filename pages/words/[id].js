@@ -6,11 +6,8 @@ import nextCookies from 'next-cookies';
 import useSWR from 'swr';
 import Link from 'next/link';
 import { isSessionTokenValid } from '../../util/auth';
-
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
-
-const id = ['1', '2', '3', '4', '5'];
 
 const style = css`
   margin-bottom: 100px;
@@ -71,8 +68,6 @@ export default function Id(props) {
   const [toggle, setToggle] = useState(false);
   const [wordList, setWordList] = useState(wordListNames);
 
-  console.log(wordList);
-
   const newWordList = [...wordList];
 
   function togglePop() {
@@ -93,6 +88,7 @@ export default function Id(props) {
             <button onClick={togglePop}>Add To List</button>
             {toggle ? (
               <Popup
+                user={props.user}
                 vocabLists={props.vocabLists}
                 searchTerm={props.searchTerm}
                 wordList={wordList}
@@ -308,14 +304,18 @@ export async function getServerSideProps(context) {
   const key = process.env.customKey;
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
-  const { getVocabLists } = await import('../../util/database');
+  const { getVocabLists, getUserBySessionToken, deleteListById } = await import(
+    '../../util/database'
+  );
+
+  const user = await getUserBySessionToken(token);
 
   const res = await fetch(
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=en-ru&text=${searchTerm}`,
   );
   const data = await res.json();
 
-  const vocabLists = await getVocabLists();
+  const vocabLists = await getVocabLists(user.id);
 
   return {
     props: {
@@ -323,6 +323,7 @@ export async function getServerSideProps(context) {
       data,
       loggedIn,
       vocabLists,
+      user,
     },
   };
 }
