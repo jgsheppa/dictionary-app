@@ -239,6 +239,15 @@ export async function getVocabLists(id: number) {
   return lists.map((u) => camelcaseKeys(u));
 }
 
+export async function getVocabListsById(id: number) {
+  const lists = await sql<string[]>`
+    SELECT id FROM wordlists
+    WHERE 
+    ${id} = wordlists.id;
+  `;
+  return lists.map((u) => camelcaseKeys(u));
+}
+
 // Not sure if this works
 export async function deleteListById(id: string) {
   // Return undefined if the id is not
@@ -252,4 +261,49 @@ export async function deleteListById(id: string) {
   `;
 
   return lists.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function insertWordsToVocabList(word: string, id: number) {
+  const lists = await sql<string[]>`
+ 
+    INSERT INTO words
+      (lang_1, words_id)
+    VALUES
+      (${word}, ${id})
+    RETURNING *;
+  `;
+
+  return lists.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function getListBySessionToken(token: string | undefined) {
+  if (typeof token === 'undefined') return undefined;
+
+  const lists = await sql<string[]>`
+    SELECT
+      wordlists.id,
+      wordlists.list_name
+    FROM
+    wordlists,
+      sessions
+    WHERE
+      sessions.token = ${token} AND
+      wordlists.user_id_num = sessions.user_id;
+  `;
+
+  console.log('lists from db', lists);
+
+  return lists.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function getWordsFromVocabList() {
+  const lists = await sql<string[]>`
+    SELECT lang_1
+    FROM 
+    words,
+    wordlists
+    WHERE 
+    words.words_id = wordlists.id;
+  `;
+  return lists.map((u) => camelcaseKeys(u));
 }

@@ -14,6 +14,7 @@ import ListOfVocabLists from '../components/ListOfVocabLists';
 type Props = {
   loggedIn: boolean;
   user: User;
+  vocabLists;
 };
 
 const exampleList = {
@@ -71,7 +72,7 @@ export default function Profile(props: Props) {
       <p>{user.username}</p>
 
       <h3>Your Lists</h3>
-      <ListOfVocabLists list={list}></ListOfVocabLists>
+      <ListOfVocabLists list={props.vocabLists}></ListOfVocabLists>
     </Layout>
   );
 }
@@ -79,6 +80,9 @@ export default function Profile(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
+  const { getUserBySessionToken, getVocabLists } = await import(
+    './../util/database'
+  );
 
   if (!(await isSessionTokenValid(token))) {
     return {
@@ -92,6 +96,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // TODO: Actually, you could do this with one query
   // instead of two like done here
   const user = await getUserBySessionToken(token);
+  const vocabLists = await getVocabLists(user?.id);
+  console.log('vocab list', vocabLists);
 
-  return { props: { user, loggedIn } };
+  return { props: { user, loggedIn, vocabLists } };
 }

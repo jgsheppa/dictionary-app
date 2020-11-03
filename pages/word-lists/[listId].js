@@ -1,12 +1,15 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
+import nextCookies from 'next-cookies';
+import { isSessionTokenValid } from '../../util/auth';
 import Layout from '../../components/Layout';
 import ListOfVocabLists from '../../components/WordList';
+import WordList from '../../components/WordList';
 
 export default function list(props) {
-  const [wordList, setWordList] = useState(props.mapExampleList);
-  console.log('list', wordList);
+  const [wordList, setWordList] = useState(props.mapList);
+
   return (
     <>
       <Head>
@@ -14,55 +17,46 @@ export default function list(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div>Example {props.id}</div>
-        <ListOfVocabLists wordList={wordList}></ListOfVocabLists>
+        <div> {wordList[0].listName}</div>
+        <ListOfVocabLists></ListOfVocabLists>
+        <WordList words={props.words}></WordList>
       </Layout>
     </>
   );
 }
 
 export async function getServerSideProps(context) {
+  const { session: token } = nextCookies(context);
+  const loggedIn = await isSessionTokenValid(token);
+  const {
+    getUserBySessionToken,
+    getVocabLists,
+    getWordsFromVocabList,
+  } = await import('../../util/database');
   const idContext = parseInt(context.query.listId);
 
-  const exampleList = {
-    lists: [
-      {
-        id: 1,
-        title: 'Poem',
-        words: [
-          { id: 1, en: 'house', ru: 'дом' },
-          { id: 2, en: 'car', ru: 'машина' },
-          { id: 3, en: 'dog', ru: 'собока' },
-        ],
+  if (!(await isSessionTokenValid(token))) {
+    return {
+      redirect: {
+        destination: '/login?returnTo=/profile',
+        permanent: false,
       },
-      {
-        id: 2,
-        title: 'Novel',
-        words: [
-          { id: 1, en: 'work', ru: 'работа' },
-          { id: 2, en: 'university', ru: 'университет' },
-          { id: 3, en: 'water', ru: 'вода' },
-        ],
-      },
-      {
-        id: 3,
-        title: 'Article',
-        words: [
-          { id: 1, en: 'meat', ru: 'мясо' },
-          { id: 2, en: 'fish', ru: 'рыба' },
-          { id: 3, en: 'toilet', ru: 'туалет' },
-        ],
-      },
-    ],
-  };
+    };
+  }
 
-  const mapExampleList = exampleList.lists.filter((list) => {
+  // TODO: Actually, you could do this with one query
+  // instead of two like done here
+  const user = await getUserBySessionToken(token);
+  const vocabLists = await getVocabLists(user?.id);
+  const words = await getWordsFromVocabList();
+
+  console.log('words', words);
+
+  const mapList = vocabLists.filter((list) => {
     if (list.id === idContext) {
       return list;
     }
   });
 
-  return {
-    props: { idContext, mapExampleList },
-  };
+  return { props: { user, loggedIn, vocabLists, mapList, words } };
 }

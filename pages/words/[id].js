@@ -304,9 +304,11 @@ export async function getServerSideProps(context) {
   const key = process.env.customKey;
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
-  const { getVocabLists, getUserBySessionToken, deleteListById } = await import(
-    '../../util/database'
-  );
+  const {
+    getVocabLists,
+    getUserBySessionToken,
+    getListBySessionToken,
+  } = await import('../../util/database');
 
   const user = await getUserBySessionToken(token);
 
@@ -315,15 +317,29 @@ export async function getServerSideProps(context) {
   );
   const data = await res.json();
 
-  const vocabLists = await getVocabLists(user.id);
+  const vocabLists = await getVocabLists(user?.id);
+  console.log('vocab lists', vocabLists);
 
-  return {
-    props: {
-      searchTerm,
-      data,
-      loggedIn,
-      vocabLists,
-      user,
-    },
-  };
+  // const list = await getListBySessionToken(token);
+  // console.log('list', list);
+
+  if (!user) {
+    return {
+      props: {
+        searchTerm,
+        data,
+        loggedIn,
+      },
+    };
+  } else {
+    return {
+      props: {
+        searchTerm,
+        data,
+        loggedIn,
+        vocabLists,
+        user,
+      },
+    };
+  }
 }

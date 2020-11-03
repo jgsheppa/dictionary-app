@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
@@ -50,31 +50,44 @@ const unorderedListStyles = css`
   }
 `;
 
-function WordList(props) {
-  console.log(props);
-  const wordInfo = props.wordList[0];
-  return (
-    <div>
-      <ul css={unorderedListStyles}>
-        <div>
-          <li>
-            <b>{wordInfo.title}</b>
-          </li>
-          {wordInfo.words.map((word) => (
-            <li key={word.id}>
-              <Link href={`/words/${word.en}`}>
-                <a>{word.en}</a>
-              </Link>
-              {word.ru}
-              <div>
-                <button>X</button>
-              </div>
+type Props = {
+  words;
+};
+
+function WordList(props: Props) {
+  const [listOfWords, setListOfWords] = useState(props.words);
+  console.log('list of words', listOfWords);
+
+  if (listOfWords === undefined) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <div>
+        <ul css={unorderedListStyles}>
+          <div>
+            <li>
+              <b>{''}</b>
             </li>
-          ))}
-        </div>
-      </ul>
-    </div>
-  );
+            {listOfWords === undefined ? (
+              <div>Loading...</div>
+            ) : (
+              listOfWords.map((word, index) => (
+                <li key={index}>
+                  <Link href={`/words/${word.lang1}`}>
+                    <a>{word.lang1}</a>
+                  </Link>
+                  {word.ru}
+                  <div>
+                    <button>X</button>
+                  </div>
+                </li>
+              ))
+            )}
+          </div>
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default WordList;

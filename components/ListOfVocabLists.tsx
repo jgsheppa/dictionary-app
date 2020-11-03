@@ -28,15 +28,14 @@ const unorderedListStyles = css`
 `;
 
 function ListOfVocabLists(props) {
-  console.log(props);
   return (
     <div>
       <ul css={unorderedListStyles}>
         <div>
-          {props.list.lists.map((doc) => (
+          {props.list.map((doc) => (
             <li key={doc.id}>
               <Link href={`/word-lists/${doc.id}`}>
-                <a>{doc.title}</a>
+                <a>{doc.listName}</a>
               </Link>
             </li>
           ))}

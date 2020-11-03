@@ -2,11 +2,11 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 type Props = {
-  handleClick;
   wordList;
   searchTerm;
   vocabLists;
   user;
+  listId;
 };
 
 export default function Popup(props: Props) {
@@ -15,47 +15,86 @@ export default function Popup(props: Props) {
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
   const [wordList, setWordList] = useState(props.vocabLists);
-  const totalList = [...wordList, { newListName }];
+  const [list, setList] = useState([]);
+  const [term, setTerm] = useState(props.searchTerm);
+  // const [wordListId, setWordListId] = useState(props.listId);
+  const [checked, setChecked] = useState(false);
 
-  console.log('vocab', totalList);
+  let wholeList = [...wordList, { name: newListName }];
+
+  function handelSubmit() {
+    wholeList.push(newListName);
+    setList(wholeList);
+  }
 
   return (
     <div className="modal">
       <div className="modal_content">
-        <span className="close" onClick={props.handleClick}></span>
+        {/* <span className="close" onClick={props.handleClick}></span> */}
+        <h3>List</h3>
+        <div>
+          {wordList.map((name) => {
+            return (
+              <div key={name.id}>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  // onClick={async (e) => {
+                  //   e.preventDefault();
+
+                  //   let wordListId = name.id;
+                  //   const response = await fetch(`/api/words/${term}`, {
+                  //     method: 'POST',
+                  //     headers: {
+                  //       'Content-Type': 'application/json',
+                  //     },
+                  //     body: JSON.stringify({
+                  //       newListName,
+                  //       id,
+                  //       term,
+                  //       wordListId,
+                  //     }),
+                  //   });
+
+                  //   const { success } = await response.json();
+
+                  //   if (!success) {
+                  //     setErrorMessage('Word not added to list!');
+                  //   } else {
+                  //     setErrorMessage('');
+                  //   }
+                  // }}
+                />
+                <label>{name.listName}</label>
+              </div>
+            );
+          })}
+        </div>
         <form
-          onSubmit={async (e) => {
+          onClick={async (e) => {
             e.preventDefault();
 
-            const response = await fetch(`/api/words/${props.searchTerm}`, {
+            const response = await fetch(`/api/words/${term}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ newListName, id }),
+              body: JSON.stringify({
+                newListName,
+                id,
+                term,
+              }),
             });
 
             const { success } = await response.json();
 
             if (!success) {
-              setErrorMessage('Login failed!');
+              setErrorMessage('Word not added to list!');
             } else {
               setErrorMessage('');
-              // router.push(props.redirectDestination);
             }
           }}
         >
-          <h3>List</h3>
-          <div>
-            {wordList.map((name) => {
-              return (
-                <div key={name.id}>
-                  <input type="checkbox" />
-                  <div>{name.listName}</div>
-                </div>
-              );
-            })}
-          </div>
           <label>
             New List:
             <input
