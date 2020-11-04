@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
+import { getLanguageFromCookie } from '../../util/cookie';
 
 const style = css`
   margin-bottom: 100px;
@@ -300,9 +301,11 @@ export default function Id(props) {
 }
 
 export async function getServerSideProps(context) {
-  const searchTerm = context.query.id;
+  const searchTerm = encodeURIComponent(context.query.id);
   const key = process.env.customKey;
   const { session: token } = nextCookies(context);
+  const currentLanguage = nextCookies(context).language.language;
+
   const loggedIn = await isSessionTokenValid(token);
   const {
     getVocabLists,
@@ -313,7 +316,7 @@ export async function getServerSideProps(context) {
   const user = await getUserBySessionToken(token);
 
   const res = await fetch(
-    `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=en-ru&text=${searchTerm}`,
+    `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
 
