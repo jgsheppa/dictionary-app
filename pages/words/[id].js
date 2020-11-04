@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
+import SearchBar from '../../components/SearchBar.tsx';
 import { getLanguageFromCookie } from '../../util/cookie';
 
 const style = css`
@@ -84,6 +85,7 @@ export default function Id(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn}>
+        <SearchBar></SearchBar>
         <div css={style}>
           <div>
             <button onClick={togglePop}>Add To List</button>
