@@ -1,8 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
 import { useState } from 'react';
 import { css } from '@emotion/core';
-import { setLanguage, getLanguageFromCookie } from './../util/cookie';
+import {
+  setLanguage,
+  getSearchInfo,
+  addSearchTermCookie,
+} from './../util/cookie';
 
 const searchStyles = css`
   display: flex;
@@ -32,10 +35,10 @@ const searchStyles = css`
   }
 `;
 
-export default function SearchBar() {
+export default function SearchBar({ data, setWord }) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const cookie = getLanguageFromCookie();
+  const cookie = getSearchInfo();
 
   const handleTermChange = (e) => {
     setSearchTerm(e.target.value);
@@ -46,6 +49,7 @@ export default function SearchBar() {
       <div css={searchStyles}>
         <div>
           <input
+            tabIndex={1}
             type="text"
             value={searchTerm}
             placeholder="Search for a term"
@@ -54,9 +58,13 @@ export default function SearchBar() {
         </div>
         <div>
           {' '}
-          <Link href={`/words/${searchTerm}`}>
-            <a className="searchLink">Search</a>
-          </Link>
+          <a
+            href={`/words/${searchTerm}`}
+            onClick={() => setWord(data.def)}
+            className="searchLink"
+          >
+            Search
+          </a>
         </div>
         <select onChange={(e) => setLanguage(e.target.value)}>
           <option value={cookie.language}>{cookie.language}</option>

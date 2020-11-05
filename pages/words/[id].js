@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import useSWR from 'swr';
@@ -9,7 +9,7 @@ import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
 import SearchBar from '../../components/SearchBar.tsx';
-import { getLanguageFromCookie } from '../../util/cookie';
+import { getSearchInfo } from '../../util/cookie';
 
 const style = css`
   margin-bottom: 100px;
@@ -64,19 +64,21 @@ const verbStylesContainer = css`
 `;
 
 export default function Id(props) {
-  const wordListNames = ['Poem', 'Novel', 'Article'];
-
-  const [word, setWord] = useState(props.data.def);
+  const [data, setData] = useState(props.data);
+  console.log('data', data);
+  const [word, setWord] = useState(data.def);
   const [toggle, setToggle] = useState(false);
-  const [wordList, setWordList] = useState(wordListNames);
-
-  const newWordList = [...wordList];
+  const [searchTerm, setSearchTerm] = useState(props.searchTerm);
 
   function togglePop() {
     setToggle(!toggle);
   }
 
-  if (!word) return <div>Loading...</div>;
+  useEffect(() => {
+    setData(props.data);
+  });
+
+  if (!data) return <div>Term not found</div>;
 
   return (
     <>
@@ -85,7 +87,11 @@ export default function Id(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn}>
-        <SearchBar></SearchBar>
+        <SearchBar
+          data={data}
+          setWord={setWord}
+          // searchTerm={searchTerm}
+        ></SearchBar>
         <div css={style}>
           <div>
             <button onClick={togglePop}>Add To List</button>
@@ -94,7 +100,6 @@ export default function Id(props) {
                 user={props.user}
                 vocabLists={props.vocabLists}
                 searchTerm={props.searchTerm}
-                wordList={wordList}
                 toggle={togglePop}
               />
             ) : null}
@@ -102,7 +107,7 @@ export default function Id(props) {
           {word.map((entry) => {
             return (
               <div css={partOfSpeechContainer}>
-                <div key={entry.id}>
+                <div key={entry.text}>
                   <div className="translation-title">
                     <div>
                       <i>
@@ -307,7 +312,6 @@ export async function getServerSideProps(context) {
   const key = process.env.customKey;
   const { session: token } = nextCookies(context);
   const currentLanguage = nextCookies(context).language.language;
-
   const loggedIn = await isSessionTokenValid(token);
   const {
     getVocabLists,
@@ -322,11 +326,10 @@ export async function getServerSideProps(context) {
   );
   const data = await res.json();
 
+  console.log(data);
+
   const vocabLists = await getVocabLists(user?.id);
   console.log('vocab lists', vocabLists);
-
-  // const list = await getListBySessionToken(token);
-  // console.log('list', list);
 
   if (!user) {
     return {
