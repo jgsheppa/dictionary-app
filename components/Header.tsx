@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import { Style } from '../util/types';
 
@@ -38,34 +38,55 @@ const dropdown = css`
   }
 
   /* Show the dropdown menu on hover */
-  > div:hover .dropdown-content {
+  /* > div:hover .dropdown-content {
     display: block;
-  }
+  } */
 
   .dropdownbtn {
     background-color: #1ac23f;
     color: white;
     padding: 16px;
-    font-size: 16px;
+    font-size: 24px;
     border: none;
     border-radius: 4px;
     transition: ease background-color 0.5s;
     cursor: pointer;
   }
 
-  .dropdownbtn:hover {
+  /* .dropdownbtn:hover {
     background-color: #35df5a;
-  }
+  } */
 
   .dropdown-content {
-    display: none;
+    /* display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    border-radius: 4px;
+    border-radius: 4px; */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 300px;
+    z-index: 2;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
 
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 8px 12px;
+      }
+
+      li:hover {
+        background-color: rgba(0, 0, 0, 0.14);
+        cursor: pointer;
+      }
+    }
     a {
       color: black;
       padding: 12px 16px;
@@ -78,15 +99,37 @@ const dropdown = css`
     }
   }
   /* Change the background color of the dropdown button when the dropdown content is shown */
-  .dropdown:hover .dropbtn {
+  /* .dropdown:hover .dropbtn {
     background-color: #3e8e41;
-  }
+  } */
 `;
 
 type Props = { user: string; loggedIn: boolean };
 
 export default function Header(props: Props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
+  const [menuOpen, setMenuopen] = useState(false);
+
+  function handleMenuClick() {
+    setMenuopen(!menuOpen);
+  }
+
+  const container = React.createRef();
+
+  console.log('container', container);
+
+  useEffect(() => {
+    // only add the event listener when the dropdown is opened
+    if (!menuOpen) return;
+    function handleClick(event) {
+      if (container.current && !container.current.contains(event.target)) {
+        setMenuopen(false);
+      }
+    }
+    window.addEventListener('click', handleClick);
+    // clean up
+    return () => window.removeEventListener('click', handleClick);
+  }, [menuOpen]);
 
   return (
     <>
@@ -101,9 +144,33 @@ export default function Header(props: Props) {
           </Link>
           <div css={navContainerStyles}>
             <div css={dropdown}>
-              <div>
-                <button className="dropdownbtn">User</button>
-                <div className="dropdown-content">
+              <div className="container" ref={container}>
+                <button className="dropdownbtn" onClick={handleMenuClick}>
+                  ☰
+                </button>
+                {menuOpen && (
+                  <div className="dropdown-content">
+                    <ul>
+                      <li>
+                        {' '}
+                        <Link href="/profile">
+                          <a className="dropdownitem">Profile</a>
+                        </Link>
+                      </li>
+                      <li>
+                        {' '}
+                        {!loggedInPassed ? null : props.loggedIn ? (
+                          <Link href="/logout">
+                            <a className="dropdownitem">Log out</a>
+                          </Link>
+                        ) : (
+                          <Link href="/login">
+                            <a className="dropdownitem">Log in</a>
+                          </Link>
+                        )}
+                      </li>
+                    </ul>
+                    {/* /* <div className="dropdown-content">
                   <Link href="/profile">
                     <a className="dropdownitem">Profile</a>
                   </Link>{' '}
@@ -116,7 +183,9 @@ export default function Header(props: Props) {
                       <a className="dropdownitem">Log in</a>
                     </Link>
                   )}
-                </div>
+                </div> */}
+                  </div>
+                )}
               </div>
             </div>
           </div>

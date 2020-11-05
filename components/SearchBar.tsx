@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
@@ -7,16 +8,26 @@ import {
   addSearchTermCookie,
 } from './../util/cookie';
 
+const searchComponentStyles = css`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 150px;
+  margin-top: 200px;
+`;
+
 const searchStyles = css`
   display: flex;
   flex-direction: row;
   align-items: center;
 
   div input {
-    padding: 10px 30px;
+    padding: 8px 30px;
     border: solid 2px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    font-size: 28px;
   }
   div input:focus {
     outline: none !important;
@@ -25,17 +36,83 @@ const searchStyles = css`
 
   div .searchLink {
     color: #fff;
-    padding: 4.5px 30px;
+    padding: 10px 30px;
     text-decoration: none;
     text-align: center;
     background-color: #1ac23f;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border: none;
+    font-size: 28px;
+  }
+`;
+
+const selectStyles = css`
+  select {
+    display: block;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 0.5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+      linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  select:hover {
+    border-color: #888;
+  }
+  select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+  }
+  select option {
+    font-weight: normal;
+  }
+
+  *[dir='rtl'] select,
+  :root:lang(ar) select,
+  :root:lang(iw) select {
+    background-position: left 0.7em top 50%, 0 0;
+    padding: 0.6em 0.8em 0.5em 1.4em;
+  }
+
+  /* Disabled styles */
+  select:disabled,
+  select[aria-disabled='true'] {
+    color: graytext;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+      linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+  }
+  select:disabled:hover,
+  select[aria-disabled='true'] {
+    border-color: #aaa;
   }
 `;
 
 export default function SearchBar({ data, setWord }) {
+  const router = useRouter();
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const cookie = getSearchInfo();
@@ -44,43 +121,66 @@ export default function SearchBar({ data, setWord }) {
     setSearchTerm(e.target.value);
   };
 
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = () => {
+    data ? setWord(data.def) : null;
+  };
+
   return (
     <>
-      <div css={searchStyles}>
-        <div>
-          <input
+      <div css={searchComponentStyles}>
+        <div css={selectStyles}>
+          <select
+            aria-label="dictionary choice dropdown"
             tabIndex={1}
-            type="text"
-            value={searchTerm}
-            placeholder="Search for a term"
-            onChange={handleTermChange}
-          />
-        </div>
-        <div>
-          {' '}
-          <a
-            href={`/words/${searchTerm}`}
-            onClick={() => setWord(data.def)}
-            className="searchLink"
+            onChange={(e) => setLanguage(e.target.value)}
           >
-            Search
-          </a>
+            <option value={cookie.language}>{cookie.language}</option>
+            <option value="de-en">German - English</option>
+            <option value="de-de">German - German</option>
+            <option value="de-ru">German - Russian</option>
+            <option value="en-de">English - German</option>
+            <option value="en-fr">English - French</option>
+            <option value="en-ru">English - Russian</option>
+            <option value="fr-en">French - English</option>
+            <option value="fr-de">French - German</option>
+            <option value="fr-ru">French - Russian</option>
+            <option value="ru-en">Russian - English</option>
+            <option value="ru-de">Russian - German</option>
+            <option value="ru-fr">Russian - French</option>
+          </select>
         </div>
-        <select onChange={(e) => setLanguage(e.target.value)}>
-          <option value={cookie.language}>{cookie.language}</option>
-          <option value="de-en">de-en</option>
-          <option value="de-fr">de-fr</option>
-          <option value="de-ru">de-ru</option>
-          <option value="en-de">en-de</option>
-          <option value="en-fr">en-fr</option>
-          <option value="en-ru">en-ru</option>
-          <option value="fr-en">fr-en</option>
-          <option value="fr-de">fr-de</option>
-          <option value="fr-ru">fr-ru</option>
-          <option value="ru-en">ru-en</option>
-          <option value="ru-de">ru-de</option>
-          <option value="ru-ru">ru-ru</option>
-        </select>
+        <div css={searchStyles}>
+          <div>
+            <input
+              aria-label="search bar"
+              tabIndex={2}
+              type="text"
+              value={searchTerm}
+              placeholder="Search for a term"
+              onChange={handleTermChange}
+              onKeyPress={handleKeypress}
+            />
+          </div>
+          <div>
+            {' '}
+            <a
+              tabIndex={3}
+              href={`/words/${searchTerm}`}
+              onClick={handleSubmit}
+              onKeyPress={handleKeypress}
+              className="searchLink"
+            >
+              Search
+            </a>
+          </div>
+        </div>
       </div>
     </>
   );

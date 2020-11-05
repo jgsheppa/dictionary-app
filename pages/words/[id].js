@@ -51,6 +51,13 @@ const russianVerbPerfective = css`
   width: 8rem;
 `;
 
+const russianVerbUndecided = css`
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0.3rem 1rem 0.3rem 0.25rem;
+  width: 8rem;
+`;
+
 const verbStylesContainer = css`
   display: flex;
   flex-direction: row;
@@ -70,6 +77,7 @@ export default function Id(props) {
   const [toggle, setToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
 
+  console.log('word', word);
   function togglePop() {
     setToggle(!toggle);
   }
@@ -240,6 +248,53 @@ export default function Id(props) {
                           </div>
                         </div>
                       );
+                    } else if (translation.pos === 'verb' && !translation.asp) {
+                      return (
+                        <div css={verbStylesContainer}>
+                          <div css={verbStyles}>
+                            <div css={russianVerbUndecided}>
+                              {translation.text}
+                            </div>
+                            <div>
+                              {translation.syn?.map((synonym) => {
+                                return (
+                                  <div>
+                                    <div>{synonym.text}</div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div>
+                              {translation.ex?.map((example) => {
+                                return (
+                                  <div>
+                                    <div>{example.text}</div>
+                                    <div>
+                                      {example.tr.map((translation) => {
+                                        return <div>{translation.text}</div>;
+                                      })}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                            <div>
+                              {translation.mean?.map((example) => {
+                                return (
+                                  <div>
+                                    <div>{example.text}</div>
+                                    <div>
+                                      {example.tr?.map((translation) => {
+                                        return <div>{translation.text}</div>;
+                                      })}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      );
                     } else if (translation.pos === 'noun') {
                       return (
                         <div css={nounStyles}>
@@ -311,7 +366,7 @@ export async function getServerSideProps(context) {
   const searchTerm = encodeURIComponent(context.query.id);
   const key = process.env.customKey;
   const { session: token } = nextCookies(context);
-  const currentLanguage = nextCookies(context).language.language;
+  const currentLanguage = nextCookies(context).language?.language;
   const loggedIn = await isSessionTokenValid(token);
   const {
     getVocabLists,

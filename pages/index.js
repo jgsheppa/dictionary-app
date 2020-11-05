@@ -1,9 +1,16 @@
 import React from 'react';
 import Head from 'next/head';
 import nextCookies from 'next-cookies';
+import { css } from '@emotion/core';
 import Layout from './../components/Layout.tsx';
 import SearchBar from './../components/SearchBar.tsx';
 import { isSessionTokenValid } from './../util/auth';
+
+const searchBarContainer = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function Home(props) {
   return (
@@ -13,7 +20,9 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn}>
-        <SearchBar></SearchBar>
+        <div css={searchBarContainer}>
+          <SearchBar></SearchBar>
+        </div>
       </Layout>
     </>
   );
