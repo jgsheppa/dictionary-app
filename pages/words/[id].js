@@ -70,6 +70,16 @@ const verbStylesContainer = css`
   padding: 10px 30px;
 `;
 
+const exampleStyles = css`
+  div {
+    margin-bottom: 4px;
+  }
+`;
+
+const exampleStylesContainer = css`
+  margin: 8px 0;
+`;
+
 export default function Id(props) {
   const [data, setData] = useState(props.data);
   console.log('data', data);
@@ -77,14 +87,89 @@ export default function Id(props) {
   const [toggle, setToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
 
-  console.log('word', word);
+  const container = React.createRef();
+  const container1 = React.createRef();
+  const nounContainer = React.createRef();
+  const adjectiveContainer = React.createRef();
+  const adverbContainer = React.createRef();
+
+  const [nounExamplesOpen, setNounExamplesOpen] = useState(false);
+  const [verbExamplesOpen, setVerbExamplesOpen] = useState(false);
+  const [adjectiveExamplesOpen, setAdjectiveExamplesOpen] = useState(false);
+  const [adverbExamplesOpen, setAdverbExamplesOpen] = useState(false);
+
   function togglePop() {
     setToggle(!toggle);
   }
 
+  function handleVerbExampleClick() {
+    setVerbExamplesOpen(!verbExamplesOpen);
+  }
+
+  function handleNounExampleClick() {
+    setNounExamplesOpen(!nounExamplesOpen);
+  }
+
+  function handleAdjectiveExampleClick() {
+    setAdjectiveExamplesOpen(!adjectiveExamplesOpen);
+  }
+
+  function handleAdverbExampleClick() {
+    setAdverbExamplesOpen(!adverbExamplesOpen);
+  }
+
   useEffect(() => {
     setData(props.data);
-  });
+    // only add the event listener when the dropdown is opened
+    if (!verbExamplesOpen) return;
+    if (!nounExamplesOpen) return;
+    if (!adjectiveExamplesOpen) return;
+
+    function handleVerbClick(event) {
+      if (container1.current && !container1.current.contains(event.target)) {
+        setVerbExamplesOpen(false);
+      }
+    }
+
+    function handleNounClick(event) {
+      if (
+        nounContainer.current &&
+        !nounContainer.current.contains(event.target)
+      ) {
+        setNounExamplesOpen(false);
+      }
+    }
+
+    function handleAdjectiveClick(event) {
+      if (
+        adjectiveContainer.current &&
+        !adjectiveContainer.current.contains(event.target)
+      ) {
+        setVerbExamplesOpen(false);
+      }
+    }
+
+    function handleAdverbClick(event) {
+      if (
+        adverbContainer.current &&
+        !adverbContainer.current.contains(event.target)
+      ) {
+        setVerbExamplesOpen(false);
+      }
+    }
+
+    window.addEventListener('click', handleVerbClick);
+    window.addEventListener('click', handleNounClick);
+    window.addEventListener('click', handleAdjectiveClick);
+    window.addEventListener('click', handleAdverbClick);
+    // clean up
+    return () => {
+      window.removeEventListener('click', handleVerbClick);
+      window.removeEventListener('click', handleNounClick);
+      window.removeEventListener('click', handleAdjectiveClick);
+      window.removeEventListener('click', handleAdverbClick);
+    };
+  }, [verbExamplesOpen, nounExamplesOpen, adjectiveExamplesOpen]);
 
   if (!data) return <div>Term not found</div>;
 
@@ -113,248 +198,381 @@ export default function Id(props) {
             ) : null}
           </div>
           {word.map((entry) => {
-            return (
-              <div css={partOfSpeechContainer}>
-                <div key={entry.text}>
-                  <div className="translation-title">
-                    <div>
-                      <i>
-                        {entry.pos.charAt(0).toUpperCase() + entry.pos.slice(1)}
-                      </i>
+            if (entry.pos) {
+              return (
+                <div css={partOfSpeechContainer}>
+                  <div key={entry.text}>
+                    <div className="translation-title">
+                      <div>
+                        <i>
+                          {entry.pos?.charAt(0).toUpperCase() +
+                            entry.pos?.slice(1)}
+                        </i>
+                      </div>
                     </div>
-                  </div>
-                  {entry.tr.map((translation) => {
-                    if (
-                      translation.pos === 'verb' &&
-                      translation?.asp === 'несов'
-                    ) {
-                      return (
-                        <div css={verbStylesContainer}>
-                          <div css={verbStyles}>
-                            <div css={russianVerbImperfective}>
-                              {translation.text}
-                            </div>
-                            {/* Meaning of the verb */}
-                            <div>
-                              {translation.mean?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
+                    {entry.tr.map((translation) => {
+                      if (
+                        translation.pos === 'verb' &&
+                        translation?.asp === 'несов'
+                      ) {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbImperfective}>
+                                {translation.text}
+                              </div>
+                              {/* Meaning of the verb */}
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
                                     <div>
-                                      {example.tr?.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return <div>{translation.text}</div>;
+                                        })}
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            {/* Examples of the verb in use*/}
-                            <div>
-                              {translation.ex?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
-                                    <div>
-                                      {example.tr.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                          {/* <div className="russian-verb-unvollendet">
-                            {translation.text}
-                          </div>
-                          <div>
-                            {translation.ex?.map((example) => {
-                              return (
-                                <div>
-                                  <div>{example.text}</div>
-                                  <div>
-                                    {example.tr.map((translation) => {
-                                      return <div>{translation.text}</div>;
-                                    })}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <div>
-                            {translation.mean?.map((example) => {
-                              return (
-                                <div>
-                                  <div>{example.text}</div>
-                                  <div>
-                                    {example.tr?.map((translation) => {
-                                      return <div>{translation.text}</div>;
-                                    })}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div> */}
-                        </div>
-                      );
-                    } else if (
-                      translation.pos === 'verb' &&
-                      translation?.asp === 'сов'
-                    ) {
-                      return (
-                        <div css={verbStylesContainer}>
-                          <div css={verbStyles}>
-                            <div css={russianVerbPerfective}>
-                              {translation.text}
-                            </div>
-                            <div>
-                              {translation.syn?.map((synonym) => {
-                                return (
-                                  <div>
-                                    <div>{synonym.text}</div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <div>
-                              {translation.ex?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
-                                    <div>
-                                      {example.tr.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <div>
-                              {translation.mean?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
-                                    <div>
-                                      {example.tr?.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    } else if (translation.pos === 'verb' && !translation.asp) {
-                      return (
-                        <div css={verbStylesContainer}>
-                          <div css={verbStyles}>
-                            <div css={russianVerbUndecided}>
-                              {translation.text}
-                            </div>
-                            <div>
-                              {translation.syn?.map((synonym) => {
-                                return (
-                                  <div>
-                                    <div>{synonym.text}</div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <div>
-                              {translation.ex?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
-                                    <div>
-                                      {example.tr.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <div>
-                              {translation.mean?.map((example) => {
-                                return (
-                                  <div>
-                                    <div>{example.text}</div>
-                                    <div>
-                                      {example.tr?.map((translation) => {
-                                        return <div>{translation.text}</div>;
-                                      })}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    } else if (translation.pos === 'noun') {
-                      return (
-                        <div css={nounStyles}>
-                          <div className="panel">
-                            <div>{translation.text}</div>
-                            <div>{translation.asp}</div>
+                                  );
+                                })}
+                              </div>
+                              {/* Examples of the verb in use*/}
 
-                            <div>
-                              {translation.syn?.map((synonym) => {
+                              {/* <div className="container1" ref={container1}>
+                              <button
+                                className="dropdownbtn"
+                                onClick={handleVerbExampleClick}
+                              >
+                                Examples
+                              </button> */}
+                              {translation.ex?.map((example) => {
                                 return (
-                                  <div>
-                                    <div>{synonym.text}</div>
-                                    <div>{synonym.asp}</div>
+                                  <div className="container1" ref={container1}>
+                                    <button
+                                      className="dropdownbtn"
+                                      onClick={handleVerbExampleClick}
+                                    >
+                                      Examples
+                                    </button>
+                                    {verbExamplesOpen && (
+                                      <div css={exampleStylesContainer}>
+                                        <div css={exampleStyles}>
+                                          {example.text}
+                                        </div>
+                                        <div>
+                                          {example.tr.map((translation) => {
+                                            return (
+                                              <div>
+                                                <i css={exampleStyles}>
+                                                  {translation.text}
+                                                </i>
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
                                 );
                               })}
                             </div>
+                            {/* </div> */}
                           </div>
-                          <div>
-                            {translation.mean?.map((example) => {
-                              return (
-                                <div>
-                                  <div>{example.text}</div>
+                        );
+                      } else if (
+                        translation.pos === 'verb' &&
+                        translation?.asp === 'сов'
+                      ) {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <p css={russianVerbPerfective}>
+                                {translation.text}
+                              </p>
+                              <div>
+                                {translation.syn?.map((synonym) => {
+                                  return (
+                                    <div>
+                                      <p>Synonyms</p>
+                                      <p>{synonym.text}</p>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div></div>
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return <div>{translation.text}</div>;
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div className="container" ref={container}>
+                                <button
+                                  className="dropdownbtn"
+                                  onClick={handleVerbExampleClick}
+                                >
+                                  Examples
+                                </button>
+                                {verbExamplesOpen &&
+                                  translation.ex?.map((example) => {
+                                    return (
+                                      <div>
+                                        <div css={exampleStyles}>
+                                          {example.text}
+                                        </div>
+                                        <div>
+                                          {example.tr.map((translation) => {
+                                            return (
+                                              <div>
+                                                <i css={exampleStyles}>
+                                                  {translation.text}
+                                                </i>
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                {/* </div> */}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else if (
+                        translation.pos === 'verb' &&
+                        !translation.asp
+                      ) {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbUndecided}>
+                                {translation.text}
+                              </div>
+                              <div>
+                                {translation.syn?.map((synonym) => {
+                                  return (
+                                    <div>
+                                      <div>{synonym.text}</div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div>
+                                {translation.ex?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr.map((translation) => {
+                                          return (
+                                            <div>
+                                              <i>{translation.text}</i>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return <div>{translation.text}</div>;
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else if (translation.pos === 'noun') {
+                        return (
+                          <div css={nounStyles}>
+                            <div>
+                              <div>
+                                <p>{translation.text}</p>
+                              </div>
+
+                              <div>
+                                {translation.syn?.map((synonym) => {
+                                  return (
+                                    <div>
+                                      <p>{synonym.text}</p>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            <div>
+                              {translation.mean?.map((example) => {
+                                return (
                                   <div>
-                                    {example.tr?.map((translation) => {
-                                      return <div>{translation.text}</div>;
-                                    })}
+                                    <p>{example.text}</p>
+                                    <div>
+                                      {example.tr?.map((translation) => {
+                                        return <p>{translation.text}</p>;
+                                      })}
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
+                            </div>
+                            <div>
+                              <div
+                                className="nounContainer"
+                                ref={nounContainer}
+                              >
+                                <button
+                                  className="dropdownbtn"
+                                  onClick={handleNounExampleClick}
+                                >
+                                  Examples
+                                </button>
+                                {nounExamplesOpen &&
+                                  translation.ex?.map((example) => {
+                                    return (
+                                      <div>
+                                        <div>
+                                          <p>{example.text}</p>
+                                        </div>
+                                        <div>
+                                          {example.tr.map((translation) => {
+                                            return (
+                                              <p>
+                                                <i>{translation.text}</i>
+                                              </p>
+                                            );
+                                          })}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                              </div>
+                            </div>
                           </div>
+                        );
+                      } else if (translation.pos === 'adjective') {
+                        return (
                           <div>
-                            {translation.ex?.map((example) => {
-                              return (
-                                <div>
-                                  <div>{example.text}</div>
-                                  <div>
-                                    {example.tr.map((translation) => {
-                                      return <div>{translation.text}</div>;
-                                    })}
-                                  </div>
-                                </div>
-                              );
-                            })}
+                            <p>{translation.text}</p>
+                            <div>{translation.asp}</div>
+                            <div
+                              className="adjectiveContainer"
+                              ref={adjectiveContainer}
+                            >
+                              <button
+                                className="dropdownbtn"
+                                onClick={handleAdjectiveExampleClick}
+                              >
+                                Examples
+                              </button>
+                              {adjectiveExamplesOpen &&
+                                translation.ex?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr.map((translation) => {
+                                          return (
+                                            <div>
+                                              <i>{translation.text}</i>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    } else if (translation.pos === 'adjective') {
-                      return (
-                        <div>
-                          <div>{translation.text}</div>
-                          <div>{translation.asp}</div>
-                        </div>
-                      );
-                    }
-                  })}
+                        );
+                      } else if (translation.pos === 'adverb') {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbUndecided}>
+                                {translation.text}
+                              </div>
+                              <div>
+                                {translation.syn?.map((synonym) => {
+                                  return (
+                                    <div>
+                                      <div>{synonym.text}</div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              <div>
+                                <div
+                                  className="adverbContainer"
+                                  ref={adverbContainer}
+                                >
+                                  <button
+                                    className="dropdownbtn"
+                                    onClick={handleAdverbExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {adverbExamplesOpen &&
+                                    translation.ex?.map((example) => {
+                                      return (
+                                        <div>
+                                          <div>{example.text}</div>
+                                          <div>
+                                            {example.tr.map((translation) => {
+                                              return (
+                                                <div>
+                                                  <i>{translation.text}</i>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                </div>
+                              </div>
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return <div>{translation.text}</div>;
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else if (!translation.pos) {
+                        return null;
+                      }
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </Layout>

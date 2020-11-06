@@ -10,7 +10,7 @@ export function setSearchTerm() {
   return term;
 }
 
-export function setLanguage(lang, word) {
+export function setLanguage(lang) {
   const currentLanguage = getSearchInfo();
 
   // If language has not been set, then set it.

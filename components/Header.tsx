@@ -37,11 +37,6 @@ const dropdown = css`
     display: inline-block;
   }
 
-  /* Show the dropdown menu on hover */
-  /* > div:hover .dropdown-content {
-    display: block;
-  } */
-
   .dropdownbtn {
     background-color: #1ac23f;
     color: white;
@@ -53,18 +48,7 @@ const dropdown = css`
     cursor: pointer;
   }
 
-  /* .dropdownbtn:hover {
-    background-color: #35df5a;
-  } */
-
   .dropdown-content {
-    /* display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 4px; */
     position: absolute;
     top: 100%;
     left: 0;
@@ -98,10 +82,6 @@ const dropdown = css`
       background-color: #ddd;
     }
   }
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-  /* .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-  } */
 `;
 
 type Props = { user: string; loggedIn: boolean };
@@ -115,8 +95,6 @@ export default function Header(props: Props) {
   }
 
   const container = React.createRef();
-
-  console.log('container', container);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened

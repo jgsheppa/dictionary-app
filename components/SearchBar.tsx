@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
@@ -14,7 +13,6 @@ const searchComponentStyles = css`
   align-items: flex-start;
   justify-content: space-around;
   height: 150px;
-  margin-top: 200px;
 `;
 
 const searchStyles = css`
@@ -51,7 +49,7 @@ const selectStyles = css`
   select {
     display: block;
     font-size: 16px;
-    font-family: sans-serif;
+    font-family: Roboto, sans-serif;
     font-weight: 700;
     color: #444;
     line-height: 1.3;
@@ -111,8 +109,6 @@ const selectStyles = css`
 `;
 
 export default function SearchBar({ data, setWord }) {
-  const router = useRouter();
-
   const [searchTerm, setSearchTerm] = useState('');
 
   const cookie = getSearchInfo();
@@ -173,8 +169,6 @@ export default function SearchBar({ data, setWord }) {
             <a
               tabIndex={3}
               href={`/words/${searchTerm}`}
-              onClick={handleSubmit}
-              onKeyPress={handleKeypress}
               className="searchLink"
             >
               Search
