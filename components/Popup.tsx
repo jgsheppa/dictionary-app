@@ -11,20 +11,20 @@ type Props = {
 
 export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
-  const router = useRouter();
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
   const [wordList, setWordList] = useState(props.vocabLists);
   const [list, setList] = useState([]);
   const [term, setTerm] = useState(props.searchTerm);
-  // const [wordListId, setWordListId] = useState(props.listId);
   const [checked, setChecked] = useState(false);
 
-  let wholeList = [...wordList, { name: newListName }];
+  let wholeList = [...wordList];
+
+  console.log('push', wholeList);
 
   function handelSubmit() {
-    wholeList.push(newListName);
-    setList(wholeList);
+    wholeList.push({ listName: newListName });
+    setWordList(wholeList);
   }
 
   return (
@@ -39,31 +39,32 @@ export default function Popup(props: Props) {
                 <input
                   type="checkbox"
                   checked={checked}
-                  // onClick={async (e) => {
-                  //   e.preventDefault();
+                  onChange={async (e) => {
+                    e.preventDefault();
 
-                  //   let wordListId = name.id;
-                  //   const response = await fetch(`/api/words/${term}`, {
-                  //     method: 'POST',
-                  //     headers: {
-                  //       'Content-Type': 'application/json',
-                  //     },
-                  //     body: JSON.stringify({
-                  //       newListName,
-                  //       id,
-                  //       term,
-                  //       wordListId,
-                  //     }),
-                  //   });
+                    let wordListId = name.id;
+                    const response = await fetch(`/api/words/${term}`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Accept-Language': '*',
+                      },
+                      body: JSON.stringify({
+                        newListName,
+                        id,
+                        term,
+                        wordListId,
+                      }),
+                    });
 
-                  //   const { success } = await response.json();
+                    const { success } = await response.json();
 
-                  //   if (!success) {
-                  //     setErrorMessage('Word not added to list!');
-                  //   } else {
-                  //     setErrorMessage('');
-                  //   }
-                  // }}
+                    if (!success) {
+                      setErrorMessage('Word not added to list!');
+                    } else {
+                      setErrorMessage('');
+                    }
+                  }}
                 />
                 <label>{name.listName}</label>
               </div>
@@ -71,18 +72,19 @@ export default function Popup(props: Props) {
           })}
         </div>
         <form
-          onClick={async (e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
 
             const response = await fetch(`/api/words/${term}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'Accept-Language': '*',
               },
               body: JSON.stringify({
-                newListName,
-                id,
-                term,
+                newListName: newListName,
+                id: id,
+                term: term,
               }),
             });
 
@@ -92,6 +94,7 @@ export default function Popup(props: Props) {
               setErrorMessage('Word not added to list!');
             } else {
               setErrorMessage('');
+              handelSubmit();
             }
           }}
         >

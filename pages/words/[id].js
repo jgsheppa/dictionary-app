@@ -86,6 +86,7 @@ export default function Id(props) {
   const [word, setWord] = useState(data.def);
   const [toggle, setToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
+  const [vocabList, setVocabList] = useState(props.vocabLists);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -120,6 +121,8 @@ export default function Id(props) {
 
   useEffect(() => {
     setData(props.data);
+    setVocabList(props.vocabLists);
+    console.log(vocabList);
     // only add the event listener when the dropdown is opened
     if (!verbExamplesOpen) return;
     if (!nounExamplesOpen) return;
@@ -187,11 +190,17 @@ export default function Id(props) {
         ></SearchBar>
         <div css={style}>
           <div>
-            <button onClick={togglePop}>Add To List</button>
+            <button
+              onClick={() => {
+                togglePop();
+              }}
+            >
+              Add To List
+            </button>
             {toggle ? (
               <Popup
                 user={props.user}
-                vocabLists={props.vocabLists}
+                vocabLists={vocabList}
                 searchTerm={props.searchTerm}
                 toggle={togglePop}
               />
@@ -598,8 +607,6 @@ export async function getServerSideProps(context) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
-
-  console.log(data);
 
   const vocabLists = await getVocabLists(user?.id);
   console.log('vocab lists', vocabLists);
