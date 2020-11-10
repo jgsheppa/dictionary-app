@@ -33,7 +33,7 @@ const searchStyles = css`
     outline: none !important;
     border: solid 2px #e02e2e;
     border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
   }
 
   div .searchLink {
@@ -64,7 +64,7 @@ const selectStyles = css`
     color: #444;
     line-height: 1.3;
     padding: 0.6em 1.4em 0.5em 0.8em;
-    width: 100%;
+    width: 225px;
     max-width: 100%;
     box-sizing: border-box;
     margin: 0;
@@ -147,7 +147,7 @@ export default function SearchBar({ data, setWord }) {
             tabIndex={1}
             onChange={(e) => setLanguage(e.target.value)}
           >
-            <option value={cookie.language}>{cookie.language}</option>
+            <option value="de-en">Choose a Language</option>
             <option value="de-en">German - English</option>
             <option value="de-de">German - German</option>
             <option value="de-ru">German - Russian</option>
