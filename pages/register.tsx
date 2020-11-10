@@ -48,7 +48,7 @@ const formContainerStyles = css`
     }
     label input:focus {
       outline: none !important;
-      border: solid 2px #1ac23f;
+      border: solid 2px #6121c9;
     }
 
     button {
@@ -56,7 +56,7 @@ const formContainerStyles = css`
       padding: 10px 30px;
       text-decoration: none;
       text-align: center;
-      background-color: #1ac23f;
+      background-color: #6121c9;
       border-radius: 4px;
       border: none;
       width: 300px;
@@ -76,7 +76,7 @@ const buttonStyles = css`
     padding: 10px 30px;
     text-decoration: none;
     text-align: center;
-    background-color: #1ac23f;
+    background-color: #6121c9;
     border-radius: 4px;
     border: none;
     width: 300px;

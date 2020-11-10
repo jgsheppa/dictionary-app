@@ -18,6 +18,18 @@ const formContainerStyles = css`
   justify-content: center;
   align-items: center;
 
+  form:focus-within {
+    background: #f4d35e;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7);
+  }
+
+  form {
+    padding: 25px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0);
+  }
+
   form div {
     display: flex;
     flex-direction: column;
@@ -35,7 +47,7 @@ const formContainerStyles = css`
     }
     input:focus {
       outline: none !important;
-      border: solid 2px #1ac23f;
+      border: solid 2px #e02e2e;
     }
 
     button {
@@ -43,27 +55,38 @@ const formContainerStyles = css`
       padding: 10px 30px;
       text-decoration: none;
       text-align: center;
-      background-color: #1ac23f;
+      background-color: #6121c9;
       border-radius: 4px;
       border: none;
+      margin-bottom: 20px;
       width: 300px;
       font-size: 24px;
       transition: ease background-color 0.5s;
       cursor: pointer;
     }
     button:hover {
-      background-color: #35df5a;
+      background-color: #7838e0;
+    }
+    button:focus {
+      outline: none !important;
+      border: solid 2px #e02e2e;
     }
   }
 
   .register {
     text-decoration: none;
-    color: #258ae1;
+    color: #7838e0;
     font-size: 16px;
+    padding: 0 4px;
 
     p {
-      color: #258ae1;
+      color: #7838e0;
     }
+  }
+  .register:focus {
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
   }
 `;
 
@@ -78,7 +101,7 @@ export default function Login(props: Props) {
   return (
     <>
       <Head>
-        <title>TransDiwan</title>
+        <title>Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
@@ -119,13 +142,13 @@ export default function Login(props: Props) {
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
               <button>Log in</button>
+              <Link href="/register">
+                <a className="register">
+                  <p>Don't have an account? Register here.</p>
+                </a>
+              </Link>
             </div>
           </form>
-          <Link href="/register">
-            <a className="register">
-              <p>Don't have an account? Register here.</p>
-            </a>
-          </Link>
         </div>
       </Layout>
     </>

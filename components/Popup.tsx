@@ -13,18 +13,27 @@ export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
+  console.log('this is the id', id);
   const [wordList, setWordList] = useState(props.vocabLists);
   const [list, setList] = useState([]);
   const [term, setTerm] = useState(props.searchTerm);
   const [checked, setChecked] = useState(false);
 
+  console.log('is checked', checked);
+
   let wholeList = [...wordList];
 
-  console.log('push', wholeList);
+  console.log('push', wordList);
 
   function handelSubmit() {
     wholeList.push({ listName: newListName });
     setWordList(wholeList);
+  }
+
+  function handleCheckBox(e, id) {
+    if (e.target.id === id) {
+      setChecked(!checked);
+    }
   }
 
   return (
@@ -39,10 +48,13 @@ export default function Popup(props: Props) {
                 <input
                   type="checkbox"
                   checked={checked}
+                  id={id}
+                  value={name.value}
                   onChange={async (e) => {
                     e.preventDefault();
 
-                    let wordListId = name.id;
+                    // let wordListId = name.id;
+                    const listName = e.target.value;
                     const response = await fetch(`/api/words/${term}`, {
                       method: 'POST',
                       headers: {
@@ -50,10 +62,8 @@ export default function Popup(props: Props) {
                         'Accept-Language': '*',
                       },
                       body: JSON.stringify({
-                        newListName,
+                        listName,
                         id,
-                        term,
-                        wordListId,
                       }),
                     });
 
@@ -63,6 +73,7 @@ export default function Popup(props: Props) {
                       setErrorMessage('Word not added to list!');
                     } else {
                       setErrorMessage('');
+                      handleCheckBox(e.target.id, name.id);
                     }
                   }}
                 />
@@ -82,9 +93,8 @@ export default function Popup(props: Props) {
                 'Accept-Language': '*',
               },
               body: JSON.stringify({
-                newListName: newListName,
-                id: id,
-                term: term,
+                newListName,
+                id,
               }),
             });
 

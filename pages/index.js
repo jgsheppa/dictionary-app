@@ -31,7 +31,7 @@ const introStyles = css`
 
   p a {
     text-decoration: none;
-    color: #0453e6;
+    color: #4d13ad;
     transition: color;
   }
 
@@ -53,7 +53,7 @@ export default function Home(props) {
             <SearchBar></SearchBar>
           </div>
           <div css={introStyles}>
-            <h4 style={{ color: '#0453e6' }}>
+            <h4 style={{ color: '#4D13AD' }}>
               Store Your Words With WordDiwan
             </h4>
             <p>

@@ -43,9 +43,11 @@ export default function Profile(props: Props) {
 
       <h3>Username</h3>
       <p>{user.username}</p>
-
-      <h3>Your Lists</h3>
-      <ListOfVocabLists list={props.vocabLists}></ListOfVocabLists>
+      <div style={{ marginBottom: '100px' }}>
+        {' '}
+        <h3>Your Lists</h3>
+        <ListOfVocabLists list={props.vocabLists}></ListOfVocabLists>
+      </div>
     </Layout>
   );
 }

@@ -38,7 +38,7 @@ const dropdown = css`
   }
 
   .dropdownbtn {
-    background-color: #1ac23f;
+    background-color: #6121c9;
     color: white;
     padding: 16px;
     font-size: 24px;
@@ -46,6 +46,12 @@ const dropdown = css`
     border-radius: 4px;
     transition: ease background-color 0.5s;
     cursor: pointer;
+  }
+
+  .dropdownbtn:focus {
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
   }
 
   .dropdown-content {
@@ -76,6 +82,12 @@ const dropdown = css`
       padding: 12px 16px;
       text-decoration: none;
       display: block;
+    }
+
+    a:focus {
+      outline: none !important;
+      border: solid 2px #e02e2e;
+      border-radius: 4px;
     }
 
     a:hover {

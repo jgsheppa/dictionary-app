@@ -25,6 +25,13 @@ const unorderedListStyles = css`
     border-width: 4px;
     padding: 5px 0;
   }
+
+  li a:focus {
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
+    padding: 10px;
+  }
 `;
 
 function ListOfVocabLists(props) {

@@ -10,8 +10,11 @@ export default async function handler(
   response: NextApiResponse,
 ) {
   const { newListName, id, term } = request.body;
+  console.log('request', request.body);
+
   const user = await insertVocabList(newListName, id);
-  const addWordsToList = await insertWordsToVocabList(term, id);
+  const vocabListId = await getVocabListsById(id);
+  const addWordsToList = await insertWordsToVocabList(term, vocabListId[0].id);
 
   if (typeof user === 'undefined') {
     // TODO: Return proper message from the server

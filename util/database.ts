@@ -243,7 +243,7 @@ export async function getVocabListsById(id: number) {
   const lists = await sql<string[]>`
     SELECT id FROM wordlists
     WHERE 
-    ${id} = wordlists.id;
+    ${id} = wordlists.user_id_num;
   `;
   return lists.map((u) => camelcaseKeys(u));
 }

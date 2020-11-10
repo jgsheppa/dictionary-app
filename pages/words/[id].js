@@ -82,7 +82,6 @@ const exampleStylesContainer = css`
 
 export default function Id(props) {
   const [data, setData] = useState(props.data);
-  console.log('data', data);
   const [word, setWord] = useState(data.def);
   const [toggle, setToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
@@ -609,7 +608,6 @@ export async function getServerSideProps(context) {
   const data = await res.json();
 
   const vocabLists = await getVocabLists(user?.id);
-  console.log('vocab lists', vocabLists);
 
   if (!user) {
     return {

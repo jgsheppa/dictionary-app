@@ -29,7 +29,7 @@ const searchStyles = css`
   }
   div input:focus {
     outline: none !important;
-    border: solid 2px #1ac23f;
+    border: solid 2px #6121c9;
   }
 
   div .searchLink {
@@ -37,11 +37,17 @@ const searchStyles = css`
     padding: 10px 30px;
     text-decoration: none;
     text-align: center;
-    background-color: #1ac23f;
+    background-color: #6121c9;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border: none;
     font-size: 28px;
+  }
+
+  div .searchLink:focus {
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
   }
 `;
 
@@ -78,11 +84,11 @@ const selectStyles = css`
     border-color: #888;
   }
   select:focus {
-    border-color: #aaa;
-    box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
     box-shadow: 0 0 0 3px -moz-mac-focusring;
     color: #222;
-    outline: none;
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
   }
   select option {
     font-weight: normal;
