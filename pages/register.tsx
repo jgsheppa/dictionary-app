@@ -53,7 +53,7 @@ const formContainerStyles = css`
       border-radius: 4px;
       font-size: 24px;
       width: 300px;
-      margin-bottom: 28px;
+      margin: 8px 0 28px;
     }
     label input:focus {
       outline: none !important;

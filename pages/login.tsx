@@ -37,15 +37,20 @@ const formContainerStyles = css`
     align-items: center;
     margin-top: 40px;
 
-    input {
+    label {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label input {
       padding: 10px 30px;
       border: solid 1px #8c8c8c;
       border-radius: 4px;
       font-size: 24px;
       width: 300px;
-      margin-bottom: 40px;
+      margin: 8px 0 40px;
     }
-    input:focus {
+    label input:focus {
       outline: none !important;
       border: solid 2px #e02e2e;
     }
@@ -130,25 +135,31 @@ export default function Login(props: Props) {
             }}
           >
             <div>
-              <input
-                value={username}
-                placeholder="Username"
-                onChange={(e) => setUsername(e.currentTarget.value)}
-              />
-              <input
-                value={password}
-                placeholder="Password"
-                type="password"
-                onChange={(e) => setPassword(e.currentTarget.value)}
-              />
+              <label>
+                Username
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.currentTarget.value)}
+                />
+              </label>
+
+              <label>
+                Password
+                <input
+                  value={password}
+                  type="password"
+                  onChange={(e) => setPassword(e.currentTarget.value)}
+                />
+              </label>
+
               <button>Log in</button>
-              <Link href="/register">
-                <a className="register">
-                  <p>Don't have an account? Register here.</p>
-                </a>
-              </Link>
             </div>
           </form>
+          <Link href="/register">
+            <a className="register">
+              <p>Don't have an account? Register here.</p>
+            </a>
+          </Link>
         </div>
       </Layout>
     </>

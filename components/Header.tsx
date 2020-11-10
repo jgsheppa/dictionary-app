@@ -66,7 +66,7 @@ const dropdown = css`
     width: 300px;
     z-index: 2;
     border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14);
+    background: #f4d35e;
 
     ul {
       list-style: none;
@@ -78,7 +78,7 @@ const dropdown = css`
       }
 
       li:hover {
-        background-color: rgba(0, 0, 0, 0.14);
+        background-color: #874de4;
         cursor: pointer;
       }
     }
@@ -87,6 +87,7 @@ const dropdown = css`
       padding: 12px 16px;
       text-decoration: none;
       display: block;
+      transition: font-color 0.5s, background-color 0.5s, ease;
     }
 
     a:focus {
@@ -96,7 +97,8 @@ const dropdown = css`
     }
 
     a:hover {
-      background-color: #ddd;
+      color: #fff;
+      background-color: #874de4;
     }
   }
 `;
@@ -173,20 +175,6 @@ export default function Header(props: Props) {
                         )}
                       </li>
                     </ul>
-                    {/* /* <div className="dropdown-content">
-                  <Link href="/profile">
-                    <a className="dropdownitem">Profile</a>
-                  </Link>{' '}
-                  {!loggedInPassed ? null : props.loggedIn ? (
-                    <Link href="/logout">
-                      <a className="dropdownitem">Log out</a>
-                    </Link>
-                  ) : (
-                    <Link href="/login">
-                      <a className="dropdownitem">Log in</a>
-                    </Link>
-                  )}
-                </div> */}
                   </div>
                 )}
               </div>
