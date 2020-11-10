@@ -1,11 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
-import {
-  setLanguage,
-  getSearchInfo,
-  addSearchTermCookie,
-} from './../util/cookie';
+import { setLanguage, getSearchInfo } from './../util/cookie';
 
 const searchComponentStyles = css`
   display: flex;
@@ -46,6 +42,11 @@ const searchStyles = css`
     border-bottom-right-radius: 4px;
     border: none;
     font-size: 28px;
+    transition: ease 0.3s background-color;
+  }
+
+  div .searchLink:hover {
+    background-color: #874de4;
   }
 
   div .searchLink:focus {

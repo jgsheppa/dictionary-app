@@ -46,6 +46,11 @@ const dropdown = css`
     border-radius: 4px;
     transition: ease background-color 0.5s;
     cursor: pointer;
+    transition: ease 0.3s background-color;
+  }
+
+  .dropdownbtn:hover {
+    background-color: #874de4;
   }
 
   .dropdownbtn:focus {

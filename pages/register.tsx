@@ -26,12 +26,21 @@ const formContainerStyles = css`
   align-items: center;
   margin-bottom: 100px;
 
+  form:focus-within {
+    background: #f4d35e;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7);
+  }
+
   form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    padding: 25px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0);
 
     label {
       display: flex;
@@ -48,7 +57,8 @@ const formContainerStyles = css`
     }
     label input:focus {
       outline: none !important;
-      border: solid 2px #6121c9;
+      border: solid 2px #e02e2e;
+      border-radius: 4px;
     }
 
     button {
@@ -66,6 +76,11 @@ const formContainerStyles = css`
     }
     button:hover {
       background-color: #35df5a;
+    }
+    button:focus {
+      outline: none !important;
+      border: solid 2px #e02e2e;
+      border-radius: 4px;
     }
   }
 `;
@@ -150,6 +165,7 @@ export default function Register(props: Props) {
             <label>
               First Name
               <input
+                tabIndex={7}
                 value={firstName}
                 onChange={(event) => setFirstName(event.currentTarget.value)}
               />
@@ -157,6 +173,7 @@ export default function Register(props: Props) {
             <label>
               Last Name
               <input
+                tabIndex={8}
                 value={lastName}
                 onChange={(event) => setLastName(event.currentTarget.value)}
               />
@@ -164,6 +181,7 @@ export default function Register(props: Props) {
             <label>
               E-mail
               <input
+                tabIndex={9}
                 value={email}
                 onChange={(event) => setEmail(event.currentTarget.value)}
               />
@@ -171,6 +189,7 @@ export default function Register(props: Props) {
             <label>
               Username
               <input
+                tabIndex={10}
                 value={username}
                 onChange={(event) => setUsername(event.currentTarget.value)}
               />
@@ -178,12 +197,15 @@ export default function Register(props: Props) {
             <label>
               Password
               <input
+                tabIndex={11}
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </label>
-            <button css={buttonStyles}>Create Account</button>
+            <button tabIndex={12} css={buttonStyles}>
+              Create Account
+            </button>
           </form>
         </div>
       </Layout>

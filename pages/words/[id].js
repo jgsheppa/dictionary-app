@@ -23,6 +23,8 @@ const nounStyles = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  border-bottom: solid;
+  border-color: #6121c9;
 
   div {
     margin: 10px;
@@ -68,7 +70,7 @@ const verbStylesContainer = css`
   justify-content: space-between;
   align-items: center;
   border-bottom: solid;
-  border-color: #5054f5;
+  border-color: #6121c9;
   padding: 10px 30px;
 `;
 
@@ -90,6 +92,30 @@ const adjectiveStyles = css`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const addToListButtonStyles = css`
+  button {
+    font-size: 20px;
+    color: #fff;
+    border-radius: 4px;
+    padding: 12px 24px;
+    background-color: #6121c9;
+    cursor: pointer;
+    transition: ease 0.3s background-color;
+  }
+
+  button:hover {
+    background-color: #874de4;
+  }
+
+  button:focus {
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #fff;
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
+  }
 `;
 
 export default function Id(props) {
@@ -208,8 +234,9 @@ export default function Id(props) {
             setWord={setWord}
             // searchTerm={searchTerm}
           ></SearchBar>
-          <div>
+          <div css={addToListButtonStyles}>
             <button
+              tabIndex={7}
               onClick={() => {
                 togglePop();
               }}
