@@ -135,7 +135,11 @@ export default function Header(props: Props) {
           <div css={navContainerStyles}>
             <div css={dropdown}>
               <div className="container" ref={container}>
-                <button className="dropdownbtn" onClick={handleMenuClick}>
+                <button
+                  tabIndex={4}
+                  className="dropdownbtn"
+                  onClick={handleMenuClick}
+                >
                   ☰
                 </button>
                 {menuOpen && (
@@ -144,14 +148,18 @@ export default function Header(props: Props) {
                       <li>
                         {' '}
                         <Link href="/profile">
-                          <a className="dropdownitem">Profile</a>
+                          <a tabIndex={5} className="dropdownitem">
+                            Profile
+                          </a>
                         </Link>
                       </li>
                       <li>
                         {' '}
                         {!loggedInPassed ? null : props.loggedIn ? (
                           <Link href="/logout">
-                            <a className="dropdownitem">Log out</a>
+                            <a tabIndex={6} className="dropdownitem">
+                              Log out
+                            </a>
                           </Link>
                         ) : (
                           <Link href="/login">

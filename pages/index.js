@@ -38,6 +38,12 @@ const introStyles = css`
   p a:hover {
     color: #3475ef;
   }
+
+  p a:focus {
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
+  }
 `;
 
 export default function Home(props) {
@@ -61,7 +67,7 @@ export default function Home(props) {
               spent time making lists of words. Perhaps you read a Russian poem,
               but you didn't know that{' '}
               <a
-                tabIndex={4}
+                tabIndex={7}
                 onClick={() => setLanguage('ru-en')}
                 href="/words/свобода"
               >
@@ -69,7 +75,7 @@ export default function Home(props) {
               </a>{' '}
               means{' '}
               <a
-                tabIndex={5}
+                tabIndex={8}
                 onClick={() => setLanguage('en-ru')}
                 href="/words/freedom"
               >

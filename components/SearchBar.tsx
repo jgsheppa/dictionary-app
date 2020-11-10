@@ -28,8 +28,12 @@ const searchStyles = css`
     font-size: 28px;
   }
   div input:focus {
+    /* outline: none !important;
+    border: solid 2px #6121c9; */
     outline: none !important;
-    border: solid 2px #6121c9;
+    border: solid 2px #e02e2e;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
   }
 
   div .searchLink {
