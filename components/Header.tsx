@@ -63,9 +63,9 @@ const dropdown = css`
     position: absolute;
     top: 100%;
     left: 0;
-    width: 300px;
+    width: 150px;
     z-index: 2;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    border: 1px solid #874de4;
     background: #f4d35e;
 
     ul {

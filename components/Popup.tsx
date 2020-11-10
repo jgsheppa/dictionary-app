@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { css } from '@emotion/core';
 
 type Props = {
   wordList;
@@ -7,7 +7,41 @@ type Props = {
   vocabLists;
   user;
   listId;
+  toggle;
 };
+
+const popUpStyles = css`
+  > div {
+    /* display: flex; */
+    position: fixed;
+    z-index: 1;
+    width: 200px;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7);
+  }
+
+  .modal-content {
+    background-color: white;
+    position: absolute;
+    top: 100px;
+    left: -60px;
+    /* width: 40%; */
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+  }
+
+  .close {
+    color: Black;
+    float: right;
+  }
+
+  .close:hover {
+    color: red;
+    cursor: pointer;
+  }
+`;
 
 export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
@@ -37,89 +71,96 @@ export default function Popup(props: Props) {
   }
 
   return (
-    <div className="modal">
-      <div className="modal_content">
-        {/* <span className="close" onClick={props.handleClick}></span> */}
-        <h3>List</h3>
-        <div>
-          {wordList.map((name) => {
-            return (
-              <div key={name.id}>
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  id={id}
-                  value={name.value}
-                  onChange={async (e) => {
-                    e.preventDefault();
+    <div css={popUpStyles}>
+      <div css={popUpStyles}>
+        <div className="modal-content">
+          {/* <span className="close" onClick={props.handleClick}></span> */}
+          <span onClick={() => props.toggle()} className="close">
+            &times;
+          </span>
+          <h3>List</h3>
 
-                    // let wordListId = name.id;
-                    const listName = e.target.value;
-                    const response = await fetch(`/api/words/${term}`, {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                        'Accept-Language': '*',
-                      },
-                      body: JSON.stringify({
-                        listName,
-                        id,
-                      }),
-                    });
+          <div>
+            {wordList.map((name) => {
+              return (
+                <div key={name.id}>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    id={id}
+                    value={name.value}
+                    onChange={async (e) => {
+                      e.preventDefault();
 
-                    const { success } = await response.json();
+                      // let wordListId = name.id;
+                      const listName = e.target.value;
+                      const response = await fetch(`/api/words/${term}`, {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept-Language': '*',
+                        },
+                        body: JSON.stringify({
+                          listName,
+                          id,
+                        }),
+                      });
 
-                    if (!success) {
-                      setErrorMessage('Word not added to list!');
-                    } else {
-                      setErrorMessage('');
-                      handleCheckBox(e.target.id, name.id);
-                    }
-                  }}
-                />
-                <label>{name.listName}</label>
-              </div>
-            );
-          })}
+                      const { success } = await response.json();
+
+                      if (!success) {
+                        setErrorMessage('Word not added to list!');
+                      } else {
+                        setErrorMessage('');
+                        handleCheckBox(e.target.id, name.id);
+                      }
+                    }}
+                  />
+                  <label>{name.listName}</label>
+                </div>
+              );
+            })}
+          </div>
+
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+
+              const response = await fetch(`/api/words/${term}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept-Language': '*',
+                },
+                body: JSON.stringify({
+                  newListName,
+                  id,
+                }),
+              });
+
+              const { success } = await response.json();
+
+              if (!success) {
+                setErrorMessage('Word not added to list!');
+              } else {
+                setErrorMessage('');
+                handelSubmit();
+              }
+            }}
+          >
+            <label>
+              New List:
+              <input
+                type="text"
+                name="name"
+                value={newListName}
+                onChange={(e) => setNewListName(e.target.value)}
+              />
+            </label>
+            <br />
+            <input type="submit" />
+          </form>
         </div>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-
-            const response = await fetch(`/api/words/${term}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept-Language': '*',
-              },
-              body: JSON.stringify({
-                newListName,
-                id,
-              }),
-            });
-
-            const { success } = await response.json();
-
-            if (!success) {
-              setErrorMessage('Word not added to list!');
-            } else {
-              setErrorMessage('');
-              handelSubmit();
-            }
-          }}
-        >
-          <label>
-            New List:
-            <input
-              type="text"
-              name="name"
-              value={newListName}
-              onChange={(e) => setNewListName(e.target.value)}
-            />
-          </label>
-          <br />
-          <input type="submit" />
-        </form>
       </div>
     </div>
   );

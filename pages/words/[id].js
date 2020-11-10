@@ -45,21 +45,18 @@ const russianVerbImperfective = css`
   background-color: #ffe216;
   border-radius: 8px;
   padding: 0.3rem 1rem 0.3rem 0.25rem;
-  width: 8rem;
 `;
 
 const russianVerbPerfective = css`
   background-color: #34a1ff;
   border-radius: 8px;
   padding: 0.3rem 1rem 0.3rem 0.25rem;
-  width: 8rem;
 `;
 
 const russianVerbUndecided = css`
   background-color: #fff;
   border-radius: 8px;
   padding: 0.3rem 1rem 0.3rem 0.25rem;
-  width: 8rem;
 `;
 
 const verbStylesContainer = css`
@@ -135,6 +132,8 @@ export default function Id(props) {
   const [verbExamplesOpen, setVerbExamplesOpen] = useState(false);
   const [adjectiveExamplesOpen, setAdjectiveExamplesOpen] = useState(false);
   const [adverbExamplesOpen, setAdverbExamplesOpen] = useState(false);
+
+  console.log(toggle);
 
   function togglePop() {
     setToggle(!toggle);
@@ -224,6 +223,7 @@ export default function Id(props) {
           style={{
             display: 'flex',
             flexDirection: 'row',
+            flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-around',
             marginBottom: '20px',
@@ -700,6 +700,7 @@ export async function getServerSideProps(context) {
   );
   const data = await res.json();
 
+  console.log('data', data);
   const vocabLists = await getVocabLists(user?.id);
 
   if (!user) {
