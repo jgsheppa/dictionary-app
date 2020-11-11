@@ -243,7 +243,7 @@ export async function getVocabListsById(id: number) {
   const lists = await sql<string[]>`
     SELECT id FROM wordlists
     WHERE 
-    ${id} = wordlists.user_id_num;
+${id} = wordlists.user_id_num;
   `;
   return lists.map((u) => camelcaseKeys(u));
 }
@@ -271,6 +271,16 @@ export async function insertWordsToVocabList(word: string, id: number) {
     VALUES
       (${word}, ${id})
     RETURNING *;
+  `;
+
+  return lists.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function deleteWordsFromList(id: string) {
+  const lists = await sql<string[]>`
+ DELETE FROM words
+  WHERE ${id} = words_id
+   RETURNING *;
   `;
 
   return lists.map((u) => camelcaseKeys(u))[0];

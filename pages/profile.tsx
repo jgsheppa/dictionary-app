@@ -8,12 +8,11 @@ import { useState, useEffect } from 'react';
 import { getUserBySessionToken } from '../util/database';
 import { User } from '../util/types';
 import Layout from '../components/Layout';
-import WordList from '../components/WordList';
 import ListOfVocabLists from '../components/ListOfVocabLists';
 import SearchBar from '../components/SearchBar';
 
 type Props = {
-  loggedIn: boolean;
+  loggedIn;
   user: User;
   vocabLists;
   data;
@@ -83,20 +82,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return { props: { user, loggedIn, vocabLists, searchTerm, data } };
 }
-
-// export async function getServerSideProps(context) {
-
-//   if (!user) {
-//     return {
-//       props: {
-//         searchTerm,
-//         data,
-//         loggedIn,
-//       },
-//     };
-//   } else {
-//     return {
-//       props: {},
-//     };
-//   }
-// }

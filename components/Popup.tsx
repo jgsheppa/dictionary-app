@@ -27,8 +27,8 @@ const popUpStyles = css`
   .modal-content {
     background-color: white;
     position: absolute;
-    top: 100px;
-    left: -60px;
+    top: -50px;
+    left: 0px;
     /* width: 40%; */
     padding: 20px;
     border-radius: 5px;
@@ -55,12 +55,9 @@ export default function Popup(props: Props) {
   const [list, setList] = useState([]);
   const [term, setTerm] = useState(props.searchTerm);
   const [checked, setChecked] = useState(false);
-
-  console.log('is checked', checked);
+  const [addListOpen, setAddListOpen] = useState(false);
 
   let wholeList = [...wordList];
-
-  console.log('push', wordList);
 
   function handelSubmit() {
     wholeList.push({ listName: newListName });
@@ -105,8 +102,9 @@ export default function Popup(props: Props) {
                               'Accept-Language': '*',
                             },
                             body: JSON.stringify({
-                              listName,
+                              newListName,
                               id,
+                              term,
                             }),
                           });
 
@@ -140,6 +138,7 @@ export default function Popup(props: Props) {
                     body: JSON.stringify({
                       newListName,
                       id,
+                      term,
                     }),
                   });
 

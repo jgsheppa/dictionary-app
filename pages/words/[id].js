@@ -3,6 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
+import Draggable from 'react-draggable';
 import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
@@ -143,6 +144,8 @@ const addToListButtonStyles = css`
 `;
 
 const verbInfoStyles = css`
+  cursor: move;
+
   > div {
     position: fixed;
     z-index: 1;
@@ -205,11 +208,13 @@ export default function Id(props) {
   const nounContainer = React.createRef();
   const adjectiveContainer = React.createRef();
   const adverbContainer = React.createRef();
+  const addToListContainer = React.createRef();
 
   const [nounExamplesOpen, setNounExamplesOpen] = useState(false);
   const [verbExamplesOpen, setVerbExamplesOpen] = useState(false);
   const [adjectiveExamplesOpen, setAdjectiveExamplesOpen] = useState(false);
   const [adverbExamplesOpen, setAdverbExamplesOpen] = useState(false);
+  const [addListOpen, setAddListOpen] = useState(false);
 
   function togglePop() {
     setToggle(!toggle);
@@ -235,10 +240,14 @@ export default function Id(props) {
     setAdverbExamplesOpen(!adverbExamplesOpen);
   }
 
+  function handleAdverbExampleClick() {
+    setAdverbExamplesOpen(!adverbExamplesOpen);
+  }
+
   useEffect(() => {
     setData(props.data);
     setVocabList(props.vocabLists);
-    console.log(vocabList);
+
     // only add the event listener when the dropdown is opened
     if (!verbExamplesOpen) return;
     if (!nounExamplesOpen) return;
@@ -281,6 +290,7 @@ export default function Id(props) {
     window.addEventListener('click', handleNounClick);
     window.addEventListener('click', handleAdjectiveClick);
     window.addEventListener('click', handleAdverbClick);
+
     // clean up
     return () => {
       window.removeEventListener('click', handleVerbClick);
@@ -315,7 +325,7 @@ export default function Id(props) {
             // searchTerm={searchTerm}
           ></SearchBar>
           <div css={addToListButtonStyles}>
-            <button tabIndex={8} onClick={togglePop}>
+            <button tabIndex={8} onClick={() => togglePop()}>
               Add To List
             </button>
             {toggle ? (
@@ -351,18 +361,23 @@ export default function Id(props) {
                               </i>
                             </button>
                             {toggleVerb ? (
-                              <div css={verbInfoStyles}>
-                                <div>
-                                  <p className="verb-content">
-                                    Verbs with{' '}
-                                    <b className="yellow-word">yellow</b>{' '}
-                                    backgrounds denote the imperfective form,
-                                    while verbs with{' '}
-                                    <b className="blue-word">blue</b>{' '}
-                                    backgrounds represent the perfective form.
-                                  </p>
-                                </div>
-                              </div>
+                              <>
+                                <Draggable>
+                                  <div css={verbInfoStyles}>
+                                    <div>
+                                      <p className="verb-content">
+                                        Verbs with{' '}
+                                        <b className="yellow-word">yellow</b>{' '}
+                                        backgrounds denote the imperfective
+                                        form, while verbs with{' '}
+                                        <b className="blue-word">blue</b>{' '}
+                                        backgrounds represent the perfective
+                                        form.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </Draggable>
+                              </>
                             ) : null}
                           </>
                         )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
@@ -35,15 +35,46 @@ const unorderedListStyles = css`
 `;
 
 function ListOfVocabLists(props) {
+  const [errorMessage, setErrorMessage] = useState('');
+  const [list, setList] = useState(props.list);
+
   return (
     <div>
       <ul css={unorderedListStyles}>
         <div>
-          {props.list.map((doc) => (
+          {list.map((doc) => (
             <li key={doc.id}>
               <Link href={`/word-lists/${doc.id}`}>
                 <a>{doc.listName}</a>
               </Link>
+              <button
+                onClick={async (e) => {
+                  e.preventDefault();
+
+                  let id = doc.id;
+                  const response = await fetch(`/api/words/profile`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept-Language': '*',
+                    },
+                    body: JSON.stringify({
+                      id,
+                    }),
+                  });
+
+                  const { success } = await response.json();
+
+                  if (!success) {
+                    setErrorMessage('Word not added to list!');
+                  } else {
+                    setErrorMessage('');
+                    setList(props.list);
+                  }
+                }}
+              >
+                X
+              </button>
             </li>
           ))}
         </div>
