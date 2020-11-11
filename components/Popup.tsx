@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
+import Draggable from 'react-draggable';
 
 type Props = {
   wordList;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const popUpStyles = css`
+  cursor: move;
+
   > div {
     /* display: flex; */
     position: fixed;
@@ -65,103 +68,107 @@ export default function Popup(props: Props) {
   }
 
   function handleCheckBox(e, id) {
-    if (e.target.id === id) {
+    if (e === id) {
       setChecked(!checked);
     }
   }
 
   return (
-    <div css={popUpStyles}>
-      <div css={popUpStyles}>
-        <div className="modal-content">
-          {/* <span className="close" onClick={props.handleClick}></span> */}
-          <span onClick={() => props.toggle()} className="close">
-            &times;
-          </span>
-          <h3>List</h3>
+    <>
+      <Draggable>
+        <div css={popUpStyles}>
+          <div css={popUpStyles}>
+            <div className="modal-content">
+              {/* <span className="close" onClick={props.handleClick}></span> */}
+              <span onClick={() => props.toggle()} className="close">
+                &times;
+              </span>
+              <h3>List</h3>
 
-          <div>
-            {wordList.map((name) => {
-              return (
-                <div key={name.id}>
+              <div>
+                {wordList.map((name) => {
+                  return (
+                    <div key={name.id}>
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        value={name.value}
+                        onChange={async (e) => {
+                          e.preventDefault();
+
+                          // let wordListId = name.id;
+                          const listName = e.target.value;
+                          const response = await fetch(`/api/words/${term}`, {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Accept-Language': '*',
+                            },
+                            body: JSON.stringify({
+                              listName,
+                              id,
+                            }),
+                          });
+
+                          const { success } = await response.json();
+
+                          if (!success) {
+                            setErrorMessage('Word not added to list!');
+                          } else {
+                            setErrorMessage('');
+                            console.log(e);
+                            handleCheckBox(e.target.value, name.id);
+                          }
+                        }}
+                      />
+                      <label>{name.listName}</label>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+
+                  const response = await fetch(`/api/words/${term}`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept-Language': '*',
+                    },
+                    body: JSON.stringify({
+                      newListName,
+                      id,
+                    }),
+                  });
+
+                  const { success } = await response.json();
+
+                  if (!success) {
+                    setErrorMessage('Word not added to list!');
+                  } else {
+                    setErrorMessage('');
+                    handelSubmit();
+                  }
+                }}
+              >
+                <label>
+                  New List:
                   <input
-                    type="checkbox"
-                    checked={checked}
-                    id={id}
-                    value={name.value}
-                    onChange={async (e) => {
-                      e.preventDefault();
-
-                      // let wordListId = name.id;
-                      const listName = e.target.value;
-                      const response = await fetch(`/api/words/${term}`, {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Accept-Language': '*',
-                        },
-                        body: JSON.stringify({
-                          listName,
-                          id,
-                        }),
-                      });
-
-                      const { success } = await response.json();
-
-                      if (!success) {
-                        setErrorMessage('Word not added to list!');
-                      } else {
-                        setErrorMessage('');
-                        handleCheckBox(e.target.id, name.id);
-                      }
-                    }}
+                    type="text"
+                    name="name"
+                    value={newListName}
+                    onChange={(e) => setNewListName(e.target.value)}
                   />
-                  <label>{name.listName}</label>
-                </div>
-              );
-            })}
+                </label>
+                <br />
+                <input type="submit" />
+              </form>
+            </div>
           </div>
-
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-
-              const response = await fetch(`/api/words/${term}`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept-Language': '*',
-                },
-                body: JSON.stringify({
-                  newListName,
-                  id,
-                }),
-              });
-
-              const { success } = await response.json();
-
-              if (!success) {
-                setErrorMessage('Word not added to list!');
-              } else {
-                setErrorMessage('');
-                handelSubmit();
-              }
-            }}
-          >
-            <label>
-              New List:
-              <input
-                type="text"
-                name="name"
-                value={newListName}
-                onChange={(e) => setNewListName(e.target.value)}
-              />
-            </label>
-            <br />
-            <input type="submit" />
-          </form>
         </div>
-      </div>
-    </div>
+      </Draggable>
+    </>
   );
 }

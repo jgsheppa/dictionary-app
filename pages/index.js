@@ -23,7 +23,7 @@ const searchBarContainer = css`
 
 const introStyles = css`
   display: block;
-  max-width: 500px;
+  max-width: 420px;
   line-height: 1.6;
   background-color: #ece9e9;
   padding: 4px 40px;
@@ -81,10 +81,8 @@ export default function Home(props) {
               >
                 freedom
               </a>{' '}
-              in English. You write your translation down on scrap paper, but
-              when you look for your translation a few days later, it has
-              disappeared. At WordDiwan, we're all about scribbling words down,
-              but we offer a way to save your lists.{' '}
+              in English. At WordDiwan, we're all about scribbling words down,
+              but we also offer a way to save your lists - just in case.{' '}
             </p>
           </div>
         </div>

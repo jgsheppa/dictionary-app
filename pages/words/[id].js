@@ -3,13 +3,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
-import useSWR from 'swr';
-import Link from 'next/link';
 import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
 import SearchBar from '../../components/SearchBar.tsx';
-import { getSearchInfo } from '../../util/cookie';
 
 const style = css`
   margin-bottom: 100px;
@@ -18,6 +15,36 @@ const style = css`
 const partOfSpeechContainer = css`
   margin-bottom: 40px;
 `;
+
+const wordPositionStyles = css`
+  i {
+    font-size: 24px;
+  }
+
+  button {
+    font-size: 20px;
+    color: #fff;
+    border-radius: 0.5em;
+    padding: 4px 8px;
+    background-color: #6121c9;
+    cursor: pointer;
+    transition: ease 0.3s background-color;
+    margin-bottom: 16px;
+  }
+
+  button:hover {
+    background-color: #874de4;
+  }
+
+  button:focus {
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #fff;
+    outline: none !important;
+    border: solid 2px #e02e2e;
+    border-radius: 4px;
+  }
+`;
+
 const nounStyles = css`
   display: flex;
   flex-direction: row;
@@ -115,10 +142,61 @@ const addToListButtonStyles = css`
   }
 `;
 
+const verbInfoStyles = css`
+  > div {
+    position: fixed;
+    z-index: 1;
+    width: 400px;
+    height: auto;
+    background-color: #fff;
+    border: solid #6121c9;
+    padding: 0 0 0 12px;
+
+    /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
+  }
+
+  .modal-content {
+    background-color: white;
+    position: absolute;
+    top: 100px;
+    left: -60px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+  }
+
+  p {
+    line-height: 1.6;
+
+    .yellow-word {
+      background-color: #ffe216;
+      border-radius: 4px;
+      padding: 4px;
+    }
+
+    .blue-word {
+      background-color: #34a1ff;
+      border-radius: 4px;
+      padding: 4px;
+    }
+  }
+
+  span {
+    color: Black;
+    float: right;
+  }
+
+  span:hover {
+    color: red;
+    cursor: pointer;
+  }
+`;
+
 export default function Id(props) {
   const [data, setData] = useState(props.data);
   const [word, setWord] = useState(data.def);
   const [toggle, setToggle] = useState(false);
+  const [toggleVerb, setToggleVerb] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [vocabList, setVocabList] = useState(props.vocabLists);
 
@@ -133,10 +211,12 @@ export default function Id(props) {
   const [adjectiveExamplesOpen, setAdjectiveExamplesOpen] = useState(false);
   const [adverbExamplesOpen, setAdverbExamplesOpen] = useState(false);
 
-  console.log(toggle);
-
   function togglePop() {
     setToggle(!toggle);
+  }
+
+  function handleToggleVerb() {
+    setToggleVerb(!toggleVerb);
   }
 
   function handleVerbExampleClick() {
@@ -235,12 +315,7 @@ export default function Id(props) {
             // searchTerm={searchTerm}
           ></SearchBar>
           <div css={addToListButtonStyles}>
-            <button
-              tabIndex={7}
-              onClick={() => {
-                togglePop();
-              }}
-            >
+            <button tabIndex={8} onClick={togglePop}>
               Add To List
             </button>
             {toggle ? (
@@ -261,11 +336,36 @@ export default function Id(props) {
                 <div css={partOfSpeechContainer}>
                   <div key={entry.text}>
                     <div className="translation-title">
-                      <div>
-                        <i>
-                          {entry.pos?.charAt(0).toUpperCase() +
-                            entry.pos?.slice(1)}
-                        </i>
+                      <div css={wordPositionStyles}>
+                        {entry.pos !== 'verb' ? (
+                          <i>
+                            {entry.pos?.charAt(0).toUpperCase() +
+                              entry.pos?.slice(1)}
+                          </i>
+                        ) : (
+                          <>
+                            <button tabIndex={7} onClick={handleToggleVerb}>
+                              <i>
+                                {entry.pos?.charAt(0).toUpperCase() +
+                                  entry.pos?.slice(1)}
+                              </i>
+                            </button>
+                            {toggleVerb ? (
+                              <div css={verbInfoStyles}>
+                                <div>
+                                  <p className="verb-content">
+                                    Verbs with{' '}
+                                    <b className="yellow-word">yellow</b>{' '}
+                                    backgrounds denote the imperfective form,
+                                    while verbs with{' '}
+                                    <b className="blue-word">blue</b>{' '}
+                                    backgrounds represent the perfective form.
+                                  </p>
+                                </div>
+                              </div>
+                            ) : null}
+                          </>
+                        )}
                       </div>
                     </div>
                     {entry.tr.map((translation) => {
@@ -285,10 +385,21 @@ export default function Id(props) {
                                 {translation.mean?.map((example) => {
                                   return (
                                     <div>
-                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.text.charAt(0).toUpperCase() +
+                                          example.text.slice(1)}
+                                      </div>
+
                                       <div>
                                         {example.tr?.map((translation) => {
-                                          return <div>{translation.text}</div>;
+                                          return (
+                                            <div>
+                                              {translation.text
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                translation.text.slice(1)}
+                                            </div>
+                                          );
                                         })}
                                       </div>
                                     </div>
@@ -349,7 +460,7 @@ export default function Id(props) {
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </p>
-                              <div>
+                              {/* <div>
                                 {translation.syn?.map((synonym) => {
                                   return (
                                     <div>
@@ -358,7 +469,7 @@ export default function Id(props) {
                                     </div>
                                   );
                                 })}
-                              </div>
+                              </div> */}
                               <div></div>
                               <div>
                                 {translation.mean?.map((example) => {
@@ -421,7 +532,7 @@ export default function Id(props) {
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </div>
-                              <div>
+                              {/* <div>
                                 {translation.syn?.map((synonym) => {
                                   return (
                                     <div>
@@ -429,7 +540,7 @@ export default function Id(props) {
                                     </div>
                                   );
                                 })}
-                              </div>
+                              </div> */}
                               <div>
                                 {translation.ex?.map((example) => {
                                   return (
@@ -488,7 +599,7 @@ export default function Id(props) {
                                 </p>
                               </div>
 
-                              <div>
+                              {/* <div>
                                 {translation.syn?.map((synonym) => {
                                   return (
                                     <div>
@@ -496,13 +607,17 @@ export default function Id(props) {
                                     </div>
                                   );
                                 })}
-                              </div>
+                              </div> */}
                             </div>
                             <div>
                               {translation.mean?.map((example) => {
                                 return (
                                   <div>
-                                    <p>{example.text}</p>
+                                    <p>
+                                      {example.text.charAt(0).toUpperCase() +
+                                        example.text.slice(1)}
+                                    </p>
+
                                     <div>
                                       {example.tr?.map((translation) => {
                                         return (
@@ -535,7 +650,12 @@ export default function Id(props) {
                                     return (
                                       <div>
                                         <div>
-                                          <p>{example.text}</p>
+                                          <p>
+                                            {example.text
+                                              .charAt(0)
+                                              .toUpperCase() +
+                                              example.text.slice(1)}
+                                          </p>
                                         </div>
                                         <div>
                                           {example.tr.map((translation) => {
@@ -611,13 +731,13 @@ export default function Id(props) {
                                   translation.text.slice(1)}
                               </div>
                               <div>
-                                {translation.syn?.map((synonym) => {
+                                {/* {translation.syn?.map((synonym) => {
                                   return (
                                     <div>
                                       <div>{synonym.text}</div>
                                     </div>
                                   );
-                                })}
+                                })} */}
                               </div>
                               <div>
                                 <div
