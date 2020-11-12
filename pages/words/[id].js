@@ -107,7 +107,7 @@ const exampleStyles = css`
 
 const exampleStylesContainer = css`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   margin: 8px 0;
 `;
@@ -182,6 +182,59 @@ const verbInfoStyles = css`
       border-radius: 4px;
       padding: 4px;
     }
+  }
+
+  span {
+    color: Black;
+    float: right;
+  }
+
+  span:hover {
+    color: red;
+    cursor: pointer;
+  }
+`;
+
+const verbExamplePopUpStyles = css`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1;
+  cursor: move;
+
+  > div {
+    /* position: fixed;
+    z-index: 1;
+    width: 300px;
+   
+    background-color: #fff;
+    border: solid #6121c9;
+    padding: 12px 24px;
+    margin-bottom: 200px; */
+
+    background-color: white;
+    position: absolute;
+    /* top: 100px; */
+    right: 200px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+
+    /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
+  }
+
+  .modal-content {
+    /* background-color: white;
+    position: absolute;
+    top: 100px;
+    right: 400px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black; */
+  }
+
+  p {
+    line-height: 1.6;
   }
 
   span {
@@ -431,39 +484,57 @@ export default function Id(props) {
                               >
                                 Examples
                               </button>
-                              {verbExamplesOpen &&
-                                translation.ex?.map((example) => {
-                                  return (
-                                    <div
-                                      className="container1"
-                                      ref={container1}
-                                    >
-                                      {
-                                        <div css={exampleStylesContainer}>
-                                          <div css={exampleStyles}>
-                                            {example.text}
-                                          </div>
-                                          <div>
-                                            {example.tr.map((translation) => {
-                                              return (
-                                                <div>
-                                                  <i css={exampleStyles}>
-                                                    {translation.text
-                                                      .charAt(0)
-                                                      .toUpperCase() +
-                                                      translation.text.slice(1)}
-                                                  </i>
+                              {verbExamplesOpen && (
+                                <div>
+                                  {translation.ex?.map((example) => {
+                                    return (
+                                      <Draggable>
+                                        <div css={verbExamplePopUpStyles}>
+                                          <div
+                                            className="container1"
+                                            ref={container1}
+                                          >
+                                            {
+                                              <div className="modal-content">
+                                                <div
+                                                  css={exampleStylesContainer}
+                                                >
+                                                  <div css={exampleStyles}>
+                                                    {example.text}
+                                                  </div>
+                                                  <div>
+                                                    {example.tr.map(
+                                                      (translation) => {
+                                                        return (
+                                                          <div>
+                                                            <i
+                                                              css={
+                                                                exampleStyles
+                                                              }
+                                                            >
+                                                              {translation.text
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                                translation.text.slice(
+                                                                  1,
+                                                                )}
+                                                            </i>
+                                                          </div>
+                                                        );
+                                                      },
+                                                    )}
+                                                  </div>
                                                 </div>
-                                              );
-                                            })}
+                                              </div>
+                                            }
                                           </div>
                                         </div>
-                                      }
-                                    </div>
-                                  );
-                                })}
+                                      </Draggable>
+                                    );
+                                  })}
+                                </div>
+                              )}
                             </div>
-                            {/* </div> */}
                           </div>
                         );
                       } else if (
