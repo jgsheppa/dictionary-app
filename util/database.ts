@@ -252,14 +252,16 @@ ${id} = wordlists.user_id_num;
 export async function deleteListById(id: string) {
   // Return undefined if the id is not
   // in the correct format
-  if (!/^\d+$/.test(id)) return undefined;
+  // if (!/^\d+$/.test(id)) return undefined;
 
   const lists = await sql<string[]>`
     DELETE FROM wordlists
-      WHERE id = ${id}
+      WHERE 
+        id=${id} 
       RETURNING *;
+    
   `;
-
+  console.log('lists', lists);
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
@@ -279,7 +281,7 @@ export async function insertWordsToVocabList(word: string, id: number) {
 export async function deleteWordsFromList(id: string) {
   const lists = await sql<string[]>`
  DELETE FROM words
-  WHERE ${id} = words_id
+  WHERE words_id=${id}
    RETURNING *;
   `;
 

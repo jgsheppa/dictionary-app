@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
@@ -34,22 +34,25 @@ const unorderedListStyles = css`
   }
 `;
 
-function ListOfVocabLists(props) {
+function ListOfVocabLists({ setList, list, deleteList }) {
   const [errorMessage, setErrorMessage] = useState('');
-  const [list, setList] = useState(props.list);
+  setList(list);
+
+  const updatedList = [...list];
+  console.log('list in comp', updatedList);
 
   return (
     <div>
       <ul css={unorderedListStyles}>
         <div>
-          {list.map((doc) => (
+          {updatedList.map((doc) => (
             <li key={doc.id}>
               <Link href={`/word-lists/${doc.id}`}>
                 <a>{doc.listName}</a>
               </Link>
               <button
                 onClick={async (e) => {
-                  e.preventDefault();
+                  // e.preventDefault();
 
                   let id = doc.id;
                   const response = await fetch(`/api/words/profile`, {
@@ -66,10 +69,11 @@ function ListOfVocabLists(props) {
                   const { success } = await response.json();
 
                   if (!success) {
-                    setErrorMessage('Word not added to list!');
+                    setErrorMessage('Word not deleted from list!');
                   } else {
-                    setErrorMessage('');
-                    setList(props.list);
+                    setErrorMessage('Success!');
+                    deleteList(id, updatedList);
+                    console.log('list after deletion', list);
                   }
                 }}
               >

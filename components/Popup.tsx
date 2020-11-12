@@ -55,7 +55,6 @@ export default function Popup(props: Props) {
   const [list, setList] = useState([]);
   const [term, setTerm] = useState(props.searchTerm);
   const [checked, setChecked] = useState(false);
-  const [addListOpen, setAddListOpen] = useState(false);
 
   let wholeList = [...wordList];
 
@@ -102,7 +101,7 @@ export default function Popup(props: Props) {
                               'Accept-Language': '*',
                             },
                             body: JSON.stringify({
-                              newListName,
+                              listName,
                               id,
                               term,
                             }),
@@ -114,7 +113,6 @@ export default function Popup(props: Props) {
                             setErrorMessage('Word not added to list!');
                           } else {
                             setErrorMessage('');
-                            console.log(e);
                             handleCheckBox(e.target.value, name.id);
                           }
                         }}

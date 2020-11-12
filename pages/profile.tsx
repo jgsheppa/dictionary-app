@@ -19,13 +19,26 @@ type Props = {
 };
 
 export default function Profile(props: Props) {
-  console.log(props);
   const [user, setUser] = useState(props.user);
   const [data, setData] = useState(props.data);
+  const [list, setList] = useState(props.vocabLists);
+  console.log('was there a change', list);
 
-  useEffect(() => {
-    setData(props.data);
-  });
+  function deleteList(listID: number, listfunction) {
+    const itemToDelete = listfunction.filter((info) => info.id === listID);
+    const indexOfItemToDelete = listfunction.indexOf(itemToDelete[0]);
+
+    if (indexOfItemToDelete > -1) {
+      listfunction.splice(indexOfItemToDelete, 1);
+    }
+
+    setList(listfunction);
+  }
+
+  // useEffect(() => {
+  //   setList(props.vocabLists);
+  //   console.log('was there a change', list);
+  // }, []);
   return (
     <Layout loggedIn={props.loggedIn}>
       <Head>
@@ -45,7 +58,11 @@ export default function Profile(props: Props) {
       <div style={{ marginBottom: '100px' }}>
         {' '}
         <h3>Your Lists</h3>
-        <ListOfVocabLists list={props.vocabLists}></ListOfVocabLists>
+        <ListOfVocabLists
+          deleteList={deleteList}
+          list={list}
+          setList={setList}
+        ></ListOfVocabLists>
       </div>
     </Layout>
   );
@@ -79,6 +96,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // instead of two like done here
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
+  console.log('server list', vocabLists);
 
   return { props: { user, loggedIn, vocabLists, searchTerm, data } };
 }

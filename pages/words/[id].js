@@ -203,6 +203,8 @@ export default function Id(props) {
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [vocabList, setVocabList] = useState(props.vocabLists);
 
+  console.log('data', data);
+
   const container = React.createRef();
   const container1 = React.createRef();
   const nounContainer = React.createRef();

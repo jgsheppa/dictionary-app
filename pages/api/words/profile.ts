@@ -10,7 +10,8 @@ export default async function handler(
 ) {
   const { id } = request.body;
 
-  const deleteWord = await deleteWordsFromList(id);
+  // const deleteWord = await deleteWordsFromList(id);
+  // console.log('delete word', deleteWord);
   const deleteList = await deleteListById(id);
 
   if (typeof deleteList === 'undefined') {
@@ -18,10 +19,10 @@ export default async function handler(
     return response.status(401).send({ success: false });
   }
 
-  if (typeof deleteWord === 'undefined') {
-    // TODO: Return proper message from the server
-    return response.status(401).send({ success: false });
-  }
+  // if (typeof deleteWord === 'undefined') {
+  //   // TODO: Return proper message from the server
+  //   return response.status(401).send({ success: false });
+  // }
 
   response.send({ success: true });
 }
