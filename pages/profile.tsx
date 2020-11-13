@@ -25,7 +25,9 @@ export default function Profile(props: Props) {
   console.log('was there a change', list);
 
   function deleteList(listID: number, listfunction) {
-    const itemToDelete = listfunction.filter((info) => info.id === listID);
+    const itemToDelete = listfunction.filter(
+      (info) => info.wordlistsId === listID,
+    );
     const indexOfItemToDelete = listfunction.indexOf(itemToDelete[0]);
 
     if (indexOfItemToDelete > -1) {

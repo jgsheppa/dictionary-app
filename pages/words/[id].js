@@ -898,7 +898,7 @@ export async function getServerSideProps(context) {
   const {
     getVocabLists,
     getUserBySessionToken,
-    getListBySessionToken,
+    getVocabListsById,
   } = await import('../../util/database');
 
   const user = await getUserBySessionToken(token);
@@ -926,6 +926,7 @@ export async function getServerSideProps(context) {
         data,
         loggedIn,
         vocabLists,
+
         user,
       },
     };

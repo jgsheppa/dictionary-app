@@ -241,7 +241,7 @@ export async function getVocabLists(id: number) {
 
 export async function getVocabListsById(id: number) {
   const lists = await sql<string[]>`
-    SELECT id FROM wordlists
+    SELECT wordlists_id FROM wordlists
     WHERE 
 ${id} = wordlists.user_id_num;
   `;
@@ -257,7 +257,7 @@ export async function deleteListById(id: string) {
   const lists = await sql<string[]>`
     DELETE FROM wordlists
       WHERE 
-        id=${id} 
+        wordlists_id=${id} 
       RETURNING *;
     
   `;
@@ -266,10 +266,10 @@ export async function deleteListById(id: string) {
 }
 
 export async function insertWordsToVocabList(word: string, id: number) {
-  const lists = await sql<string[]>`
+  const lists = await sql<{ word: string; id: number }[]>`
  
     INSERT INTO words
-      (lang_1, words_id)
+      (lang_1, list_id)
     VALUES
       (${word}, ${id})
     RETURNING *;

@@ -9,6 +9,7 @@ type Props = {
   user;
   listId;
   toggle;
+  vocabListId;
 };
 
 const popUpStyles = css`
@@ -50,7 +51,6 @@ export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
-  console.log('this is the id', id);
   const [wordList, setWordList] = useState(props.vocabLists);
   const [list, setList] = useState([]);
   const [term, setTerm] = useState(props.searchTerm);
@@ -69,6 +69,7 @@ export default function Popup(props: Props) {
     }
   }
 
+  console.log('word list', wordList);
   return (
     <>
       <Draggable>
@@ -93,7 +94,7 @@ export default function Popup(props: Props) {
                           e.preventDefault();
 
                           // let wordListId = name.id;
-                          const listName = e.target.value;
+                          // const listName = e.target.value;
                           const response = await fetch(`/api/words/${term}`, {
                             method: 'POST',
                             headers: {
@@ -101,9 +102,8 @@ export default function Popup(props: Props) {
                               'Accept-Language': '*',
                             },
                             body: JSON.stringify({
-                              listName,
                               id,
-                              term,
+                              term: name.listName,
                             }),
                           });
 
@@ -147,6 +147,7 @@ export default function Popup(props: Props) {
                   } else {
                     setErrorMessage('');
                     handelSubmit();
+                    setNewListName('');
                   }
                 }}
               >

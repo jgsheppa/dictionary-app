@@ -46,15 +46,15 @@ function ListOfVocabLists({ setList, list, deleteList }) {
       <ul css={unorderedListStyles}>
         <div>
           {updatedList.map((doc) => (
-            <li key={doc.id}>
-              <Link href={`/word-lists/${doc.id}`}>
+            <li key={doc.wordlistsId}>
+              <Link href={`/word-lists/${doc.wordlistsId}`}>
                 <a>{doc.listName}</a>
               </Link>
               <button
                 onClick={async (e) => {
                   // e.preventDefault();
 
-                  let id = doc.id;
+                  let id = doc.wordlistsId;
                   const response = await fetch(`/api/words/profile`, {
                     method: 'DELETE',
                     headers: {

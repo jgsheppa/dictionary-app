@@ -11,7 +11,6 @@ export default async function handler(
   const { id } = request.body;
 
   // const deleteWord = await deleteWordsFromList(id);
-  // console.log('delete word', deleteWord);
   const deleteList = await deleteListById(id);
 
   if (typeof deleteList === 'undefined') {
