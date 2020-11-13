@@ -2,6 +2,10 @@
   "name": "dictionary-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "15.0.1",
+    "yarn": "1.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,7 +30,6 @@
     "next": "10.0.0",
     "next-cookies": "^2.0.3",
     "next-iron-session": "^4.1.9",
-    "node": "15.0.1",
     "postgres": "^1.0.3",
     "react": "17.0.1",
     "react-bootstrap": "^1.4.0",
