@@ -3,6 +3,7 @@ import {
   insertVocabList,
   insertWordsToVocabList,
   getVocabListsById,
+  deleteWordsFromList,
 } from '/Users/jamessheppard/Desktop/Coding/dictionary-app/util/database';
 
 export default async function handler(
@@ -32,6 +33,10 @@ export default async function handler(
       // TODO: Return proper message from the server
       return response.status(401).send({ success: false });
     }
+  } else if (request.method === 'DELETE') {
+    const { id, term } = request.body;
+    const vocabListId = await getVocabListsById(id);
+    const deleteWord = await deleteWordsFromList(vocabListId);
   }
 
   response.send({ success: true });

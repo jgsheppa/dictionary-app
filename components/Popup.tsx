@@ -89,31 +89,54 @@ export default function Popup(props: Props) {
                       <input
                         type="checkbox"
                         checked={checked}
-                        value={name.value}
+                        value={name.id}
                         onChange={async (e) => {
                           e.preventDefault();
 
                           // let wordListId = name.id;
                           // const listName = e.target.value;
-                          const response = await fetch(`/api/words/${term}`, {
-                            method: 'POST',
-                            headers: {
-                              'Content-Type': 'application/json',
-                              'Accept-Language': '*',
-                            },
-                            body: JSON.stringify({
-                              id,
-                              term: name.listName,
-                            }),
-                          });
+                          if (checked === false) {
+                            const response = await fetch(`/api/words/${term}`, {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Accept-Language': '*',
+                              },
+                              body: JSON.stringify({
+                                id,
+                                term: name.listName,
+                              }),
+                            });
 
-                          const { success } = await response.json();
+                            const { success } = await response.json();
 
-                          if (!success) {
-                            setErrorMessage('Word not added to list!');
-                          } else {
-                            setErrorMessage('');
-                            handleCheckBox(e.target.value, name.id);
+                            if (!success) {
+                              setErrorMessage('Word not added to list!');
+                            } else {
+                              setErrorMessage('');
+                              handleCheckBox(e.target.value, name.id);
+                            }
+                          } else if (checked === true) {
+                            const response = await fetch(`/api/words/${term}`, {
+                              method: 'DELETE',
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Accept-Language': '*',
+                              },
+                              body: JSON.stringify({
+                                id,
+                                term: name.listName,
+                              }),
+                            });
+
+                            const { success } = await response.json();
+
+                            if (!success) {
+                              setErrorMessage('Word not added to list!');
+                            } else {
+                              setErrorMessage('');
+                              handleCheckBox(e.target.value, name.id);
+                            }
                           }
                         }}
                       />
