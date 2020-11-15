@@ -17,7 +17,7 @@ export default function list(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div> {wordList[0].listName}</div>
+        <div> {wordList[0]?.listName}</div>
         <ListOfVocabLists></ListOfVocabLists>
         <WordList words={props.words}></WordList>
       </Layout>

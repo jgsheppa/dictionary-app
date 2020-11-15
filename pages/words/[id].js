@@ -255,8 +255,10 @@ export default function Id(props) {
   const [toggleVerb, setToggleVerb] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [vocabList, setVocabList] = useState(props.vocabLists);
+  const wholeVocabList = [...vocabList];
+  console.log('whole list', wholeVocabList);
 
-  console.log('data', data);
+  console.log('server list', vocabList);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -301,7 +303,6 @@ export default function Id(props) {
 
   useEffect(() => {
     setData(props.data);
-    setVocabList(props.vocabLists);
 
     // only add the event listener when the dropdown is opened
     if (!verbExamplesOpen) return;
@@ -385,8 +386,10 @@ export default function Id(props) {
             </button>
             {toggle ? (
               <Popup
+                wholeVocabList={wholeVocabList}
                 user={props.user}
                 vocabLists={vocabList}
+                setVocabList={setVocabList}
                 searchTerm={props.searchTerm}
                 toggle={togglePop}
               />
@@ -908,8 +911,8 @@ export async function getServerSideProps(context) {
   );
   const data = await res.json();
 
-  console.log('data', data);
   const vocabLists = await getVocabLists(user?.id);
+  console.log('vocab lists', vocabLists);
 
   if (!user) {
     return {
@@ -926,7 +929,6 @@ export async function getServerSideProps(context) {
         data,
         loggedIn,
         vocabLists,
-
         user,
       },
     };

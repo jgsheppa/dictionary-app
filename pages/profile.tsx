@@ -37,10 +37,6 @@ export default function Profile(props: Props) {
     setList(listfunction);
   }
 
-  // useEffect(() => {
-  //   setList(props.vocabLists);
-  //   console.log('was there a change', list);
-  // }, []);
   return (
     <Layout loggedIn={props.loggedIn}>
       <Head>
@@ -76,6 +72,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const searchTerm = encodeURIComponent(context.query.id);
   const key = process.env.customKey;
   const currentLanguage = nextCookies(context).language?.language;
+  console.log(currentLanguage);
   const { getVocabLists, getUserBySessionToken } = await import(
     './../util/database'
   );
@@ -84,6 +81,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
+  console.log(data);
 
   if (!(await isSessionTokenValid(token))) {
     return {

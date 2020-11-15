@@ -80,12 +80,12 @@ const formContainerStyles = css`
 
   .register {
     text-decoration: none;
-    color: #7838e0;
+    color: #6526ca;
     font-size: 16px;
     padding: 0 4px;
 
     p {
-      color: #7838e0;
+      color: #6526ca;
     }
   }
   .register:focus {

@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Draggable from 'react-draggable';
-
-type Props = {
-  wordList;
-  searchTerm;
-  vocabLists;
-  user;
-  listId;
-  toggle;
-  vocabListId;
-};
+import WordList from './WordList';
 
 const popUpStyles = css`
   cursor: move;
@@ -47,15 +38,24 @@ const popUpStyles = css`
   }
 `;
 
+type Props = {
+  searchTerm;
+  vocabLists;
+  user;
+  toggle;
+  wholeVocabList;
+  setVocabList;
+};
+
 export default function Popup(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
-  const [wordList, setWordList] = useState(props.vocabLists);
-  const [list, setList] = useState([]);
+  const [wordList, setWordList] = useState(props.wholeVocabList);
   const [term, setTerm] = useState(props.searchTerm);
   const [checked, setChecked] = useState(false);
 
+  console.log('wordList', wordList);
   let wholeList = [...wordList];
 
   function handelSubmit() {
@@ -69,7 +69,7 @@ export default function Popup(props: Props) {
     }
   }
 
-  console.log('word list', wordList);
+  console.log('word list', wholeList);
   return (
     <>
       <Draggable>
@@ -84,29 +84,34 @@ export default function Popup(props: Props) {
 
               <div>
                 {wordList.map((name) => {
+                  console.log('name', name);
                   return (
-                    <div key={name.id}>
+                    <div key={name.wordlistsId}>
                       <input
                         type="checkbox"
                         checked={checked}
-                        value={name.id}
+                        value={name.wordlistsId}
                         onChange={async (e) => {
                           e.preventDefault();
 
-                          // let wordListId = name.id;
+                          let wordListId = name.wordlistsId;
+                          console.log('name', name);
                           // const listName = e.target.value;
                           if (checked === false) {
-                            const response = await fetch(`/api/words/${term}`, {
-                              method: 'POST',
-                              headers: {
-                                'Content-Type': 'application/json',
-                                'Accept-Language': '*',
+                            const response = await fetch(
+                              `/api/words/checkbox`,
+                              {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Accept-Language': '*',
+                                },
+                                body: JSON.stringify({
+                                  wordListId,
+                                  term: term,
+                                }),
                               },
-                              body: JSON.stringify({
-                                id,
-                                term: name.listName,
-                              }),
-                            });
+                            );
 
                             const { success } = await response.json();
 
@@ -117,6 +122,7 @@ export default function Popup(props: Props) {
                               handleCheckBox(e.target.value, name.id);
                             }
                           } else if (checked === true) {
+                            let wordListId = name.wordlistsId;
                             const response = await fetch(`/api/words/${term}`, {
                               method: 'DELETE',
                               headers: {
@@ -124,8 +130,8 @@ export default function Popup(props: Props) {
                                 'Accept-Language': '*',
                               },
                               body: JSON.stringify({
-                                id,
-                                term: name.listName,
+                                wordListId,
+                                term: term,
                               }),
                             });
 
@@ -136,6 +142,7 @@ export default function Popup(props: Props) {
                             } else {
                               setErrorMessage('');
                               handleCheckBox(e.target.value, name.id);
+                              props.setVocabList(wholeList);
                             }
                           }
                         }}
