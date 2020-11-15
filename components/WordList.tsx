@@ -16,6 +16,16 @@ const unorderedListStyles = css`
     width: 450px;
   }
 
+  .word-name {
+    text-decoration: none;
+    color: black;
+    transition: color 0.4s ease;
+  }
+
+  .word-name:hover {
+    color: red;
+  }
+
   div b {
     margin-right: 5px;
   }
@@ -56,7 +66,13 @@ type Props = {
 
 function WordList(props: Props) {
   const [listOfWords, setListOfWords] = useState(props.words);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [editClicked, setEditClicked] = useState(false);
   console.log('list of words', listOfWords);
+
+  function handleEdit() {
+    setEditClicked(!editClicked);
+  }
 
   if (listOfWords === undefined) {
     return <div>Loading...</div>;
@@ -64,6 +80,7 @@ function WordList(props: Props) {
     return (
       <div>
         <ul css={unorderedListStyles}>
+          <button onClick={handleEdit}>Edit</button>
           <div>
             <li>
               <b>{''}</b>
@@ -74,11 +91,41 @@ function WordList(props: Props) {
               listOfWords.map((word, index) => (
                 <li key={index}>
                   <Link href={`/words/${word.lang1}`}>
-                    <a>{word.lang1}</a>
+                    <a className="word-name">{word.lang1}</a>
                   </Link>
                   {word.ru}
                   <div>
-                    <button>X</button>
+                    {editClicked ? (
+                      <button
+                        onClick={async (e) => {
+                          // e.preventDefault();
+
+                          // let id = doc.wordlistsId;
+                          const response = await fetch(`/api/word-lists/1`, {
+                            method: 'DELETE',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Accept-Language': '*',
+                            },
+                            body: JSON.stringify({
+                              id,
+                            }),
+                          });
+
+                          const { success } = await response.json();
+
+                          if (!success) {
+                            setErrorMessage('Word not deleted from list!');
+                          } else {
+                            setErrorMessage('Success!');
+                            deleteList(id, updatedList);
+                            console.log('list after deletion', list);
+                          }
+                        }}
+                      >
+                        Delete Word
+                      </button>
+                    ) : null}
                   </div>
                 </li>
               ))

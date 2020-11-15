@@ -36,13 +36,19 @@ const unorderedListStyles = css`
 
 function ListOfVocabLists({ setList, list, deleteList }) {
   const [errorMessage, setErrorMessage] = useState('');
+  const [editClicked, setEditClicked] = useState(false);
   setList(list);
 
   const updatedList = [...list];
   console.log('list in comp', updatedList);
 
+  function handleEdit() {
+    setEditClicked(!editClicked);
+  }
+
   return (
     <div>
+      <button onClick={handleEdit}>Edit Lists</button>
       <ul css={unorderedListStyles}>
         <div>
           {updatedList.map((doc) => (
@@ -50,35 +56,39 @@ function ListOfVocabLists({ setList, list, deleteList }) {
               <Link href={`/word-lists/${doc.wordlistsId}`}>
                 <a>{doc.listName}</a>
               </Link>
-              <button
-                onClick={async (e) => {
-                  // e.preventDefault();
+              <div>
+                {editClicked ? (
+                  <button
+                    onClick={async (e) => {
+                      // e.preventDefault();
 
-                  let id = doc.wordlistsId;
-                  const response = await fetch(`/api/words/profile`, {
-                    method: 'DELETE',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Accept-Language': '*',
-                    },
-                    body: JSON.stringify({
-                      id,
-                    }),
-                  });
+                      let id = doc.wordlistsId;
+                      const response = await fetch(`/api/words/profile`, {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept-Language': '*',
+                        },
+                        body: JSON.stringify({
+                          id,
+                        }),
+                      });
 
-                  const { success } = await response.json();
+                      const { success } = await response.json();
 
-                  if (!success) {
-                    setErrorMessage('Word not deleted from list!');
-                  } else {
-                    setErrorMessage('Success!');
-                    deleteList(id, updatedList);
-                    console.log('list after deletion', list);
-                  }
-                }}
-              >
-                X
-              </button>
+                      if (!success) {
+                        setErrorMessage('Word not deleted from list!');
+                      } else {
+                        setErrorMessage('Success!');
+                        deleteList(id, updatedList);
+                        console.log('list after deletion', list);
+                      }
+                    }}
+                  >
+                    X
+                  </button>
+                ) : null}
+              </div>
             </li>
           ))}
         </div>
