@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
@@ -60,21 +60,34 @@ const unorderedListStyles = css`
   }
 `;
 
-type Props = {
-  words;
-};
-
-function WordList(props: Props) {
-  const [listOfWords, setListOfWords] = useState(props.words);
+function WordList({ words, setListWords }) {
+  const [listOfWords, setListOfWords] = useState(words);
   const [errorMessage, setErrorMessage] = useState('');
   const [editClicked, setEditClicked] = useState(false);
-  console.log('list of words', listOfWords);
+
+  // setListOfWords(words);
+  // const updatedList = [...Object.values(listOfWords)];
 
   function handleEdit() {
     setEditClicked(!editClicked);
   }
 
-  if (listOfWords === undefined) {
+  function deleteWord(wordID, word) {
+    const itemToDelete = word.filter((info) => info.id === wordID);
+    const indexOfItemToDelete = word.indexOf(itemToDelete[0]);
+
+    if (indexOfItemToDelete > -1) {
+      word.splice(indexOfItemToDelete, 1);
+    }
+
+    setListOfWords(word);
+  }
+
+  useEffect(() => {
+    setListOfWords(words);
+  }, []);
+
+  if (!listOfWords) {
     return <div>Loading...</div>;
   } else {
     return (
@@ -85,23 +98,23 @@ function WordList(props: Props) {
             <li>
               <b>{''}</b>
             </li>
-            {listOfWords === undefined ? (
-              <div>Loading...</div>
-            ) : (
-              listOfWords.map((word, index) => (
-                <li key={index}>
-                  <Link href={`/words/${word.lang1}`}>
-                    <a className="word-name">{word.lang1}</a>
-                  </Link>
-                  {word.ru}
-                  <div>
-                    {editClicked ? (
-                      <button
-                        onClick={async (e) => {
-                          // e.preventDefault();
 
-                          // let id = doc.wordlistsId;
-                          const response = await fetch(`/api/word-lists/1`, {
+            {listOfWords.map((word) => (
+              <li key={word.id}>
+                <Link href={`/words/${word.lang1}`}>
+                  <a className="word-name">{word.lang1}</a>
+                </Link>
+                {word.ru}
+                <div>
+                  {editClicked ? (
+                    <button
+                      onClick={async (e) => {
+                        // e.preventDefault();
+
+                        let id = word.id;
+                        const response = await fetch(
+                          `/api/word-lists/${word.listId}`,
+                          {
                             method: 'DELETE',
                             headers: {
                               'Content-Type': 'application/json',
@@ -110,26 +123,25 @@ function WordList(props: Props) {
                             body: JSON.stringify({
                               id,
                             }),
-                          });
+                          },
+                        );
 
-                          const { success } = await response.json();
+                        const { success } = await response.json();
 
-                          if (!success) {
-                            setErrorMessage('Word not deleted from list!');
-                          } else {
-                            setErrorMessage('Success!');
-                            deleteList(id, updatedList);
-                            console.log('list after deletion', list);
-                          }
-                        }}
-                      >
-                        Delete Word
-                      </button>
-                    ) : null}
-                  </div>
-                </li>
-              ))
-            )}
+                        if (!success) {
+                          setErrorMessage('Word not deleted from list!');
+                        } else {
+                          setErrorMessage('Success!');
+                          deleteWord(id, listOfWords);
+                        }
+                      }}
+                    >
+                      Delete Word
+                    </button>
+                  ) : null}
+                </div>
+              </li>
+            ))}
           </div>
         </ul>
       </div>

@@ -281,7 +281,7 @@ export async function insertWordsToVocabList(word: string, listId: number) {
 export async function deleteWordsFromList(id: string) {
   const lists = await sql<string[]>`
  DELETE FROM words
-  WHERE words_id=${id}
+  WHERE id=${id}
    RETURNING *;
   `;
 
@@ -310,7 +310,7 @@ export async function getListBySessionToken(token: string | undefined) {
 
 export async function getWordsFromVocabList() {
   const lists = await sql<string[]>`
-    SELECT lang_1
+    SELECT id, lang_1, list_id
     FROM 
     words,
     wordlists

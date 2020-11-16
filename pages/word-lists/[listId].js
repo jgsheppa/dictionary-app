@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../../util/auth';
@@ -9,6 +9,8 @@ import WordList from '../../components/WordList';
 
 export default function list(props) {
   const [wordList, setWordList] = useState(props.mapList);
+  const [listWords, setListWords] = useState(props.words);
+  console.log('words', typeof listWords);
 
   return (
     <>
@@ -19,7 +21,7 @@ export default function list(props) {
       <Layout>
         <div> {wordList[0]?.listName}</div>
         <ListOfVocabLists></ListOfVocabLists>
-        <WordList words={props.words}></WordList>
+        <WordList words={listWords} setListWords={setListWords} />
       </Layout>
     </>
   );
@@ -48,9 +50,10 @@ export async function getServerSideProps(context) {
   // instead of two like done here
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
-  const words = await getWordsFromVocabList();
+  const wordsObject = await getWordsFromVocabList();
+  const words = Object.values(wordsObject);
 
-  console.log('words', words);
+  console.log('words', typeof Object.values(wordsObject));
 
   const mapList = vocabLists.filter((list) => {
     if (list.id === idContext) {

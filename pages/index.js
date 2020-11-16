@@ -47,6 +47,7 @@ const introStyles = css`
 `;
 
 export default function Home(props) {
+  setLanguage('en-ru');
   return (
     <>
       <Head>

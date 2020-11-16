@@ -254,8 +254,8 @@ export default function Id(props) {
   const [toggle, setToggle] = useState(false);
   const [toggleVerb, setToggleVerb] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
-  const [vocabList, setVocabList] = useState(props.vocabLists);
-  const wholeVocabList = [...vocabList];
+  const [vocabList, setVocabList] = useState(props.vocabLists || []);
+  const wholeVocabList = [...vocabList] || [];
   console.log('whole list', wholeVocabList);
 
   console.log('server list', vocabList);
@@ -381,19 +381,26 @@ export default function Id(props) {
             // searchTerm={searchTerm}
           ></SearchBar>
           <div css={addToListButtonStyles}>
-            <button tabIndex={8} onClick={() => togglePop()}>
-              Add To List
-            </button>
-            {toggle ? (
-              <Popup
-                wholeVocabList={wholeVocabList}
-                user={props.user}
-                vocabLists={vocabList}
-                setVocabList={setVocabList}
-                searchTerm={props.searchTerm}
-                toggle={togglePop}
-              />
-            ) : null}
+            <>
+              {props.loggedIn ? (
+                <>
+                  <button tabIndex={8} onClick={() => togglePop()}>
+                    Add To List
+                  </button>
+
+                  {toggle ? (
+                    <Popup
+                      wholeVocabList={wholeVocabList}
+                      user={props.user}
+                      vocabLists={vocabList}
+                      setVocabList={setVocabList}
+                      searchTerm={props.searchTerm}
+                      toggle={togglePop}
+                    />
+                  ) : null}
+                </>
+              ) : null}
+            </>
           </div>
         </div>
 
@@ -910,11 +917,12 @@ export async function getServerSideProps(context) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
+  console.log(data);
 
   const vocabLists = await getVocabLists(user?.id);
   console.log('vocab lists', vocabLists);
 
-  if (!user) {
+  if (!loggedIn) {
     return {
       props: {
         searchTerm,

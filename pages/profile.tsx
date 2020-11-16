@@ -22,7 +22,6 @@ export default function Profile(props: Props) {
   const [user, setUser] = useState(props.user);
   const [data, setData] = useState(props.data);
   const [list, setList] = useState(props.vocabLists);
-  console.log('was there a change', list);
 
   function deleteList(listID: number, listfunction) {
     const itemToDelete = listfunction.filter(
@@ -92,8 +91,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  // TODO: Actually, you could do this with one query
-  // instead of two like done here
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
   console.log('server list', vocabLists);
