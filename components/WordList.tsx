@@ -51,43 +51,50 @@ const unorderedListStyles = css`
   }
 
   button {
-    font-size: 12px;
+    font-size: 24px;
+    color: #fff;
     border: solid;
-    border-color: #666;
     border-radius: 5px;
     border-width: 2px;
-    background-color: #ffffff;
+    background-color: #6121c9;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .delete-button {
+    font-size: 16px;
+    color: #fff;
+    border: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 4px;
+    background-color: #ff3a3a;
+    cursor: pointer;
+  }
+
+  .delete-button:hover {
+    border-color: #3a2f2f;
   }
 `;
 
-function WordList({ words, setListWords }) {
+function WordList({ words, setListWords, deleteWord }) {
   const [listOfWords, setListOfWords] = useState(words || []);
   const [errorMessage, setErrorMessage] = useState('');
   const [editClicked, setEditClicked] = useState(false);
 
-  // setListOfWords(words);
-  // const updatedList = [...Object.values(listOfWords)];
+  console.log(listOfWords);
+  setListWords(words);
+  const updatedList = [...words];
 
   function handleEdit() {
     setEditClicked(!editClicked);
-  }
-
-  function deleteWord(wordID, word) {
-    const itemToDelete = word.filter((info) => info.id === wordID);
-    const indexOfItemToDelete = word.indexOf(itemToDelete[0]);
-
-    if (indexOfItemToDelete > -1) {
-      word.splice(indexOfItemToDelete, 1);
-    }
-
-    setListOfWords(word);
   }
 
   useEffect(() => {
     setListOfWords(words);
   }, []);
 
-  if (!listOfWords) {
+  if (typeof listOfWords === 'undefined') {
     return <div>Loading...</div>;
   } else {
     return (
@@ -100,7 +107,7 @@ function WordList({ words, setListWords }) {
             </li>
             {listOfWords === 'undefined'
               ? null
-              : listOfWords.map((word) => (
+              : updatedList.map((word) => (
                   <li key={word.id}>
                     <Link href={`/words/${word.lang1}`}>
                       <a className="word-name">{word.lang1}</a>
@@ -109,6 +116,7 @@ function WordList({ words, setListWords }) {
                     <div>
                       {editClicked ? (
                         <button
+                          className="delete-button"
                           onClick={async (e) => {
                             // e.preventDefault();
 
@@ -133,7 +141,7 @@ function WordList({ words, setListWords }) {
                               setErrorMessage('Word not deleted from list!');
                             } else {
                               setErrorMessage('Success!');
-                              deleteWord(id, listOfWords);
+                              deleteWord(id, updatedList);
                             }
                           }}
                         >

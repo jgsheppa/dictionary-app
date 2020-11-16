@@ -75,7 +75,7 @@ const formContainerStyles = css`
       cursor: pointer;
     }
     button:hover {
-      background-color: #35df5a;
+      background-color: #874de4;
     }
     button:focus {
       outline: none !important;

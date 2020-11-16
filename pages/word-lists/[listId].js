@@ -8,9 +8,20 @@ import ListOfVocabLists from '../../components/WordList';
 import WordList from '../../components/WordList';
 
 export default function list(props) {
-  console.log(props.words);
   const [wordList, setWordList] = useState(props.mapList);
   const [listWords, setListWords] = useState(props.words || []);
+  console.log('list words', listWords);
+
+  function deleteWord(wordID, word) {
+    const itemToDelete = word.filter((info) => info.id === wordID);
+    const indexOfItemToDelete = word.indexOf(itemToDelete[0]);
+
+    if (indexOfItemToDelete > -1) {
+      word.splice(indexOfItemToDelete, 1);
+    }
+
+    setListWords(word);
+  }
 
   return (
     <>
@@ -18,9 +29,16 @@ export default function list(props) {
         <title>TransDiwan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout loggedIn={props.loggedIn}>
-        <div>{wordList[0]?.listName}</div>
-        <WordList words={listWords} setListWords={setListWords} />
+      <Layout username={props.user?.username} loggedIn={props.loggedIn}>
+        <div>
+          List Name: {''}
+          <b>{wordList[0]?.listName}</b>
+        </div>
+        <WordList
+          deleteWord={deleteWord}
+          words={listWords}
+          setListWords={setListWords}
+        />
       </Layout>
     </>
   );
@@ -51,8 +69,6 @@ export async function getServerSideProps(context) {
   const vocabLists = await getVocabLists(user?.id);
   const wordsObject = await getWordsFromVocabList(idContext);
 
-  console.log('words', wordsObject);
-
   const mapList = vocabLists.filter((list) => {
     if (list.wordlistsId === idContext) {
       return list;
@@ -66,9 +82,9 @@ export async function getServerSideProps(context) {
     list;
   });
 
-  console.log('words after map', typeof words);
-  console.log('mapList', mapList);
-  console.log('vocab list', vocabLists);
+  // console.log('mapList', mapList);
+  // console.log('vocab list', vocabLists, 'donzo');
+  console.log('server words', words, 'donzo');
 
   if (words === 'undefined') {
     return { props: { user, loggedIn, vocabLists, mapList } };

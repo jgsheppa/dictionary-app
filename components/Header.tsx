@@ -16,6 +16,26 @@ const headerContainerStyles = css`
   margin-top: 10px;
 `;
 
+const dropdownAndProfileStyles = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 180px;
+
+  > div a {
+    text-decoration: none;
+    color: #000000;
+    padding: 12px 24px;
+  }
+
+  > div a:hover {
+    text-decoration: none;
+    color: #000000;
+    border: solid;
+    border-radius: 4px;
+  }
+`;
 const navContainerStyles = css`
   display: flex;
   flex-direction: row;
@@ -139,47 +159,51 @@ export default function Header(props: Props) {
           <Link href="/">
             <a css={navStyles}>WordDiwan</a>
           </Link>
-          <div css={navContainerStyles}>
+          <div css={dropdownAndProfileStyles}>
             <div>
-              <a href="/words/profile">{props.username}</a>
+              <Link href="/profile">
+                <a>{props.username}</a>
+              </Link>
             </div>
-            <div css={dropdown}>
-              <div className="container" ref={container}>
-                <button
-                  tabIndex={4}
-                  className="dropdownbtn"
-                  onClick={handleMenuClick}
-                >
-                  ☰
-                </button>
-                {menuOpen && (
-                  <div className="dropdown-content">
-                    <ul>
-                      <li>
-                        {' '}
-                        <Link href="/profile">
-                          <a tabIndex={5} className="dropdownitem">
-                            Profile
-                          </a>
-                        </Link>
-                      </li>
-                      <li>
-                        {' '}
-                        {!loggedInPassed ? null : props.loggedIn ? (
-                          <Link href="/logout">
-                            <a tabIndex={6} className="dropdownitem">
-                              Log out
+            <div css={navContainerStyles}>
+              <div css={dropdown}>
+                <div className="container" ref={container}>
+                  <button
+                    tabIndex={4}
+                    className="dropdownbtn"
+                    onClick={handleMenuClick}
+                  >
+                    ☰
+                  </button>
+                  {menuOpen && (
+                    <div className="dropdown-content">
+                      <ul>
+                        <li>
+                          {' '}
+                          <Link href="/profile">
+                            <a tabIndex={5} className="dropdownitem">
+                              Profile
                             </a>
                           </Link>
-                        ) : (
-                          <Link href="/login">
-                            <a className="dropdownitem">Log in</a>
-                          </Link>
-                        )}
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                        </li>
+                        <li>
+                          {' '}
+                          {!loggedInPassed ? null : props.loggedIn ? (
+                            <Link href="/logout">
+                              <a tabIndex={6} className="dropdownitem">
+                                Log out
+                              </a>
+                            </Link>
+                          ) : (
+                            <Link href="/login">
+                              <a className="dropdownitem">Log in</a>
+                            </Link>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
