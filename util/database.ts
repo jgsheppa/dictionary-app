@@ -308,14 +308,13 @@ export async function getListBySessionToken(token: string | undefined) {
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function getWordsFromVocabList() {
+export async function getWordsFromVocabList(id: number) {
   const lists = await sql<string[]>`
     SELECT id, lang_1, list_id
     FROM 
-    words,
-    wordlists
+    words
     WHERE 
-    words.list_id  = wordlists.wordlists_id;
+    words.list_id  = ${id};
   `;
   return lists.map((u) => camelcaseKeys(u));
 }

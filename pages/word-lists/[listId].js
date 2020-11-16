@@ -8,9 +8,9 @@ import ListOfVocabLists from '../../components/WordList';
 import WordList from '../../components/WordList';
 
 export default function list(props) {
+  console.log(props.words);
   const [wordList, setWordList] = useState(props.mapList);
-  const [listWords, setListWords] = useState(props.words);
-  console.log('words', typeof listWords);
+  const [listWords, setListWords] = useState(props.words || []);
 
   return (
     <>
@@ -19,7 +19,16 @@ export default function list(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <div> {wordList[0]?.listName}</div>
+        <div>
+          {' '}
+          {() => {
+            if (wordList.length === 0) {
+              return null;
+            } else {
+              return wordList[0]?.listName;
+            }
+          }}
+        </div>
         <ListOfVocabLists></ListOfVocabLists>
         <WordList words={listWords} setListWords={setListWords} />
       </Layout>
@@ -50,16 +59,30 @@ export async function getServerSideProps(context) {
   // instead of two like done here
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
-  const wordsObject = await getWordsFromVocabList();
-  const words = Object.values(wordsObject);
+  const wordsObject = await getWordsFromVocabList(idContext);
 
-  console.log('words', typeof Object.values(wordsObject));
+  console.log('words', wordsObject);
 
   const mapList = vocabLists.filter((list) => {
-    if (list.id === idContext) {
+    if (list.wordlistsId === idContext) {
       return list;
     }
   });
 
-  return { props: { user, loggedIn, vocabLists, mapList, words } };
+  const words = wordsObject.map((list) => {
+    if (list.listId === mapList[0].wordlistsId) {
+      return list;
+    }
+    list;
+  });
+
+  console.log('words after map', typeof words);
+  console.log('mapList', mapList);
+  console.log('vocab list', vocabLists);
+
+  if (words === 'undefined') {
+    return { props: { user, loggedIn, vocabLists, mapList } };
+  } else {
+    return { props: { user, loggedIn, vocabLists, mapList, words } };
+  }
 }

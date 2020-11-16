@@ -61,7 +61,7 @@ const unorderedListStyles = css`
 `;
 
 function WordList({ words, setListWords }) {
-  const [listOfWords, setListOfWords] = useState(words);
+  const [listOfWords, setListOfWords] = useState(words || []);
   const [errorMessage, setErrorMessage] = useState('');
   const [editClicked, setEditClicked] = useState(false);
 
@@ -98,50 +98,51 @@ function WordList({ words, setListWords }) {
             <li>
               <b>{''}</b>
             </li>
+            {listOfWords === 'undefined'
+              ? null
+              : listOfWords.map((word) => (
+                  <li key={word.id}>
+                    <Link href={`/words/${word.lang1}`}>
+                      <a className="word-name">{word.lang1}</a>
+                    </Link>
+                    {word.ru}
+                    <div>
+                      {editClicked ? (
+                        <button
+                          onClick={async (e) => {
+                            // e.preventDefault();
 
-            {listOfWords.map((word) => (
-              <li key={word.id}>
-                <Link href={`/words/${word.lang1}`}>
-                  <a className="word-name">{word.lang1}</a>
-                </Link>
-                {word.ru}
-                <div>
-                  {editClicked ? (
-                    <button
-                      onClick={async (e) => {
-                        // e.preventDefault();
+                            let id = word.id;
+                            const response = await fetch(
+                              `/api/word-lists/${word.listId}`,
+                              {
+                                method: 'DELETE',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Accept-Language': '*',
+                                },
+                                body: JSON.stringify({
+                                  id,
+                                }),
+                              },
+                            );
 
-                        let id = word.id;
-                        const response = await fetch(
-                          `/api/word-lists/${word.listId}`,
-                          {
-                            method: 'DELETE',
-                            headers: {
-                              'Content-Type': 'application/json',
-                              'Accept-Language': '*',
-                            },
-                            body: JSON.stringify({
-                              id,
-                            }),
-                          },
-                        );
+                            const { success } = await response.json();
 
-                        const { success } = await response.json();
-
-                        if (!success) {
-                          setErrorMessage('Word not deleted from list!');
-                        } else {
-                          setErrorMessage('Success!');
-                          deleteWord(id, listOfWords);
-                        }
-                      }}
-                    >
-                      Delete Word
-                    </button>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+                            if (!success) {
+                              setErrorMessage('Word not deleted from list!');
+                            } else {
+                              setErrorMessage('Success!');
+                              deleteWord(id, listOfWords);
+                            }
+                          }}
+                        >
+                          Delete Word
+                        </button>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
           </div>
         </ul>
       </div>
