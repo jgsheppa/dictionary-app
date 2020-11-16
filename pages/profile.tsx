@@ -37,7 +37,7 @@ export default function Profile(props: Props) {
   }
 
   return (
-    <Layout loggedIn={props.loggedIn}>
+    <Layout loggedIn={props.loggedIn} username={user.username}>
       <Head>
         <title>Profile</title>
       </Head>

@@ -18,18 +18,8 @@ export default function list(props) {
         <title>TransDiwan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <div>
-          {' '}
-          {() => {
-            if (wordList.length === 0) {
-              return null;
-            } else {
-              return wordList[0]?.listName;
-            }
-          }}
-        </div>
-        <ListOfVocabLists></ListOfVocabLists>
+      <Layout loggedIn={props.loggedIn}>
+        <div>{wordList[0]?.listName}</div>
         <WordList words={listWords} setListWords={setListWords} />
       </Layout>
     </>

@@ -54,7 +54,7 @@ export default function Home(props) {
         <title>WordDiwan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout loggedIn={props.loggedIn}>
+      <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
         <div css={pageContainer}>
           <div css={searchBarContainer}>
             <SearchBar></SearchBar>
@@ -93,12 +93,24 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
+  const { getUserBySessionToken } = await import('./../util/database');
+
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
+  const user = await getUserBySessionToken(token);
 
-  return {
-    props: {
-      loggedIn,
-    },
-  };
+  if (typeof user === 'undefined') {
+    return {
+      props: {
+        loggedIn,
+      },
+    };
+  } else {
+    return {
+      props: {
+        loggedIn,
+        user,
+      },
+    };
+  }
 }

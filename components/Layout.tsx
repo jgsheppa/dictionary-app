@@ -7,6 +7,7 @@ type Props = {
   children;
   loggedIn: boolean;
   user: string;
+  username: string;
 };
 
 export default function Layout(props: Props) {
@@ -16,7 +17,7 @@ export default function Layout(props: Props) {
         <title>Book Nook</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header loggedIn={props.loggedIn} />
+      <Header username={props.username} loggedIn={props.loggedIn} />
       <main>{props.children}</main>
       <Footer />
     </>

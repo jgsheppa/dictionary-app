@@ -364,7 +364,7 @@ export default function Id(props) {
         <title>TransDiwan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout loggedIn={props.loggedIn}>
+      <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
         <div
           style={{
             display: 'flex',
@@ -911,18 +911,23 @@ export async function getServerSideProps(context) {
     getVocabListsById,
   } = await import('../../util/database');
 
-  const user = await getUserBySessionToken(token);
+  const user = (await getUserBySessionToken(token)) || [];
 
   const res = await fetch(
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
-  console.log(data);
-
   const vocabLists = await getVocabLists(user?.id);
-  console.log('vocab lists', vocabLists);
 
-  if (!loggedIn) {
+  if (!token) {
+    return {
+      props: {
+        searchTerm,
+        data,
+        loggedIn,
+      },
+    };
+  } else if (typeof user === 'undefined') {
     return {
       props: {
         searchTerm,

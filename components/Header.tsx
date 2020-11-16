@@ -103,7 +103,7 @@ const dropdown = css`
   }
 `;
 
-type Props = { user: string; loggedIn: boolean };
+type Props = { user: string; loggedIn: boolean; username: string };
 
 export default function Header(props: Props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
@@ -140,6 +140,9 @@ export default function Header(props: Props) {
             <a css={navStyles}>WordDiwan</a>
           </Link>
           <div css={navContainerStyles}>
+            <div>
+              <a href="/words/profile">{props.username}</a>
+            </div>
             <div css={dropdown}>
               <div className="container" ref={container}>
                 <button
