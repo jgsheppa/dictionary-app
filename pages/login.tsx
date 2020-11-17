@@ -109,7 +109,7 @@ export default function Login(props: Props) {
         <title>Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
+      <Layout loggedIn={props.loggedIn} user={null} username={null}>
         <h1 css={headerStyles}>Sign In</h1>
         <div css={formContainerStyles}>
           <form
