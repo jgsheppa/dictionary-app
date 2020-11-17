@@ -123,9 +123,9 @@ const dropdown = css`
   }
 `;
 
-type Props = { user: any; loggedIn: boolean; username: string };
+// type Props = { user: any, loggedIn: boolean, username: string };
 
-export default function Header(props: Props) {
+export default function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
   const [menuOpen, setMenuopen] = useState(false);
 
