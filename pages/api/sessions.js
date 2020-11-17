@@ -20,8 +20,8 @@ export default withIronSession(
     return res.status(404).send('');
   },
   {
-    cookieName: 'MYSITECOOKIE',
     password: process.env.APPLICATION_SECRET,
+    cookieName: 'MYSITECOOKIE',
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production' ? true : false,
     },

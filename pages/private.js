@@ -23,8 +23,8 @@ export const getServerSideProps = withIronSession(
     };
   },
   {
-    cookieName: 'MYSITECOOKIE',
     password: process.env.APPLICATION_SECRET,
+    cookieName: 'MYSITECOOKIE',
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production' ? true : false,
     },
