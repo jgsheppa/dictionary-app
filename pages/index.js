@@ -9,15 +9,18 @@ import { setLanguage } from './../util/cookie';
 
 const pageContainer = css`
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: 50px 0 100px;
 `;
 
 const searchBarContainer = css`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
 `;
 
