@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import argon2 from 'argon2';
 import Tokens from 'csrf';
-import {
-  getUserByUsername,
-  registerUser,
-} from '/Users/jamessheppard/Desktop/Coding/dictionary-app/util/database';
+import { getUserByUsername, registerUser } from '../../../util/database';
 
 const tokens = new Tokens();
 

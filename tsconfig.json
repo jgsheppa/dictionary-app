@@ -20,6 +20,7 @@
     "**/*.tsx",
     "util/database.js",
     "util/extractHerokuDatabaseEnvVars.js",
+    "components/Header.js",
     "pages/profile.js"
   ],
   "exclude": ["node_modules"]

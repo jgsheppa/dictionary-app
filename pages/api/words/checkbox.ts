@@ -4,7 +4,7 @@ import {
   insertWordsToVocabList,
   getVocabListsById,
   deleteWordsFromList,
-} from '/Users/jamessheppard/Desktop/Coding/dictionary-app/util/database';
+} from '../../../util/database';
 
 export default async function handler(
   request: NextApiRequest,

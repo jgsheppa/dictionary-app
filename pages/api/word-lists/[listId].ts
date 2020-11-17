@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  deleteListById,
-  deleteWordsFromList,
-} from '/Users/jamessheppard/Desktop/Coding/dictionary-app/util/database';
+import { deleteWordsFromList } from '../../../util/database';
 
 export default async function handler(
   request: NextApiRequest,
