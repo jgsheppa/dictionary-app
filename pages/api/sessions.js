@@ -21,9 +21,9 @@ export default withIronSession(
   },
   {
     cookieName: 'MYSITECOOKIE',
+    password: process.env.APPLICATION_SECRET,
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production' ? true : false,
     },
-    password: process.env.APPLICATION_SECRET,
   },
 );
