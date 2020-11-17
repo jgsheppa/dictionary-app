@@ -5,25 +5,23 @@ import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
 import { useState, useEffect } from 'react';
-import { getUserBySessionToken } from '../util/database';
-import { User } from '../util/types';
 import Layout from '../components/Layout';
 import ListOfVocabLists from '../components/ListOfVocabLists';
 import SearchBar from '../components/SearchBar';
 
-type Props = {
-  loggedIn;
-  user: User;
-  vocabLists;
-  data;
-};
+// type Props = {
+//   loggedIn;
+//   user: User;
+//   vocabLists;
+//   data;
+// };
 
-export default function Profile(props: Props) {
+export default function Profile(props) {
   const [user, setUser] = useState(props.user);
   const [data, setData] = useState(props.data);
   const [list, setList] = useState(props.vocabLists);
 
-  function deleteList(listID: number, listfunction) {
+  function deleteList(listID, listfunction) {
     const itemToDelete = listfunction.filter(
       (info) => info.wordlistsId === listID,
     );
@@ -65,15 +63,15 @@ export default function Profile(props: Props) {
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
   const searchTerm = encodeURIComponent(context.query.id);
   const key = process.env.customKey;
   const currentLanguage = nextCookies(context).language?.language;
-  console.log(currentLanguage);
+  console.log('language', nextCookies(context).language);
   const { getVocabLists, getUserBySessionToken } = await import(
-    './../util/database'
+    '../util/database'
   );
 
   const res = await fetch(

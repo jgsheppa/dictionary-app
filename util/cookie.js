@@ -45,3 +45,28 @@ export function addSearchTermCookie(word) {
 
   return newCookie;
 }
+
+export function getSearchTerms() {
+  const term = cookies.getJSON('search terms') || [];
+  return term;
+}
+
+export function addSearchTermToRecentSearchList(term) {
+  const searchTerms = getSearchTerms();
+
+  let foundInCart = false;
+
+  const newSearchTermList = searchTerms.map((obj) => {
+    if (obj.searchTerm === term) {
+      foundInCart = true;
+    }
+    return obj;
+  });
+
+  if (!foundInCart) {
+    newSearchTermList.push({ term });
+  }
+  cookies.set('search term', newSearchTermList);
+
+  return newSearchTermList;
+}

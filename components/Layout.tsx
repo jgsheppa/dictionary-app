@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import React from 'react';
-import Header from './Header.tsx';
-import Footer from './Footer.tsx';
+import Header from './Header';
+import Footer from './Footer';
 
 type Props = {
   children;
   loggedIn: boolean;
-  user: string;
+  user: any;
   username: string;
 };
 

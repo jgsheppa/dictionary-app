@@ -123,7 +123,7 @@ const dropdown = css`
   }
 `;
 
-type Props = { user: string; loggedIn: boolean; username: string };
+type Props = { user: any; loggedIn: boolean; username: string };
 
 export default function Header(props: Props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
@@ -133,7 +133,7 @@ export default function Header(props: Props) {
     setMenuopen(!menuOpen);
   }
 
-  const container = React.createRef();
+  let container = React.createRef();
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened

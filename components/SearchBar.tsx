@@ -1,7 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
-import { setLanguage, getSearchInfo } from './../util/cookie';
+import {
+  setLanguage,
+  getSearchInfo,
+  addSearchTermToRecentSearchList,
+} from './../util/cookie';
 
 const searchComponentStyles = css`
   display: flex;
@@ -119,6 +123,11 @@ const selectStyles = css`
   }
 `;
 
+type Props = {
+  data: any;
+  setWord: any;
+};
+
 export default function SearchBar({ data, setWord }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -181,6 +190,10 @@ export default function SearchBar({ data, setWord }) {
               tabIndex={3}
               href={`/words/${searchTerm}`}
               className="searchLink"
+              onClick={() => {
+                addSearchTermToRecentSearchList(searchTerm);
+                console.log('word');
+              }}
             >
               Search
             </a>
