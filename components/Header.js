@@ -27,6 +27,9 @@ const dropdownAndProfileStyles = css`
     text-decoration: none;
     color: #000000;
     padding: 12px 24px;
+    border: solid #fff;
+    border-radius: 4px;
+    transition: border 0.3s ease;
   }
 
   > div a:hover {
@@ -64,6 +67,7 @@ const dropdown = css`
     font-size: 24px;
     border: none;
     border-radius: 4px;
+    margin-left: 2rem;
     transition: ease background-color 0.5s;
     cursor: pointer;
     transition: ease 0.3s background-color;
@@ -83,7 +87,7 @@ const dropdown = css`
     position: absolute;
     top: 100%;
     left: 0;
-    width: 150px;
+    width: 180px;
     z-index: 2;
     border: 1px solid #874de4;
     background: #f4d35e;
@@ -107,7 +111,8 @@ const dropdown = css`
       padding: 12px 16px;
       text-decoration: none;
       display: block;
-      transition: font-color 0.5s, background-color 0.5s, ease;
+      border: solid #f4d35e;
+      transition: font-color 0.4s, background-color 0.4s, border 0.4s, ease;
     }
 
     a:focus {
@@ -160,11 +165,13 @@ export default function Header(props) {
             <a css={navStyles}>WordDiwan</a>
           </Link>
           <div css={dropdownAndProfileStyles}>
-            <div>
-              <Link href="/profile">
-                <a>{props.username}</a>
-              </Link>
-            </div>
+            {typeof props.username === null ? (
+              <div>
+                <Link href="/profile">
+                  <a>{props.username}</a>
+                </Link>
+              </div>
+            ) : null}
             <div css={navContainerStyles}>
               <div css={dropdown}>
                 <div className="container" ref={container}>
