@@ -34,6 +34,23 @@ const unorderedListStyles = css`
   }
 `;
 
+const deleteButtonStyles = css`
+  .delete-button {
+    font-size: 16px;
+    color: #fff;
+    border: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 4px;
+    background-color: #ff3a3a;
+    cursor: pointer;
+  }
+
+  .delete-button:hover {
+    border-color: #3a2f2f;
+  }
+`;
+
 function ListOfVocabLists({ setList, list, deleteList }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [editClicked, setEditClicked] = useState(false);
@@ -56,9 +73,10 @@ function ListOfVocabLists({ setList, list, deleteList }) {
               <Link href={`/word-lists/${doc.wordlistsId}`}>
                 <a>{doc.listName}</a>
               </Link>
-              <div>
+              <div css={deleteButtonStyles}>
                 {editClicked ? (
                   <button
+                    className="delete-button"
                     onClick={async (e) => {
                       // e.preventDefault();
 
@@ -85,7 +103,7 @@ function ListOfVocabLists({ setList, list, deleteList }) {
                       }
                     }}
                   >
-                    X
+                    Delete List
                   </button>
                 ) : null}
               </div>

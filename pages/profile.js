@@ -16,6 +16,18 @@ import SearchBar from '../components/SearchBar';
 //   data;
 // };
 
+const profileContainerStyles = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .userInfoStyles {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
 export default function Profile(props) {
   const [user, setUser] = useState(props.user);
   const [data, setData] = useState(props.data);
@@ -41,23 +53,26 @@ export default function Profile(props) {
       </Head>
       <SearchBar></SearchBar>
       <h1>Profile</h1>
+      <div style={profileContainerStyles}>
+        <div className="userInfoStyles">
+          <h3>Name</h3>
+          <p>
+            {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}{' '}
+            {user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}
+          </p>
 
-      <h3>Name</h3>
-      <p>
-        {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}{' '}
-        {user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}
-      </p>
-
-      <h3>Username</h3>
-      <p>{user.username}</p>
-      <div style={{ marginBottom: '100px' }}>
-        {' '}
-        <h3>Your Lists</h3>
-        <ListOfVocabLists
-          deleteList={deleteList}
-          list={list}
-          setList={setList}
-        ></ListOfVocabLists>
+          <h3>Username</h3>
+          <p>{user.username}</p>
+        </div>
+        <div>
+          {' '}
+          <h3>Your Lists</h3>
+          <ListOfVocabLists
+            deleteList={deleteList}
+            list={list}
+            setList={setList}
+          ></ListOfVocabLists>
+        </div>
       </div>
     </Layout>
   );

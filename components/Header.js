@@ -187,10 +187,17 @@ export default function Header(props) {
                           </Link>
                         </li>
                         <li>
+                          <Link href="/masthead">
+                            <a tabIndex={6} className="dropdownitem">
+                              Impressum
+                            </a>
+                          </Link>
+                        </li>
+                        <li>
                           {' '}
                           {!loggedInPassed ? null : props.loggedIn ? (
                             <Link href="/logout">
-                              <a tabIndex={6} className="dropdownitem">
+                              <a tabIndex={7} className="dropdownitem">
                                 Log out
                               </a>
                             </Link>
