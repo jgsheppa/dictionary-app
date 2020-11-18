@@ -55,6 +55,7 @@ export default function Popup(props: Props) {
   const [term, setTerm] = useState(props.searchTerm);
   const [checked, setChecked] = useState(false);
 
+  console.log('props', props.wholeVocabList);
   console.log('wordList', wordList);
   let wholeList = [...wordList];
 
@@ -92,7 +93,7 @@ export default function Popup(props: Props) {
                         checked={checked}
                         value={name.wordlistsId}
                         onChange={async (e) => {
-                          e.preventDefault();
+                          // e.preventDefault();
 
                           let wordListId = name.wordlistsId;
                           console.log('name', name);

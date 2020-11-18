@@ -256,9 +256,8 @@ export default function Id(props) {
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [vocabList, setVocabList] = useState(props.vocabLists || []);
   const wholeVocabList = [...vocabList] || [];
-  console.log('whole list', wholeVocabList);
 
-  console.log('server list', vocabList);
+  console.log('whole server list', wholeVocabList);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -906,11 +905,9 @@ export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
   const currentLanguage = nextCookies(context).language?.language;
   const loggedIn = await isSessionTokenValid(token);
-  const {
-    getVocabLists,
-    getUserBySessionToken,
-    getVocabListsById,
-  } = await import('../../util/database');
+  const { getVocabLists, getUserBySessionToken } = await import(
+    '../../util/database'
+  );
 
   const user = (await getUserBySessionToken(token)) || [];
 
@@ -920,11 +917,7 @@ export async function getServerSideProps(context) {
   const data = await res.json();
   const vocabLists = await getVocabLists(user?.id);
 
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  } else if (typeof user === 'undefined') {
+  if (typeof user === 'undefined') {
     return {
       props: {
         searchTerm,

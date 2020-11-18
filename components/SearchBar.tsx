@@ -163,10 +163,12 @@ export default function SearchBar({ data, setWord }) {
             <option value="de-ru">German - Russian</option>
             <option value="en-de">English - German</option>
             <option value="en-fr">English - French</option>
+            <option value="en-it">English - Italian</option>
             <option value="en-ru">English - Russian</option>
             <option value="fr-en">French - English</option>
             <option value="fr-de">French - German</option>
             <option value="fr-ru">French - Russian</option>
+            <option value="it-en">Italian - English</option>
             <option value="ru-en">Russian - English</option>
             <option value="ru-de">Russian - German</option>
             <option value="ru-fr">Russian - French</option>
