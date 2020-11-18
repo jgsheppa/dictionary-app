@@ -11,6 +11,7 @@ import { isSessionTokenValid } from './../util/auth';
 type Props = {
   token;
   loggedIn;
+  users;
 };
 
 const headerStyles = css`
@@ -45,6 +46,7 @@ const formContainerStyles = css`
     label {
       display: flex;
       flex-direction: column;
+      margin-top: 28px;
     }
 
     label input {
@@ -53,7 +55,7 @@ const formContainerStyles = css`
       border-radius: 4px;
       font-size: 24px;
       width: 300px;
-      margin: 8px 0 28px;
+      margin: 8px 0 0;
     }
     label input:focus {
       outline: none !important;
@@ -82,6 +84,16 @@ const formContainerStyles = css`
       border: solid 2px #e02e2e;
       border-radius: 4px;
     }
+  }
+
+  .checkIfUserExists {
+    color: #e02e2e;
+    font-size: 16px;
+    margin: 8px 0 0;
+  }
+
+  .last-input {
+    margin-bottom: 24px;
   }
 `;
 
@@ -113,7 +125,9 @@ export default function Register(props: Props) {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
+  const arrayOfUsernames = props.users.map((user) => user.username);
 
+  console.log('users', arrayOfUsernames);
   return (
     <>
       <Head>
@@ -128,36 +142,40 @@ export default function Register(props: Props) {
               // Prevent the default browser behavior of forms
               e.preventDefault();
 
-              // Send the username, password and token to the
-              // API route
-              const response = await fetch('/api/words/register', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  first_name: firstName,
-                  last_name: lastName,
-                  email: email,
-                  username: username,
-                  password: password,
-                  token: props.token,
-                }),
-              });
-
-              const { success } = await response.json();
-
-              if (success) {
-                // Redirect to the homepage if successfully registered
-                router.push('/');
+              if (arrayOfUsernames.includes(username)) {
+                window.alert('This username already exists.');
               } else {
-                // If the response status code (set using response.status()
-                // in the API route) is 409 (Conflict) then show an error
-                // message that the user already exists
-                if (response.status === 409) {
-                  setErrorMessage('User already exists!');
+                // Send the username, password and token to the
+                // API route
+                const response = await fetch('/api/words/register', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    username: username,
+                    password: password,
+                    token: props.token,
+                  }),
+                });
+
+                const { success } = await response.json();
+
+                if (success) {
+                  // Redirect to the homepage if successfully registered
+                  router.push('/');
                 } else {
-                  setErrorMessage('Failed!');
+                  // If the response status code (set using response.status()
+                  // in the API route) is 409 (Conflict) then show an error
+                  // message that the user already exists
+                  if (response.status === 409) {
+                    setErrorMessage('User already exists!');
+                  } else {
+                    setErrorMessage('Failed!');
+                  }
                 }
               }
             }}
@@ -193,12 +211,18 @@ export default function Register(props: Props) {
                 value={username}
                 onChange={(event) => setUsername(event.currentTarget.value)}
               />
+              {arrayOfUsernames.includes(username) ? (
+                <div className="checkIfUserExists">
+                  This user already exists
+                </div>
+              ) : null}
             </label>
             <label>
               Password
               <input
                 tabIndex={11}
                 type="password"
+                className="last-input"
                 value={password}
                 onChange={(event) => setPassword(event.currentTarget.value)}
               />
@@ -214,11 +238,12 @@ export default function Register(props: Props) {
 }
 
 export async function getServerSideProps(context) {
+  const { getUsers } = await import('../util/database');
   // Import and instantiate a CSRF tokens helper
   const tokens = new (await import('csrf')).default();
   const secret = process.env.CSRF_TOKEN_SECRET;
   // const { session: token } = nextCookies(context);
-
+  const users = await getUsers();
   if (typeof secret === 'undefined') {
     throw new Error('CSRF_TOKEN_SECRET environment variable not configured!');
   }
@@ -226,5 +251,5 @@ export async function getServerSideProps(context) {
   // Create a CSRF token based on the secret
   const token = tokens.create(secret);
   const loggedIn = await isSessionTokenValid(token);
-  return { props: { token, loggedIn } };
+  return { props: { token, loggedIn, users } };
 }

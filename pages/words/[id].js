@@ -494,6 +494,7 @@ export default function Id(props) {
                               >
                                 Examples
                               </button>
+
                               {verbExamplesOpen && (
                                 <div>
                                   {translation.ex?.map((example) => {
@@ -919,7 +920,11 @@ export async function getServerSideProps(context) {
   const data = await res.json();
   const vocabLists = await getVocabLists(user?.id);
 
-  if (!token) {
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  } else if (typeof user === 'undefined') {
     return {
       props: {
         searchTerm,
@@ -927,7 +932,7 @@ export async function getServerSideProps(context) {
         loggedIn,
       },
     };
-  } else if (typeof user === 'undefined') {
+  } else if (!token) {
     return {
       props: {
         searchTerm,

@@ -71,7 +71,7 @@ export async function registerUser(
 
 export async function getUsers() {
   const users = await sql<User[]>`
-    SELECT * FROM users;
+    SELECT username FROM users;
   `;
   return users.map((u) => camelcaseKeys(u));
 }
