@@ -1,15 +1,17 @@
 import Head from 'next/head';
 import React from 'react';
-import Layout from './../components/Layout';
+import nextCookies from 'next-cookies';
 import { useState } from 'react';
 import { User } from '../util/types';
 import { registerFormStyles } from '../styles/style';
 import { css } from '@emotion/core';
 import { isSessionTokenValid } from './../util/auth';
+import Layout from './../components/Layout';
 
 type Props = {
   token;
   loggedIn;
+  user;
 };
 
 const url = 'word-divan.herokuapp.com';
@@ -21,7 +23,11 @@ export default function Register(props: Props) {
         <title>Impressum</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout loggedIn={props.loggedIn} user={null} username={null}>
+      <Layout
+        loggedIn={props.loggedIn}
+        user={null}
+        username={props?.user?.username}
+      >
         <h1>Impressum und Offenlegung </h1>
         <p>Offenlegung gem. Mediengesetz: WORD-DIVAN.HEROKUAPP.com</p>
         <div>
@@ -49,17 +55,13 @@ export default function Register(props: Props) {
 }
 
 export async function getServerSideProps(context) {
-  // Import and instantiate a CSRF tokens helper
-  const tokens = new (await import('csrf')).default();
-  const secret = process.env.CSRF_TOKEN_SECRET;
+  const { getUserBySessionToken } = await import('./../util/database');
+  // Import and instantiate a CSRF tokens helpe
+  const { session: token } = nextCookies(context);
+  const user = await getUserBySessionToken(token);
   // const { session: token } = nextCookies(context);
 
-  if (typeof secret === 'undefined') {
-    throw new Error('CSRF_TOKEN_SECRET environment variable not configured!');
-  }
-
   // Create a CSRF token based on the secret
-  const token = tokens.create(secret);
   const loggedIn = await isSessionTokenValid(token);
-  return { props: { token, loggedIn } };
+  return { props: { user, loggedIn } };
 }

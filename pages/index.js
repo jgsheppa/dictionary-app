@@ -71,7 +71,7 @@ export default function Home(props) {
               spent time making lists of words. Perhaps you read a Russian poem,
               but you didn't know that{' '}
               <a
-                tabIndex={7}
+                tabIndex={8}
                 onClick={() => setLanguage('ru-en')}
                 href="/words/свобода"
               >
@@ -79,7 +79,7 @@ export default function Home(props) {
               </a>{' '}
               means{' '}
               <a
-                tabIndex={8}
+                tabIndex={9}
                 onClick={() => setLanguage('en-ru')}
                 href="/words/freedom"
               >

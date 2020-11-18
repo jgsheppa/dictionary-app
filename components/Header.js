@@ -133,6 +133,7 @@ const dropdown = css`
 export default function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
   const [menuOpen, setMenuopen] = useState(false);
+  console.log(typeof props.username);
 
   function handleMenuClick() {
     setMenuopen(!menuOpen);
@@ -165,7 +166,7 @@ export default function Header(props) {
             <a css={navStyles}>WordDiwan</a>
           </Link>
           <div css={dropdownAndProfileStyles}>
-            {typeof props.username === null ? (
+            {typeof props.username === 'string' ? (
               <div>
                 <Link href="/profile">
                   <a>{props.username}</a>
@@ -210,7 +211,9 @@ export default function Header(props) {
                             </Link>
                           ) : (
                             <Link href="/login">
-                              <a className="dropdownitem">Log in</a>
+                              <a tabIndex={7} className="dropdownitem">
+                                Log in
+                              </a>
                             </Link>
                           )}
                         </li>

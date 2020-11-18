@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
@@ -20,17 +20,26 @@ const unorderedListStyles = css`
     display: flex;
     justify-content: space-between;
     list-style-type: none;
-    border-color: red;
-    border-radius: 8px;
     border-width: 4px;
     padding: 5px 0;
+    border-bottom: solid;
   }
 
-  li a:focus {
+  li .listNameLink {
+    color: #666;
+    font-size: 32px;
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+  }
+
+  li .listNameLink:hover {
+    color: #e02e2e;
+  }
+
+  li .listNameLink:focus {
     outline: none !important;
     border: solid 2px #e02e2e;
     border-radius: 4px;
-    padding: 10px;
   }
 `;
 
@@ -71,7 +80,7 @@ function ListOfVocabLists({ setList, list, deleteList }) {
           {updatedList.map((doc) => (
             <li key={doc.wordlistsId}>
               <Link href={`/word-lists/${doc.wordlistsId}`}>
-                <a>{doc.listName}</a>
+                <a className="listNameLink">{doc.listName}</a>
               </Link>
               <div css={deleteButtonStyles}>
                 {editClicked ? (
