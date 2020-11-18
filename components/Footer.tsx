@@ -2,7 +2,7 @@ import { Style } from '../util/types';
 import React from 'react';
 
 const footerStyles: Style = {
-  padding: '20px',
+  padding: '16px',
   backgroundColor: '#6121c9',
   position: 'fixed',
   left: '0',

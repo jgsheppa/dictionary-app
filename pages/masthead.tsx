@@ -25,8 +25,8 @@ export default function Register(props: Props) {
       </Head>
       <Layout
         loggedIn={props.loggedIn}
-        user={null}
-        username={props?.user?.username}
+        user={props.user}
+        username={props.user?.username}
       >
         <h1>Impressum und Offenlegung </h1>
         <p>Offenlegung gem. Mediengesetz: WORD-DIVAN.HEROKUAPP.com</p>
@@ -63,5 +63,11 @@ export async function getServerSideProps(context) {
 
   // Create a CSRF token based on the secret
   const loggedIn = await isSessionTokenValid(token);
+
+  if (typeof user === 'undefined') {
+    return {
+      props: { loggedIn },
+    };
+  }
   return { props: { user, loggedIn } };
 }

@@ -15,8 +15,9 @@ type Props = {
 };
 
 const headerStyles = css`
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   text-align: center;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 100;
 `;
 
@@ -25,7 +26,7 @@ const formContainerStyles = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
+  margin: -24px 0 100px;
 
   form:focus-within {
     background: #f4d35e;
@@ -37,8 +38,7 @@ const formContainerStyles = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    padding: 25px;
+    padding: 16px 24px 24px;
     border-radius: 4px;
     transition: all 0.3s ease;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0);

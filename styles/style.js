@@ -8,7 +8,7 @@ export const globalStyles = (
         padding: 0 2rem;
         margin: 0;
         min-height: 100%;
-        font-family: Helvetica, Arial, sans-serif;
+        font-family: Roboto, sans-serif;
         font-size: 24px;
       }
     `}
