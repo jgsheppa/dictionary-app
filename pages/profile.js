@@ -18,13 +18,13 @@ import SearchBar from '../components/SearchBar';
 
 const profileContainerStyles = css`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   .userInfoStyles {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
   }
 `;
 
@@ -52,7 +52,7 @@ export default function Profile(props) {
         <title>Profile</title>
       </Head>
       <SearchBar></SearchBar>
-      <h1>Profile</h1>
+      <h2>Profile</h2>
       <div style={profileContainerStyles}>
         <div className="userInfoStyles">
           <h3>Name</h3>

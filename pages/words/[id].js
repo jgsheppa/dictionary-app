@@ -257,7 +257,7 @@ export default function Id(props) {
   const [vocabList, setVocabList] = useState(props.vocabLists || []);
   const wholeVocabList = [...vocabList] || [];
 
-  console.log('whole server list', wholeVocabList);
+  console.log('words array', props.wordsArray);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -389,6 +389,7 @@ export default function Id(props) {
 
                   {toggle ? (
                     <Popup
+                      wordsArray={props.wordsArray}
                       wholeVocabList={wholeVocabList}
                       user={props.user}
                       vocabLists={vocabList}
@@ -905,7 +906,7 @@ export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
   const currentLanguage = nextCookies(context).language?.language;
   const loggedIn = await isSessionTokenValid(token);
-  const { getVocabLists, getUserBySessionToken } = await import(
+  const { getVocabLists, getUserBySessionToken, getWordsArray } = await import(
     '../../util/database'
   );
 
@@ -916,6 +917,7 @@ export async function getServerSideProps(context) {
   );
   const data = await res.json();
   const vocabLists = await getVocabLists(user?.id);
+  const wordsArray = await getWordsArray(searchTerm);
 
   if (typeof user === 'undefined') {
     return {
@@ -941,6 +943,7 @@ export async function getServerSideProps(context) {
         loggedIn,
         vocabLists,
         user,
+        wordsArray,
       },
     };
   }

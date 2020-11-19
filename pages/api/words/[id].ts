@@ -14,6 +14,7 @@ export default async function handler(
 
   if (request.method === 'POST') {
     const { newListName, id } = request.body;
+    console.log('id', id);
     const user = await insertVocabList(newListName, id);
     const vocabListId = await getVocabListsById(id);
 
@@ -22,8 +23,9 @@ export default async function handler(
       return response.status(401).send({ success: false });
     }
   } else if (request.method === 'PUT') {
-    const { id, term } = request.body;
-    const vocabListId = await getVocabListsById(id);
+    const { wordListId, term } = request.body;
+
+    const vocabListId = await getVocabListsById(wordListId);
     const addWordsToList = await insertWordsToVocabList(
       term,
       vocabListId[0].id,
@@ -34,9 +36,11 @@ export default async function handler(
       return response.status(401).send({ success: false });
     }
   } else if (request.method === 'DELETE') {
-    const { id, term } = request.body;
-    const vocabListId = await getVocabListsById(id);
-    const deleteWord = await deleteWordsFromList(vocabListId);
+    const { wordListId, term } = request.body;
+    console.log('wordListId', wordListId);
+    // const vocabListId = await getVocabListsById(wordListId);
+    // console.log('vocabListId', vocabListId);
+    const deleteWord = await deleteWordsFromList(term, wordListId);
   }
 
   response.send({ success: true });

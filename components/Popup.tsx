@@ -45,6 +45,7 @@ type Props = {
   toggle;
   wholeVocabList;
   setVocabList;
+  wordsArray;
 };
 
 export default function Popup(props: Props) {
@@ -53,10 +54,13 @@ export default function Popup(props: Props) {
   const [id, setId] = useState(props.user.id);
   const [wordList, setWordList] = useState(props.wholeVocabList);
   const [term, setTerm] = useState(props.searchTerm);
-  const [checked, setChecked] = useState(false);
+  const [wordsArray, setWordsArray] = useState(props.wordsArray);
 
-  console.log('props', props.wholeVocabList);
-  console.log('wordList', wordList);
+  const onlyListIds = wordsArray.map((word) => word.listId);
+  console.log('only list ids', onlyListIds);
+  console.log('props', props.wordsArray);
+  console.log('word list', wordList);
+
   let wholeList = [...wordList];
 
   function handelSubmit() {
@@ -64,13 +68,18 @@ export default function Popup(props: Props) {
     setWordList(wholeList);
   }
 
-  function handleCheckBox(e, id) {
-    if (e === id) {
-      setChecked(!checked);
-    }
+  function handleCheckBox(e, id, checked) {
+    console.log(e, id, checked);
+    e.target.checked = !checked;
+    console.log('only list ids', onlyListIds);
+
+    // if (e === id) {
+    //   return !checked;
+    // }
   }
 
-  console.log('word list', wholeList);
+  // If onlyWords.includes(term) and
+
   return (
     <>
       <Draggable>
@@ -84,21 +93,20 @@ export default function Popup(props: Props) {
               <h3>List</h3>
 
               <div>
-                {wordList.map((name) => {
-                  console.log('name', name);
+                {wordList.map((list) => {
+                  const wordListId = list.wordlistsId;
+                  const checked = onlyListIds.includes(wordListId);
+
                   return (
-                    <div key={name.wordlistsId}>
+                    <div key={wordListId}>
                       <input
                         type="checkbox"
                         checked={checked}
-                        value={name.wordlistsId}
+                        value={wordListId}
                         onChange={async (e) => {
-                          // e.preventDefault();
+                          e.preventDefault();
 
-                          let wordListId = name.wordlistsId;
-                          console.log('name', name);
-                          // const listName = e.target.value;
-                          if (checked === false) {
+                          if (!checked) {
                             const response = await fetch(
                               `/api/words/checkbox`,
                               {
@@ -119,11 +127,10 @@ export default function Popup(props: Props) {
                             if (!success) {
                               setErrorMessage('Word not added to list!');
                             } else {
+                              handleCheckBox(e, wordListId, checked);
                               setErrorMessage('');
-                              handleCheckBox(e.target.value, name.id);
                             }
-                          } else if (checked === true) {
-                            let wordListId = name.wordlistsId;
+                          } else if (checked) {
                             const response = await fetch(`/api/words/${term}`, {
                               method: 'DELETE',
                               headers: {
@@ -142,13 +149,13 @@ export default function Popup(props: Props) {
                               setErrorMessage('Word not added to list!');
                             } else {
                               setErrorMessage('');
-                              handleCheckBox(e.target.value, name.id);
+                              handleCheckBox(e, wordListId, checked);
                               props.setVocabList(wholeList);
                             }
                           }
                         }}
                       />
-                      <label>{name.listName}</label>
+                      <label>{list.listName}</label>
                     </div>
                   );
                 })}

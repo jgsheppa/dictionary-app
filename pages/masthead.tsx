@@ -20,7 +20,7 @@ export default function Register(props: Props) {
   return (
     <>
       <Head>
-        <title>Impressum</title>
+        <title>Masthead</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout

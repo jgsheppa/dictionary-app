@@ -7,6 +7,7 @@ import { User } from '../util/types';
 import { registerFormStyles } from '../styles/style';
 import { css } from '@emotion/core';
 import { isSessionTokenValid } from './../util/auth';
+import { validateEmail } from './../util/helper';
 
 type Props = {
   token;
@@ -19,6 +20,7 @@ const headerStyles = css`
   text-align: center;
   font-size: 32px;
   font-weight: 100;
+  margin-top: -12px;
 `;
 
 const formContainerStyles = css`
@@ -126,6 +128,7 @@ export default function Register(props: Props) {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
   const arrayOfUsernames = props.users.map((user) => user.username);
+  const [emailIsValid, setEmailIsValid] = useState(true);
 
   console.log('users', arrayOfUsernames);
   return (
@@ -147,7 +150,7 @@ export default function Register(props: Props) {
               } else {
                 // Send the username, password and token to the
                 // API route
-                const response = await fetch('/api/words/register', {
+                const response = await fetch('/api/authentication/register', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -201,8 +204,21 @@ export default function Register(props: Props) {
               <input
                 tabIndex={9}
                 value={email}
-                onChange={(event) => setEmail(event.currentTarget.value)}
+                onBlur={(e) => {
+                  if (validateEmail(e.target.value) === true) {
+                    setEmailIsValid(true);
+                  }
+                  return setEmailIsValid(false);
+                }}
+                onChange={(event) => {
+                  setEmail(event.currentTarget.value);
+                }}
               />
+              {emailIsValid === false ? (
+                <div className="checkIfUserExists">
+                  This is an invalid e-mail address
+                </div>
+              ) : null}
             </label>
             <label>
               Username
