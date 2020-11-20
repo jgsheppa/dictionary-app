@@ -85,6 +85,7 @@ function WordList({ words, setListWords, deleteWord }) {
   console.log(listOfWords);
   setListWords(words);
   const updatedList = [...words];
+  console.log('updated list', updatedList);
 
   function handleEdit() {
     setEditClicked(!editClicked);
@@ -119,8 +120,8 @@ function WordList({ words, setListWords, deleteWord }) {
                           className="delete-button"
                           onClick={async (e) => {
                             // e.preventDefault();
-
-                            let id = word.id;
+                            const wordId = word.id;
+                            const id = word.listId;
                             const response = await fetch(
                               `/api/word-lists/${word.listId}`,
                               {
@@ -131,6 +132,7 @@ function WordList({ words, setListWords, deleteWord }) {
                                 },
                                 body: JSON.stringify({
                                   id,
+                                  lang1: word.lang1,
                                 }),
                               },
                             );
@@ -141,7 +143,7 @@ function WordList({ words, setListWords, deleteWord }) {
                               setErrorMessage('Word not deleted from list!');
                             } else {
                               setErrorMessage('Success!');
-                              deleteWord(id, updatedList);
+                              deleteWord(wordId, updatedList);
                             }
                           }}
                         >

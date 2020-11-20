@@ -21,6 +21,7 @@ const profileContainerStyles = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 200px;
 
   .userInfoStyles {
     /* display: flex;
@@ -30,7 +31,6 @@ const profileContainerStyles = css`
 
 export default function Profile(props) {
   const [user, setUser] = useState(props.user);
-  const [data, setData] = useState(props.data);
   const [list, setList] = useState(props.vocabLists);
 
   function deleteList(listID, listfunction) {
@@ -84,7 +84,6 @@ export async function getServerSideProps(context) {
   const searchTerm = encodeURIComponent(context.query.id);
   const key = process.env.customKey;
   const currentLanguage = nextCookies(context).language?.language;
-  console.log('language', nextCookies(context).language);
   const { getVocabLists, getUserBySessionToken } = await import(
     '../util/database'
   );
@@ -93,7 +92,6 @@ export async function getServerSideProps(context) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
-  console.log(data);
 
   if (!(await isSessionTokenValid(token))) {
     return {
@@ -106,7 +104,8 @@ export async function getServerSideProps(context) {
 
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
-  console.log('server list', vocabLists);
+
+  console.log(vocabLists);
 
   return { props: { user, loggedIn, vocabLists, searchTerm, data } };
 }

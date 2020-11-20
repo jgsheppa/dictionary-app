@@ -45,6 +45,7 @@ export default function list(props) {
 }
 
 export async function getServerSideProps(context) {
+  const termFromContext = context.query.listId;
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
   const {
@@ -53,6 +54,8 @@ export async function getServerSideProps(context) {
     getWordsFromVocabList,
   } = await import('../../util/database');
   const idContext = parseInt(context.query.listId);
+
+  console.log('term from context', termFromContext);
 
   if (!(await isSessionTokenValid(token))) {
     return {

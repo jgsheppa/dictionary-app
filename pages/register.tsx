@@ -130,7 +130,6 @@ export default function Register(props: Props) {
   const arrayOfUsernames = props.users.map((user) => user.username);
   const [emailIsValid, setEmailIsValid] = useState(true);
 
-  console.log('users', arrayOfUsernames);
   return (
     <>
       <Head>
@@ -204,11 +203,12 @@ export default function Register(props: Props) {
               <input
                 tabIndex={9}
                 value={email}
+                onFocus={() => {}}
                 onBlur={(e) => {
-                  if (validateEmail(e.target.value) === true) {
-                    setEmailIsValid(true);
+                  if (validateEmail(e.target.value) === false) {
+                    setEmailIsValid(false);
                   }
-                  return setEmailIsValid(false);
+                  setEmailIsValid(true);
                 }}
                 onChange={(event) => {
                   setEmail(event.currentTarget.value);

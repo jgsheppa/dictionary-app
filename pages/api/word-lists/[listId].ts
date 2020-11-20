@@ -5,9 +5,10 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const { id } = request.body;
+  const { id, lang1 } = request.body;
 
-  const deleteWordFromList = await deleteWordsFromList(id);
+  const deleteWordFromList = await deleteWordsFromList(lang1, id);
+  console.log('delete word from list', deleteWordFromList);
 
   if (typeof deleteWordFromList === 'undefined') {
     // TODO: Return proper message from the server

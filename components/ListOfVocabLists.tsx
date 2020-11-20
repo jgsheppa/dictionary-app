@@ -7,6 +7,7 @@ const unorderedListStyles = css`
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
+  margin-bottom: 200px;
 
   > div {
     display: flex;
@@ -22,7 +23,6 @@ const unorderedListStyles = css`
     list-style-type: none;
     border-width: 4px;
     padding: 5px 0;
-    border-bottom: solid;
   }
 
   li .listNameLink {
@@ -66,7 +66,6 @@ function ListOfVocabLists({ setList, list, deleteList }) {
   setList(list);
 
   const updatedList = [...list];
-  console.log('list in comp', updatedList);
 
   function handleEdit() {
     setEditClicked(!editClicked);

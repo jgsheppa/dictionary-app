@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import {
   insertVocabList,
-  insertWordsToVocabList,
   getVocabListsById,
   deleteWordsFromList,
 } from '../../../util/database';
@@ -22,20 +21,22 @@ export default async function handler(
       // TODO: Return proper message from the server
       return response.status(401).send({ success: false });
     }
-  } else if (request.method === 'PUT') {
-    const { wordListId, term } = request.body;
+  }
+  // else if (request.method === 'PUT') {
+  //   const { wordListId, term } = request.body;
 
-    const vocabListId = await getVocabListsById(wordListId);
-    const addWordsToList = await insertWordsToVocabList(
-      term,
-      vocabListId[0].id,
-    );
+  //   const vocabListId = await getVocabListsById(wordListId);
+  //   const addWordsToList = await insertWordsToVocabList(
+  //     term,
+  //     vocabListId[0].id,
+  //   );
 
-    if (typeof addWordsToList === 'undefined') {
-      // TODO: Return proper message from the server
-      return response.status(401).send({ success: false });
-    }
-  } else if (request.method === 'DELETE') {
+  //   if (typeof addWordsToList === 'undefined') {
+  //     // TODO: Return proper message from the server
+  //     return response.status(401).send({ success: false });
+  //   }
+  // }
+  else if (request.method === 'DELETE') {
     const { wordListId, term } = request.body;
     console.log('wordListId', wordListId);
     // const vocabListId = await getVocabListsById(wordListId);

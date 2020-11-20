@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import Draggable from 'react-draggable';
-import { isSessionTokenValid } from '../../util/auth';
 import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
 import SearchBar from '../../components/SearchBar.tsx';
+import { isSessionTokenValid } from '../../util/auth';
 
 const style = css`
   margin-bottom: 100px;
@@ -67,7 +67,7 @@ const verbStyles = css`
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  width: 800px;
+  /* width: 800px; */
 `;
 const russianVerbImperfective = css`
   background-color: #ffe216;
@@ -255,9 +255,10 @@ export default function Id(props) {
   const [toggleVerb, setToggleVerb] = useState(false);
   const [searchTerm, setSearchTerm] = useState(props.searchTerm);
   const [vocabList, setVocabList] = useState(props.vocabLists || []);
+  const [arrayOfWordsInDB, setArrayOfWordsInDB] = useState(props.wordsArray);
   const wholeVocabList = [...vocabList] || [];
 
-  console.log('words array', props.wordsArray);
+  console.log('lists from server', props.vocabLists);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -389,7 +390,8 @@ export default function Id(props) {
 
                   {toggle ? (
                     <Popup
-                      wordsArray={props.wordsArray}
+                      wordsArray={arrayOfWordsInDB}
+                      setWordsArray={setArrayOfWordsInDB}
                       wholeVocabList={wholeVocabList}
                       user={props.user}
                       vocabLists={vocabList}
@@ -918,6 +920,7 @@ export async function getServerSideProps(context) {
   const data = await res.json();
   const vocabLists = await getVocabLists(user?.id);
   const wordsArray = await getWordsArray(searchTerm);
+  console.log('get words array', wordsArray);
 
   if (typeof user === 'undefined') {
     return {
