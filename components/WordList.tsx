@@ -14,6 +14,9 @@ const unorderedListStyles = css`
     align-content: center;
     justify-content: space-between;
     width: 450px;
+    padding: 32px 40px;
+    border: solid #6121c9;
+    border-radius: 8px;
   }
 
   .word-name {
@@ -75,6 +78,15 @@ const unorderedListStyles = css`
   .delete-button:hover {
     border-color: #3a2f2f;
   }
+
+  .word-row {
+    padding: 8px;
+  }
+
+  .word-row:hover {
+    color: #fff;
+    background-color: #f4d35e;
+  }
 `;
 
 function WordList({ words, setListWords, deleteWord }) {
@@ -100,8 +112,8 @@ function WordList({ words, setListWords, deleteWord }) {
   } else {
     return (
       <div>
+        <button onClick={handleEdit}>Edit</button>
         <ul css={unorderedListStyles}>
-          <button onClick={handleEdit}>Edit</button>
           <div>
             <li>
               <b>{''}</b>
@@ -109,7 +121,7 @@ function WordList({ words, setListWords, deleteWord }) {
             {listOfWords === 'undefined'
               ? null
               : updatedList.map((word) => (
-                  <li key={word.id}>
+                  <li className="word-row" key={word.id}>
                     <Link href={`/words/${word.lang1}`}>
                       <a className="word-name">{word.lang1}</a>
                     </Link>
