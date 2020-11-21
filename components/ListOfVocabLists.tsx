@@ -7,7 +7,7 @@ const unorderedListStyles = css`
   flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
-  margin-bottom: 200px;
+  /* margin-bottom: 200px; */
 
   > div {
     display: flex;
@@ -22,18 +22,29 @@ const unorderedListStyles = css`
     justify-content: space-between;
     list-style-type: none;
     border-width: 4px;
+    border-radius: 8px;
     padding: 5px 0;
+  }
+
+  .listOfWordsRowStyle {
+    padding: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .listOfWordsRowStyle:hover {
+    color: #fff;
+    background-color: #f4d35e;
   }
 
   li .listNameLink {
     color: #2d2525;
-    font-size: 32px;
+    font-size: 24px;
     text-decoration: none !important;
     transition: color 0.3s ease;
   }
 
   li .listNameLink:hover {
-    color: #e02e2e;
+    color: blue;
   }
 
   li .listNameLink:focus {
@@ -50,6 +61,7 @@ const deleteButtonStyles = css`
     border: solid;
     border-radius: 5px;
     border-width: 2px;
+    border-color: #ff3a3a;
     padding: 4px;
     background-color: #ff3a3a;
     cursor: pointer;
@@ -58,6 +70,18 @@ const deleteButtonStyles = css`
   .delete-button:hover {
     border-color: #3a2f2f;
   }
+`;
+
+const editButtonStyles = css`
+  font-size: 16px;
+  color: #fff;
+  padding: 10px 30px;
+  text-decoration: none;
+  text-align: center;
+  background-color: #6121c9;
+  border-radius: 4px;
+  margin: 0 24px 0 24px;
+  float: right;
 `;
 
 function ListOfVocabLists({ setList, list, deleteList }) {
@@ -73,11 +97,10 @@ function ListOfVocabLists({ setList, list, deleteList }) {
 
   return (
     <div>
-      <button onClick={handleEdit}>Edit Lists</button>
       <ul css={unorderedListStyles}>
         <div>
           {updatedList.map((doc) => (
-            <li key={doc.wordlistsId}>
+            <li className="listOfWordsRowStyle" key={doc.wordlistsId}>
               <Link href={`/word-lists/${doc.wordlistsId}`}>
                 <a className="listNameLink">{doc.listName}</a>
               </Link>
@@ -119,6 +142,9 @@ function ListOfVocabLists({ setList, list, deleteList }) {
           ))}
         </div>
       </ul>
+      <button css={editButtonStyles} onClick={handleEdit}>
+        Edit Lists
+      </button>
     </div>
   );
 }

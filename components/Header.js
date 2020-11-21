@@ -36,6 +36,7 @@ const dropdownAndProfileStyles = css`
     text-decoration: none;
     color: #000000;
     border: solid;
+    border-width: 2px;
     border-radius: 4px;
   }
 `;

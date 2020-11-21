@@ -9,29 +9,73 @@ import Layout from '../components/Layout';
 import ListOfVocabLists from '../components/ListOfVocabLists';
 import SearchBar from '../components/SearchBar';
 
-// type Props = {
-//   loggedIn;
-//   user: User;
-//   vocabLists;
-//   data;
-// };
-
 const profileContainerStyles = css`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 200px;
 
-  .userInfoStyles {
-    /* display: flex;
-    flex-direction: column; */
+  aside {
+    background-color: #ece9e9;
+    height: 400px;
+    margin-top: 32px;
   }
+
+  .userInfoStyles {
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+
+  .userInfo {
+    b {
+      font-size: 20px;
+      margin: 8px 0;
+    }
+
+    p {
+      font-size: 20px;
+      margin: 0 0 16px;
+    }
+  }
+`;
+
+const searchBarStyles = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  border-bottom: solid 2px #666;
+  padding: 0 0 28px;
+`;
+
+const headerStyles = css`
+  font-size: 28px;
+`;
+
+const listOfVocabListsStyles = css`
+  margin: 32px 0 0;
 `;
 
 export default function Profile(props) {
   const [user, setUser] = useState(props.user);
+  console.log(user);
+
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+
+  const userFirstAndLast = `${
+    firstName.charAt(0).toUpperCase() + firstName.slice(1)
+  } ${lastName.charAt(0).toUpperCase() + lastName.slice(1)}`;
+
   const [list, setList] = useState(props.vocabLists);
+  const [toggleEdit, setToggleEdit] = useState(false);
+  const [nameOfUser, setNameOfUser] = useState(userFirstAndLast);
+  const [userName, setUsername] = useState(user.username);
+  const [userEmail, setUserEmail] = useState(user.email);
+  const [id, setId] = useState(user.id);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function deleteList(listID, listfunction) {
     const itemToDelete = listfunction.filter(
@@ -46,27 +90,126 @@ export default function Profile(props) {
     setList(listfunction);
   }
 
+  function handleToggleEdit() {
+    setToggleEdit(!toggleEdit);
+  }
+
+  function handleFirstNameChange(e) {
+    setFirstName(e);
+  }
+
+  function handleLastNameChange(e) {
+    setLastName(e);
+  }
+
+  function handleUsernameChange(e) {
+    setUsername(e);
+  }
+
+  function handleEmailChange(e) {
+    setUserEmail(e);
+  }
+
+  function handleSubmit() {
+    setToggleEdit(!toggleEdit);
+  }
+
   return (
     <Layout loggedIn={props.loggedIn} username={user.username}>
       <Head>
         <title>Profile</title>
       </Head>
-      <SearchBar></SearchBar>
-      <h2>Profile</h2>
-      <div style={profileContainerStyles}>
-        <div className="userInfoStyles">
-          <h3>Name</h3>
-          <p>
-            {user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}{' '}
-            {user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}
-          </p>
+      <div css={searchBarStyles}>
+        <SearchBar></SearchBar>
+      </div>
+      <div css={profileContainerStyles}>
+        {!toggleEdit ? (
+          <aside className="userInfoStyles">
+            <h2 css={headerStyles}>Profile</h2>
+            <div className="userInfo">
+              <b>Name:</b>
+              <p>{userFirstAndLast}</p>
+            </div>
+            <div className="userInfo">
+              <b>Username: </b>
+              <p> {userName}</p>
+            </div>
+            <div className="userInfo">
+              <b>E-mail: </b>
+              <p> {userEmail}</p>
+            </div>
+            <button onClick={handleToggleEdit}>Edit User Info</button>
+          </aside>
+        ) : (
+          <aside className="userInfoStyles">
+            <h2 css={headerStyles}>Profile</h2>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
 
-          <h3>Username</h3>
-          <p>{user.username}</p>
-        </div>
-        <div>
+                const response = await fetch(`/api/changeProfileInfo/profile`, {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Language': '*',
+                  },
+                  body: JSON.stringify({
+                    id,
+                    nameOfUser,
+                    userName,
+                    userEmail,
+                    firstName,
+                    lastName,
+                  }),
+                });
+
+                const { success } = await response.json();
+
+                if (!success) {
+                  setErrorMessage('Word not added to list!');
+                } else {
+                  setErrorMessage('');
+                  handleSubmit();
+                }
+              }}
+            >
+              <div className="userInfo">
+                <b>Name:</b>
+                <input
+                  value={firstName}
+                  onChange={(e) => handleFirstNameChange(e.target.value)}
+                />
+                <input
+                  value={lastName}
+                  onChange={(e) => handleLastNameChange(e.target.value)}
+                />
+              </div>
+              <div className="userInfo">
+                <b>Username: </b>
+                <input
+                  value={userName}
+                  onChange={(e) => handleUsernameChange(e.target.value)}
+                />
+              </div>
+              <div className="userInfo">
+                <b>E-mail: </b>
+                <input
+                  value={userEmail}
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                />
+              </div>
+              <div>
+                <button type="submit" onSubmit={handleToggleEdit}>
+                  Submit
+                </button>
+                <button onClick={handleToggleEdit}>Edit User Info</button>
+              </div>
+            </form>
+          </aside>
+        )}
+        <div css={listOfVocabListsStyles}>
           {' '}
-          <h3>Your Lists</h3>
+          <h3>Your Vocabulary Lists</h3>
           <ListOfVocabLists
             deleteList={deleteList}
             list={list}

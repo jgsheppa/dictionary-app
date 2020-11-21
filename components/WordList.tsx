@@ -26,7 +26,7 @@ const unorderedListStyles = css`
   }
 
   .word-name:hover {
-    color: red;
+    color: blue;
   }
 
   div b {
@@ -70,6 +70,7 @@ const unorderedListStyles = css`
     border: solid;
     border-radius: 5px;
     border-width: 2px;
+    border-color: #ff3a3a;
     padding: 4px;
     background-color: #ff3a3a;
     cursor: pointer;
@@ -81,6 +82,7 @@ const unorderedListStyles = css`
 
   .word-row {
     padding: 8px;
+    transition: background-color 0.3s ease;
   }
 
   .word-row:hover {

@@ -162,6 +162,44 @@ export async function deleteUserById(id: string) {
   return users.map((u) => camelcaseKeys(u))[0];
 }
 
+export async function alterNameOfUserById(
+  id: string,
+  firstName: string,
+  lastName: string,
+) {
+  const users = await sql<User[]>`
+    UPDATE users
+      SET first_name=${firstName}, last_name=${lastName}
+      
+      WHERE id = ${id}
+      RETURNING *;
+  `;
+
+  return users.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function alterUserEmailById(id: string, email: string) {
+  const users = await sql<User[]>`
+  UPDATE users
+      SET email=${email}
+      WHERE id = ${id}
+      RETURNING *;
+  `;
+
+  return users.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function alterUsernameById(id: string, username: string) {
+  const users = await sql<User[]>`
+  UPDATE users
+      SET username=${username}
+      WHERE id = ${id}
+      RETURNING *;
+  `;
+
+  return users.map((u) => camelcaseKeys(u))[0];
+}
+
 export async function getSessionByToken(token: string) {
   const sessions = await sql<Session[]>`
     SELECT * FROM sessions WHERE token = ${token};
@@ -204,8 +242,8 @@ export async function getUserBySessionToken(token: string | undefined) {
       users.id,
       users.first_name,
       users.last_name,
-      users.slug,
-      users.username
+      users.username,
+      users.email
     FROM
       users,
       sessions
