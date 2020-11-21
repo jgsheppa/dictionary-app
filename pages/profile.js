@@ -60,8 +60,6 @@ const listOfVocabListsStyles = css`
 
 export default function Profile(props) {
   const [user, setUser] = useState(props.user);
-  console.log(user);
-
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
 
@@ -115,7 +113,7 @@ export default function Profile(props) {
   }
 
   return (
-    <Layout loggedIn={props.loggedIn} username={user.username}>
+    <Layout loggedIn={props.loggedIn} username={userName}>
       <Head>
         <title>Profile</title>
       </Head>
