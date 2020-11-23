@@ -156,6 +156,7 @@ export default function SearchBar({ data, setWord }) {
             aria-label="dictionary choice dropdown"
             tabIndex={1}
             onChange={(e) => setLanguage(e.target.value)}
+            data-cy="change-language"
           >
             <option value="de-en">Choose a Language</option>
             <option value="de-en">German - English</option>
@@ -164,7 +165,9 @@ export default function SearchBar({ data, setWord }) {
             <option value="en-de">English - German</option>
             <option value="en-fr">English - French</option>
             <option value="en-it">English - Italian</option>
-            <option value="en-ru">English - Russian</option>
+            <option data-cy="en-ru" value="en-ru">
+              English - Russian
+            </option>
             <option value="fr-en">French - English</option>
             <option value="fr-de">French - German</option>
             <option value="fr-ru">French - Russian</option>
@@ -184,11 +187,13 @@ export default function SearchBar({ data, setWord }) {
               placeholder="Search for a term"
               onChange={handleTermChange}
               onKeyPress={handleKeypress}
+              data-cy="search-for-term"
             />
           </div>
           <div>
             {' '}
             <a
+              data-cy="search"
               tabIndex={3}
               href={`/words/${searchTerm}`}
               className="searchLink"

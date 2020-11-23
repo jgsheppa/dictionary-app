@@ -27,14 +27,16 @@ const dropdownAndProfileStyles = css`
     text-decoration: none;
     color: #000000;
     padding: 12px 24px;
-    border: solid #fff;
+    border: solid 2px #fff;
+    border-color: #fff;
     border-radius: 4px;
-    transition: border 0.3s ease;
+    transition: border 0.2s ease-in-out;
   }
 
   > div a:hover {
     text-decoration: none;
     color: #000000;
+    border-color: #666;
     border: solid;
     border-width: 2px;
     border-radius: 4px;
@@ -169,8 +171,8 @@ export default function Header(props) {
           <div css={dropdownAndProfileStyles}>
             {typeof props.username === 'string' ? (
               <div>
-                <Link href="/profile">
-                  <a>{props.username}</a>
+                <Link href="/profile" data-cy="go-to-profile">
+                  <a data-cy="go-to-profile">{props.username}</a>
                 </Link>
               </div>
             ) : null}
@@ -181,6 +183,7 @@ export default function Header(props) {
                     tabIndex={4}
                     className="dropdownbtn"
                     onClick={handleMenuClick}
+                    data-cy="hamburger-menu"
                   >
                     ☰
                   </button>
@@ -205,14 +208,22 @@ export default function Header(props) {
                         <li>
                           {' '}
                           {!loggedInPassed ? null : props.loggedIn ? (
-                            <Link href="/logout">
-                              <a tabIndex={7} className="dropdownitem">
+                            <Link href="/logout" data-cy="go-to-logout">
+                              <a
+                                data-cy="go-to-logout"
+                                tabIndex={7}
+                                className="dropdownitem"
+                              >
                                 Log out
                               </a>
                             </Link>
                           ) : (
                             <Link href="/login">
-                              <a tabIndex={7} className="dropdownitem">
+                              <a
+                                tabIndex={7}
+                                data-cy="go-to-login"
+                                className="dropdownitem"
+                              >
                                 Log in
                               </a>
                             </Link>

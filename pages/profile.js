@@ -38,6 +38,19 @@ const profileContainerStyles = css`
       font-size: 20px;
       margin: 0 0 16px;
     }
+    input {
+      padding: 4px 12px;
+      border: solid 1px #8c8c8c;
+      border-radius: 4px;
+      font-size: 20px;
+      width: 100px;
+      margin: 8px 0 0;
+    }
+    input:focus {
+      outline: none !important;
+      border: solid 2px #e02e2e;
+      border-radius: 4px;
+    }
   }
 `;
 
@@ -50,7 +63,7 @@ const searchBarStyles = css`
   padding: 0 0 28px;
 `;
 
-const headerStyles = css`
+const h2Styles = css`
   font-size: 28px;
 `;
 
@@ -123,7 +136,7 @@ export default function Profile(props) {
       <div css={profileContainerStyles}>
         {!toggleEdit ? (
           <aside className="userInfoStyles">
-            <h2 css={headerStyles}>Profile</h2>
+            <h2 css={h2Styles}>Profile</h2>
             <div className="userInfo">
               <b>Name:</b>
               <p>{userFirstAndLast}</p>
@@ -136,11 +149,13 @@ export default function Profile(props) {
               <b>E-mail: </b>
               <p> {userEmail}</p>
             </div>
-            <button onClick={handleToggleEdit}>Edit User Info</button>
+            <button data-cy="edit-user-info" onClick={handleToggleEdit}>
+              Edit User Info
+            </button>
           </aside>
         ) : (
           <aside className="userInfoStyles">
-            <h2 css={headerStyles}>Profile</h2>
+            <h2 css={h2Styles}>Profile</h2>
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -174,10 +189,12 @@ export default function Profile(props) {
               <div className="userInfo">
                 <b>Name:</b>
                 <input
+                  data-cy="edit-user-firstname"
                   value={firstName}
                   onChange={(e) => handleFirstNameChange(e.target.value)}
                 />
                 <input
+                  data-cy="edit-user-lastname"
                   value={lastName}
                   onChange={(e) => handleLastNameChange(e.target.value)}
                 />
@@ -185,6 +202,7 @@ export default function Profile(props) {
               <div className="userInfo">
                 <b>Username: </b>
                 <input
+                  data-cy="edit-user-username"
                   value={userName}
                   onChange={(e) => handleUsernameChange(e.target.value)}
                 />
@@ -192,12 +210,17 @@ export default function Profile(props) {
               <div className="userInfo">
                 <b>E-mail: </b>
                 <input
+                  data-cy="edit-user-email"
                   value={userEmail}
                   onChange={(e) => handleEmailChange(e.target.value)}
                 />
               </div>
               <div>
-                <button type="submit" onSubmit={handleToggleEdit}>
+                <button
+                  data-cy="submit-edits"
+                  type="submit"
+                  onSubmit={handleToggleEdit}
+                >
                   Submit
                 </button>
                 <button onClick={handleToggleEdit}>Edit User Info</button>

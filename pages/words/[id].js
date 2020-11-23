@@ -384,7 +384,11 @@ export default function Id(props) {
             <>
               {props.loggedIn ? (
                 <>
-                  <button tabIndex={8} onClick={() => togglePop()}>
+                  <button
+                    data-cy="click-on-list"
+                    tabIndex={8}
+                    onClick={() => togglePop()}
+                  >
                     Add To List
                   </button>
 

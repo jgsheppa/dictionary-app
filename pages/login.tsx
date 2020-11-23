@@ -138,6 +138,7 @@ export default function Login(props: Props) {
               <label>
                 Username
                 <input
+                  data-cy="username"
                   value={username}
                   onChange={(e) => setUsername(e.currentTarget.value)}
                 />
@@ -146,18 +147,19 @@ export default function Login(props: Props) {
               <label>
                 Password
                 <input
+                  data-cy="password"
                   value={password}
                   type="password"
                   onChange={(e) => setPassword(e.currentTarget.value)}
                 />
               </label>
 
-              <button>Log in</button>
+              <button data-cy="login">Log in</button>
             </div>
           </form>
-          <Link href="/register">
-            <a className="register">
-              <p>Don't have an account? Register here.</p>
+          <Link href="/register" data-cy="go-to-register">
+            <a data-cy="go-to-register" className="register">
+              Don't have an account? Register here.
             </a>
           </Link>
         </div>

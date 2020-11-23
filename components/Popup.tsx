@@ -111,7 +111,11 @@ export default function Popup(props: Props) {
           <div css={popUpStyles}>
             <div className="modal-content">
               {/* <span className="close" onClick={props.handleClick}></span> */}
-              <span onClick={() => props.toggle()} className="close">
+              <span
+                data-cy="close-list-box"
+                onClick={() => props.toggle()}
+                className="close"
+              >
                 &times;
               </span>
               <h3>List</h3>
@@ -125,6 +129,7 @@ export default function Popup(props: Props) {
                   return (
                     <div key={wordListId} css={vocabListStyles}>
                       <input
+                        data-cy="add-to-list"
                         type="checkbox"
                         checked={checked}
                         value={wordListId}
@@ -229,10 +234,11 @@ export default function Popup(props: Props) {
                     name="name"
                     value={newListName}
                     onChange={(e) => setNewListName(e.target.value)}
+                    data-cy="enter-list-name"
                   />
                 </label>
                 <br />
-                <input type="submit" />
+                <input data-cy="submit-list" type="submit" />
               </form>
             </div>
           </div>

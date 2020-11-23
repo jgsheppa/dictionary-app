@@ -188,6 +188,7 @@ export default function Register(props: Props) {
                 tabIndex={7}
                 value={firstName}
                 onChange={(event) => setFirstName(event.currentTarget.value)}
+                data-cy="firstname"
               />
             </label>
             <label>
@@ -196,11 +197,13 @@ export default function Register(props: Props) {
                 tabIndex={8}
                 value={lastName}
                 onChange={(event) => setLastName(event.currentTarget.value)}
+                data-cy="lastname"
               />
             </label>
             <label>
               E-mail
               <input
+                data-cy="email"
                 tabIndex={9}
                 value={email}
                 onFocus={() => {}}
@@ -223,6 +226,7 @@ export default function Register(props: Props) {
             <label>
               Username
               <input
+                data-cy="username"
                 tabIndex={10}
                 value={username}
                 onChange={(event) => setUsername(event.currentTarget.value)}
@@ -236,6 +240,7 @@ export default function Register(props: Props) {
             <label>
               Password
               <input
+                data-cy="password"
                 tabIndex={11}
                 type="password"
                 className="last-input"
@@ -243,7 +248,7 @@ export default function Register(props: Props) {
                 onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </label>
-            <button tabIndex={12} css={buttonStyles}>
+            <button tabIndex={12} css={buttonStyles} data-cy="register-user">
               Create Account
             </button>
           </form>
