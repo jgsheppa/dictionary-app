@@ -52,6 +52,14 @@ const profileContainerStyles = css`
       border-radius: 4px;
     }
   }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
+    height: 100px;
+  }
 `;
 
 const searchBarStyles = css`
@@ -69,6 +77,19 @@ const h2Styles = css`
 
 const listOfVocabListsStyles = css`
   margin: 32px 0 0;
+`;
+
+const deleteButtonStyles = css`
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #6121c9;
+  padding: 4px;
+  background-color: #6121c9;
+  cursor: pointer;
 `;
 
 export default function Profile(props) {
@@ -149,9 +170,16 @@ export default function Profile(props) {
               <b>E-mail: </b>
               <p> {userEmail}</p>
             </div>
-            <button data-cy="edit-user-info" onClick={handleToggleEdit}>
-              Edit User Info
-            </button>
+            <div className="buttonContainer">
+              <button data-cy="edit-user-info" onClick={handleToggleEdit}>
+                Edit User Info
+              </button>
+              <Link href="/deleteAccount" data-cy="go-to-delete-account">
+                <a css={deleteButtonStyles} data-cy="go-to-delete-account">
+                  Delete Account
+                </a>
+              </Link>
+            </div>
           </aside>
         ) : (
           <aside className="userInfoStyles">
@@ -226,20 +254,21 @@ export default function Profile(props) {
                 <button onClick={handleToggleEdit}>Edit User Info</button>
               </div>
             </form>
+            <Link href="/deleteAccount" data-cy="go-to-delete-account">
+              <a css={deleteButtonStyles} data-cy="go-to-delete-account">
+                Delete Account
+              </a>
+            </Link>
           </aside>
         )}
         <div css={listOfVocabListsStyles}>
           {' '}
-          <h3>Your Vocabulary Lists</h3>
           <ListOfVocabLists
             deleteList={deleteList}
             list={list}
             setList={setList}
           ></ListOfVocabLists>
         </div>
-        <Link href="/deleteAccount" data-cy="go-to-delete-account">
-          <a data-cy="go-to-delete-account">Delete Account</a>
-        </Link>
       </div>
     </Layout>
   );

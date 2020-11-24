@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
@@ -130,6 +131,7 @@ type Props = {
 
 export default function SearchBar({ data, setWord }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   const cookie = getSearchInfo();
 
@@ -179,28 +181,32 @@ export default function SearchBar({ data, setWord }) {
         </div>
         <div css={searchStyles}>
           <div>
-            <input
-              aria-label="search bar"
-              tabIndex={2}
-              type="text"
-              value={searchTerm}
-              placeholder="Search for a term"
-              onChange={handleTermChange}
-              onKeyPress={handleKeypress}
-              data-cy="search-for-term"
-            />
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                router.push(`/words/${searchTerm}`);
+              }}
+            >
+              <input
+                aria-label="search bar"
+                tabIndex={2}
+                type="text"
+                value={searchTerm}
+                placeholder="Search for a term"
+                onChange={handleTermChange}
+                onKeyPress={handleKeypress}
+                data-cy="search-for-term"
+              />
+            </form>
           </div>
           <div>
             {' '}
             <a
               data-cy="search"
+              type="submit"
               tabIndex={3}
               href={`/words/${searchTerm}`}
               className="searchLink"
-              onClick={() => {
-                addSearchTermToRecentSearchList(searchTerm);
-                console.log('word');
-              }}
             >
               Search
             </a>

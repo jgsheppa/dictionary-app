@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Link from 'next/link';
 
+const listContainer = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 const unorderedListStyles = css`
   display: flex;
   flex-direction: column;
@@ -84,6 +90,14 @@ const editButtonStyles = css`
   float: right;
 `;
 
+const noListStyles = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #ece9e9;
+`;
+
 function ListOfVocabLists({ setList, list, deleteList }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [editClicked, setEditClicked] = useState(false);
@@ -96,60 +110,68 @@ function ListOfVocabLists({ setList, list, deleteList }) {
   }
 
   return (
-    <div>
+    <div css={listContainer}>
+      <h3>Your Vocabulary Lists</h3>
       <ul css={unorderedListStyles}>
         <div>
-          {updatedList.map((doc) => (
-            <li className="listOfWordsRowStyle" key={doc.wordlistsId}>
-              <Link
-                href={`/word-lists/${doc.wordlistsId}`}
-                data-cy="click-on-list-link"
-              >
-                <a
-                  data-cy={`click-on-list-link-${
-                    doc.wordlistsId === 34 ? '34' : null
-                  }`}
-                  className="listNameLink"
+          {updatedList.length > 0 ? (
+            updatedList.map((doc) => (
+              <li className="listOfWordsRowStyle" key={doc.wordlistsId}>
+                <Link
+                  href={`/word-lists/${doc.wordlistsId}`}
+                  data-cy="click-on-list-link"
                 >
-                  {doc.listName}
-                </a>
-              </Link>
-              <div css={deleteButtonStyles}>
-                {editClicked ? (
-                  <button
-                    className="delete-button"
-                    onClick={async (e) => {
-                      // e.preventDefault();
-
-                      let id = doc.wordlistsId;
-                      const response = await fetch(`/api/words/profile`, {
-                        method: 'DELETE',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Accept-Language': '*',
-                        },
-                        body: JSON.stringify({
-                          id,
-                        }),
-                      });
-
-                      const { success } = await response.json();
-
-                      if (!success) {
-                        setErrorMessage('Word not deleted from list!');
-                      } else {
-                        setErrorMessage('Success!');
-                        deleteList(id, updatedList);
-                        console.log('list after deletion', list);
-                      }
-                    }}
+                  <a
+                    data-cy={`click-on-list-link-${
+                      doc.wordlistsId === 34 ? '34' : null
+                    }`}
+                    className="listNameLink"
                   >
-                    Delete List
-                  </button>
-                ) : null}
-              </div>
-            </li>
-          ))}
+                    {doc.listName}
+                  </a>
+                </Link>
+                <div css={deleteButtonStyles}>
+                  {editClicked ? (
+                    <button
+                      className="delete-button"
+                      onClick={async (e) => {
+                        // e.preventDefault();
+
+                        let id = doc.wordlistsId;
+                        const response = await fetch(`/api/words/profile`, {
+                          method: 'DELETE',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Accept-Language': '*',
+                          },
+                          body: JSON.stringify({
+                            id,
+                          }),
+                        });
+
+                        const { success } = await response.json();
+
+                        if (!success) {
+                          setErrorMessage('Word not deleted from list!');
+                        } else {
+                          setErrorMessage('Success!');
+                          deleteList(id, updatedList);
+                          console.log('list after deletion', list);
+                        }
+                      }}
+                    >
+                      Delete List
+                    </button>
+                  ) : null}
+                </div>
+              </li>
+            ))
+          ) : (
+            <div css={noListStyles}>
+              {' '}
+              <p>You currently have no lists</p>
+            </div>
+          )}
         </div>
       </ul>
       <button css={editButtonStyles} onClick={handleEdit}>

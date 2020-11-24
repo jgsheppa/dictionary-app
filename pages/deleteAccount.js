@@ -62,6 +62,19 @@ const searchBarStyles = css`
   padding: 0 0 28px;
 `;
 
+const deleteButtonStyles = css`
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #ff3a3a;
+  padding: 4px;
+  background-color: #ff3a3a;
+  cursor: pointer;
+`;
+
 export default function Profile(props) {
   const [user, setUser] = useState(props.user);
 
@@ -82,7 +95,7 @@ export default function Profile(props) {
           <label>A List of Reasons to Delete Your Account</label>
           <ul>
             <li>It's not me, it's you</li>
-            <li>You've found another online dictionary</li>
+            <li>You're seeing another dictionary</li>
             <li>You like pushing the red button</li>
             <li>You never want to see your friends again...</li>
             <li>...wait, this isn't a social media site</li>
@@ -90,6 +103,7 @@ export default function Profile(props) {
           {/* <form> */}
           <Link href="/logout" data-cy="delete-profile">
             <a
+              css={deleteButtonStyles}
               data-cy="delete-profile"
               onClick={async (e) => {
                 const response = await fetch(
@@ -115,7 +129,7 @@ export default function Profile(props) {
                 }
               }}
             >
-              Delete Account
+              Delete Your Account, Like, Really - Forever
             </a>
           </Link>
 
