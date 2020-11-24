@@ -9,9 +9,9 @@ describe('Create account and login', () => {
     cy.get('[data-cy=go-to-login]').click();
 
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=username]').type('aaa');
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('bbb');
     cy.get('[data-cy=login]').click();
 
     // Click to change language
@@ -41,7 +41,11 @@ describe('Create account and login', () => {
     // Go to Profile
     cy.get('[data-cy=go-to-profile]').click();
 
-    // Click on link
-    cy.get('[data-cy=click-on-list-link-34]').click();
+    // Click on edit
+    cy.get('[data-cy=click-edit-list]').click();
+    cy.get('[data-cy=click-delete-button]').click();
+    // Logout
+    cy.get('[data-cy=hamburger-menu]').click();
+    cy.get('[data-cy=go-to-logout]').click();
   });
 });

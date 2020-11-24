@@ -218,7 +218,7 @@ export default function Header(props) {
                               </a>
                             </Link>
                           ) : (
-                            <Link href="/login">
+                            <Link href="/login" data-cy="go-to-login">
                               <a
                                 tabIndex={7}
                                 data-cy="go-to-login"

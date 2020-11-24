@@ -9,9 +9,9 @@ describe('Create account and login', () => {
     cy.get('[data-cy=go-to-login]').click();
 
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=username]').type('aaa');
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('bbb');
     cy.get('[data-cy=login]').click();
 
     // Go to Profile
@@ -44,7 +44,7 @@ describe('Create account and login', () => {
     cy.get('[data-cy=edit-user-lastname]').type('Smith');
     // Edit username
     cy.get('[data-cy=edit-user-username]').clear();
-    cy.get('[data-cy=edit-user-username]').type('catdog');
+    cy.get('[data-cy=edit-user-username]').type('aaa');
     //Edit email
     cy.get('[data-cy=edit-user-email]').clear();
     cy.get('[data-cy=edit-user-email]').type('Jsmith@smith.com');

@@ -121,16 +121,11 @@ function ListOfVocabLists({ setList, list, deleteList }) {
                   href={`/word-lists/${doc.wordlistsId}`}
                   data-cy="click-on-list-link"
                 >
-                  <a
-                    data-cy={`click-on-list-link-${
-                      doc.wordlistsId === 34 ? '34' : null
-                    }`}
-                    className="listNameLink"
-                  >
+                  <a data-cy={`click-on-list-link`} className="listNameLink">
                     {doc.listName}
                   </a>
                 </Link>
-                <div css={deleteButtonStyles}>
+                <div css={deleteButtonStyles} data-cy="click-delete-button">
                   {editClicked ? (
                     <button
                       className="delete-button"
@@ -174,7 +169,11 @@ function ListOfVocabLists({ setList, list, deleteList }) {
           )}
         </div>
       </ul>
-      <button css={editButtonStyles} onClick={handleEdit}>
+      <button
+        data-cy="click-edit-list"
+        css={editButtonStyles}
+        onClick={handleEdit}
+      >
         Edit Lists
       </button>
     </div>
