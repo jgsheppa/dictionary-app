@@ -7,6 +7,12 @@ import Layout from '../../components/Layout';
 import ListOfVocabLists from '../../components/WordList';
 import WordList from '../../components/WordList';
 
+const pageContainer = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 export default function list(props) {
   const [wordList, setWordList] = useState(props.mapList);
   const [listWords, setListWords] = useState(props.words || []);
@@ -30,15 +36,16 @@ export default function list(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props.user?.username} loggedIn={props.loggedIn}>
-        <div>
-          List Name: {''}
-          <b>{wordList[0]?.listName}</b>
+        <div css={pageContainer}>
+          <div>
+            <b>{wordList[0]?.listName}</b>
+          </div>
+          <WordList
+            deleteWord={deleteWord}
+            words={listWords}
+            setListWords={setListWords}
+          />
         </div>
-        <WordList
-          deleteWord={deleteWord}
-          words={listWords}
-          setListWords={setListWords}
-        />
       </Layout>
     </>
   );

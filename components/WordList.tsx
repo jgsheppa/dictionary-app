@@ -81,6 +81,7 @@ const unorderedListStyles = css`
   }
 
   .word-row {
+    height: 32px;
     padding: 8px;
     transition: background-color 0.3s ease;
   }
@@ -89,6 +90,24 @@ const unorderedListStyles = css`
     color: #fff;
     background-color: #f4d35e;
   }
+`;
+
+const editButtonStyles = css`
+  font-size: 16px;
+  color: #fff;
+  padding: 10px 30px;
+  text-decoration: none;
+  text-align: center;
+  background-color: #6121c9;
+  border-radius: 4px;
+  margin: 0 24px 0 24px;
+`;
+
+const wordListContainer = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 function WordList({ words, setListWords, deleteWord }) {
@@ -113,8 +132,7 @@ function WordList({ words, setListWords, deleteWord }) {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
-        <button onClick={handleEdit}>Edit</button>
+      <div css={wordListContainer}>
         <ul css={unorderedListStyles}>
           <div>
             <li>
@@ -169,6 +187,9 @@ function WordList({ words, setListWords, deleteWord }) {
                 ))}
           </div>
         </ul>
+        <button css={editButtonStyles} onClick={handleEdit}>
+          Edit
+        </button>
       </div>
     );
   }

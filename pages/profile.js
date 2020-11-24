@@ -44,7 +44,7 @@ const profileContainerStyles = css`
       border-radius: 4px;
       font-size: 20px;
       width: 100px;
-      margin: 8px 0 0;
+      margin: 8px 4px 0;
     }
     input:focus {
       outline: none !important;
@@ -90,6 +90,27 @@ const deleteButtonStyles = css`
   padding: 4px;
   background-color: #6121c9;
   cursor: pointer;
+`;
+
+const editButtonStyles = css`
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  border: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #6121c9;
+  padding: 4px;
+  background-color: #6121c9;
+  cursor: pointer;
+  margin-bottom: 8px;
+`;
+
+const buttonContainer = css`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 16px;
 `;
 
 export default function Profile(props) {
@@ -171,7 +192,11 @@ export default function Profile(props) {
               <p> {userEmail}</p>
             </div>
             <div className="buttonContainer">
-              <button data-cy="edit-user-info" onClick={handleToggleEdit}>
+              <button
+                css={editButtonStyles}
+                data-cy="edit-user-info"
+                onClick={handleToggleEdit}
+              >
                 Edit User Info
               </button>
               <Link href="/deleteAccount" data-cy="go-to-delete-account">
@@ -243,15 +268,15 @@ export default function Profile(props) {
                   onChange={(e) => handleEmailChange(e.target.value)}
                 />
               </div>
-              <div>
+              <div css={buttonContainer}>
                 <button
+                  css={editButtonStyles}
                   data-cy="submit-edits"
                   type="submit"
                   onSubmit={handleToggleEdit}
                 >
                   Submit
                 </button>
-                <button onClick={handleToggleEdit}>Edit User Info</button>
               </div>
             </form>
             <Link href="/deleteAccount" data-cy="go-to-delete-account">

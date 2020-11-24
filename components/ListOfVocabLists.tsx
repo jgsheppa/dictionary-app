@@ -45,6 +45,7 @@ const unorderedListStyles = css`
   li .listNameLink {
     color: #2d2525;
     font-size: 24px;
+    height: 32px;
     text-decoration: none !important;
     transition: color 0.3s ease;
   }
