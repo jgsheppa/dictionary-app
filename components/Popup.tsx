@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import useSWR, { mutate } from 'swr';
 import { css } from '@emotion/core';
 import Draggable from 'react-draggable';
 import WordList from './WordList';
@@ -72,30 +73,26 @@ type Props = {
 };
 
 export default function Popup(props: Props) {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error } = useSWR('/api/word-lists/', fetcher);
+
+  console.log('data swr', data);
+  console.log('error swr', error);
+
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
-  // const [wordList, setWordList] = useState(props.wholeVocabList);
-  const [wordList, setWordList] = useState(props.vocabLists);
   const [term, setTerm] = useState(props.searchTerm);
   const [wordsArray, setWordsArray] = useState(props.wordsArray);
-
-  console.log('vocab lists', props.vocabLists);
 
   const onlyListIds = wordsArray.map((word) => word.listId);
   console.log('only list ids', onlyListIds);
 
-  // console.log('only list ids', onlyListIds);
-  // console.log('props', props.wordsArray);
-
-  let wholeList = [...wordList];
-  console.log('word list', wordList);
-
-  function handelSubmit() {
-    wholeList.push({ listName: newListName });
-    setWordList(wholeList);
-    props.setVocabList(wholeList);
-  }
+  // function handelSubmit() {
+  //   wholeList.push({ listName: newListName });
+  //   setWordList(wholeList);
+  //   props.setVocabList(wholeList);
+  // }
 
   function handleCheckBox(e, id, checked) {
     console.log(e, id, checked);
@@ -121,7 +118,7 @@ export default function Popup(props: Props) {
               <h3>List</h3>
 
               <div>
-                {wordList.map((list) => {
+                {data?.vocabLists.map((list) => {
                   const wordListId = list.wordlistsId;
                   let checked = onlyListIds.includes(wordListId);
                   console.log('did checked change', checked);
@@ -184,6 +181,7 @@ export default function Popup(props: Props) {
                             } else {
                               setErrorMessage('');
                               handleCheckBox(e, wordListId, checked);
+                              mutate();
                             }
                           }
                         }}
@@ -221,9 +219,8 @@ export default function Popup(props: Props) {
                     setErrorMessage('Word not added to list!');
                   } else {
                     setErrorMessage('');
-                    handelSubmit();
-
                     setNewListName('');
+                    mutate();
                   }
                 }}
               >
