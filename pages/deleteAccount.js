@@ -88,8 +88,9 @@ export default function Profile(props) {
             <li>...wait, this isn't a social media site</li>
           </ul>
           {/* <form> */}
-          <Link href="/logout">
+          <Link href="/logout" data-cy="delete-profile">
             <a
+              data-cy="delete-profile"
               onClick={async (e) => {
                 const response = await fetch(
                   `/api/changeProfileInfo/deleteAccount`,
