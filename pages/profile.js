@@ -237,6 +237,9 @@ export default function Profile(props) {
             setList={setList}
           ></ListOfVocabLists>
         </div>
+        <Link href="/deleteAccount">
+          <a>Delete Account</a>
+        </Link>
       </div>
     </Layout>
   );
