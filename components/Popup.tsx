@@ -76,8 +76,7 @@ export default function Popup(props: Props) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error } = useSWR('/api/word-lists/', fetcher);
 
-  console.log('data swr', data);
-  console.log('error swr', error);
+  console.log('word array', data?.wordArray);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
@@ -85,7 +84,7 @@ export default function Popup(props: Props) {
   const [term, setTerm] = useState(props.searchTerm);
   const [wordsArray, setWordsArray] = useState(props.wordsArray);
 
-  const onlyListIds = wordsArray.map((word) => word.listId);
+  const onlyListIds = data?.wordArray.map((word) => word.listId);
   console.log('only list ids', onlyListIds);
 
   // function handelSubmit() {
@@ -95,10 +94,8 @@ export default function Popup(props: Props) {
   // }
 
   function handleCheckBox(e, id, checked) {
-    console.log(e, id, checked);
     e.target.checked = !checked;
     props.setVocabList(props.vocabLists);
-    console.log('only list ids', onlyListIds);
   }
 
   return (
@@ -157,6 +154,7 @@ export default function Popup(props: Props) {
                               handleCheckBox(e, wordListId, checked);
                               console.log('is box chekced', checked);
                               setErrorMessage('');
+                              mutate();
                             }
                           } else if (checked) {
                             const response = await fetch(

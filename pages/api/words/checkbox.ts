@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getSessionByToken } from '../../../util/database';
+import { isSessionTokenValid } from '../../../util/auth';
 import {
   insertWordsToVocabList,
   deleteWordsFromList,
+  getVocabLists,
   getWordsArray,
 } from '../../../util/database';
 
@@ -11,8 +14,6 @@ export default async function handler(
 ) {
   if (request.method === 'POST') {
     const { wordListId, term } = request.body;
-    console.log('id', wordListId);
-    // const vocabListId = await getVocabListsById(id);
     const addWordsToList = await insertWordsToVocabList(term, wordListId);
 
     if (typeof addWordsToList === 'undefined') {
@@ -21,7 +22,6 @@ export default async function handler(
     }
   } else if (request.method === 'DELETE') {
     const { wordListId, term } = request.body;
-    // const vocabListId = await getVocabListsById(id);
     const deleteWord = await deleteWordsFromList(term, wordListId);
   }
 

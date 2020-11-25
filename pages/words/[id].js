@@ -8,6 +8,7 @@ import Popup from '../../components/Popup.tsx';
 import Layout from '../../components/Layout.tsx';
 import SearchBar from '../../components/SearchBar.tsx';
 import { isSessionTokenValid } from '../../util/auth';
+import { searchTermCookie } from '../../util/cookie';
 
 const style = css`
   margin-bottom: 100px;
@@ -249,6 +250,8 @@ const verbExamplePopUpStyles = css`
 `;
 
 export default function Id(props) {
+  searchTermCookie(props.searchTerm);
+
   const [data, setData] = useState(props.data);
   const [word, setWord] = useState(data.def);
   const [toggle, setToggle] = useState(false);
@@ -375,11 +378,7 @@ export default function Id(props) {
             marginBottom: '20px',
           }}
         >
-          <SearchBar
-            data={data}
-            setWord={setWord}
-            // searchTerm={searchTerm}
-          ></SearchBar>
+          <SearchBar data={data} setWord={setWord}></SearchBar>
           <div css={addToListButtonStyles}>
             <>
               {props.loggedIn ? (

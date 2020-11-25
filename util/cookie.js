@@ -5,8 +5,8 @@ export function getSearchInfo() {
   return lang;
 }
 
-export function setSearchTerm() {
-  const term = cookies.getJSON('language') || [];
+export function searchTerm() {
+  const term = cookies.getJSON('searchTerm') || [];
   return term;
 }
 
@@ -46,11 +46,6 @@ export function addSearchTermCookie(word) {
   return newCookie;
 }
 
-export function getSearchTerms() {
-  const term = cookies.getJSON('search terms') || [];
-  return term;
-}
-
 export function addSearchTermToRecentSearchList(term) {
   const searchTerms = getSearchTerms();
 
@@ -69,4 +64,10 @@ export function addSearchTermToRecentSearchList(term) {
   cookies.set('search term', newSearchTermList);
 
   return newSearchTermList;
+}
+
+export function searchTermCookie(searchTerm) {
+  cookies.set('searchTerm', searchTerm);
+
+  return searchTerm;
 }
