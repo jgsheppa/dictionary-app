@@ -8,10 +8,31 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=hamburger-menu]').click();
     cy.get('[data-cy=go-to-login]').click();
 
+    // Click and go to register
+    cy.get('[data-cy=go-to-register]').should('be.visible');
+    cy.get('[data-cy=go-to-register]').click();
+
+    // Enter registration information
+    // Enter first name
+    cy.get('[data-cy=firstname]').type('John');
+    // Enter last name
+    cy.get('[data-cy=lastname]').type('Smith');
+    // Enter email
+    cy.get('[data-cy=email]').type('JSmith@catdog.com');
     // Enter username
-    cy.get('[data-cy=username]').type('yyy');
+    cy.get('[data-cy=username]').type('catdog');
     // Enter password
-    cy.get('[data-cy=password]').type('zzz');
+    cy.get('[data-cy=password]').type('dogcat');
+    // Register
+    cy.get('[data-cy=register-user]').click();
+
+    // Go to login
+    cy.get('[data-cy=hamburger-menu]').click();
+    cy.get('[data-cy=go-to-login]').click();
+    // Enter username
+    cy.get('[data-cy=username]').type('catdog');
+    // Enter password
+    cy.get('[data-cy=password]').type('dogcat');
     cy.get('[data-cy=login]').click();
 
     // Click to change language
@@ -44,8 +65,12 @@ describe('Search for words and save them to list', () => {
     // Click on edit
     cy.get('[data-cy=click-edit-list]').click();
     cy.get('[data-cy=click-delete-button]').click({ multiple: true });
-    // Logout
-    cy.get('[data-cy=hamburger-menu]').click();
-    cy.get('[data-cy=go-to-logout]').click();
+    // Go to Profile
+    cy.get('[data-cy=go-to-profile]').click();
+
+    // Click delete profile link
+    cy.get('[data-cy=go-to-delete-account]').click();
+    // Delete Account
+    cy.get('[data-cy=delete-profile]').click();
   });
 });
