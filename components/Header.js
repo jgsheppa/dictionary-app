@@ -160,13 +160,13 @@ export default function Header(props) {
   return (
     <>
       <Head>
-        <title>WordDiwan</title>
+        <title>WordDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <header css={headerStyles}>
         <div css={headerContainerStyles}>
           <Link href="/">
-            <a css={navStyles}>WordDiwan</a>
+            <a css={navStyles}>WordDivan</a>
           </Link>
           <div css={dropdownAndProfileStyles}>
             {typeof props.username === 'string' ? (

@@ -19,7 +19,7 @@ const profileContainerStyles = css`
 
   aside {
     background-color: #ece9e9;
-    height: 400px;
+    height: 540px;
     margin-top: 32px;
   }
 
@@ -29,9 +29,15 @@ const profileContainerStyles = css`
   }
 
   .userInfo {
-    b {
-      font-size: 20px;
-      margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-top: 8px;
+      b {
+        font-size: 20px;
+        margin: 8px 0;
+      }
     }
 
     p {
@@ -43,7 +49,7 @@ const profileContainerStyles = css`
       border: solid 1px #8c8c8c;
       border-radius: 4px;
       font-size: 20px;
-      width: 100px;
+      width: 200px;
       margin: 8px 4px 0;
     }
     input:focus {
@@ -240,12 +246,17 @@ export default function Profile(props) {
               }}
             >
               <div className="userInfo">
-                <b>Name:</b>
+                <label>
+                  <b>First Name:</b>
+                </label>
                 <input
                   data-cy="edit-user-firstname"
                   value={firstName}
                   onChange={(e) => handleFirstNameChange(e.target.value)}
                 />
+                <label>
+                  <b>Last Name:</b>
+                </label>
                 <input
                   data-cy="edit-user-lastname"
                   value={lastName}
@@ -253,7 +264,9 @@ export default function Profile(props) {
                 />
               </div>
               <div className="userInfo">
-                <b>Username: </b>
+                <label>
+                  <b>Username:</b>
+                </label>
                 <input
                   data-cy="edit-user-username"
                   value={userName}
@@ -261,7 +274,10 @@ export default function Profile(props) {
                 />
               </div>
               <div className="userInfo">
-                <b>E-mail: </b>
+                <label>
+                  <b>E-mail: </b>
+                </label>
+
                 <input
                   data-cy="edit-user-email"
                   value={userEmail}

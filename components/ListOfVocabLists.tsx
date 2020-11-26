@@ -80,15 +80,22 @@ const deleteButtonStyles = css`
 `;
 
 const editButtonStyles = css`
-  font-size: 16px;
-  color: #fff;
-  padding: 10px 30px;
-  text-decoration: none;
-  text-align: center;
-  background-color: #6121c9;
-  border-radius: 4px;
-  margin: 0 24px 0 24px;
-  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 30px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #6121c9;
+    width: 200px;
+    border-radius: 4px;
+    margin: 20px 24px 0 24px;
+    cursor: pointer;
+  }
 `;
 
 const noListStyles = css`
@@ -117,50 +124,52 @@ function ListOfVocabLists({ setList, list, deleteList }) {
         <div>
           {updatedList.length > 0 ? (
             updatedList.map((doc) => (
-              <li className="listOfWordsRowStyle" key={doc.wordlistsId}>
-                <Link
-                  href={`/word-lists/${doc.wordlistsId}`}
-                  data-cy="click-on-list-link"
-                >
-                  <a data-cy={`click-on-list-link`} className="listNameLink">
-                    {doc.listName}
-                  </a>
-                </Link>
-                <div css={deleteButtonStyles} data-cy="click-delete-button">
-                  {editClicked ? (
-                    <button
-                      className="delete-button"
-                      onClick={async (e) => {
-                        // e.preventDefault();
+              <>
+                <li className="listOfWordsRowStyle" key={doc.wordlistsId}>
+                  <Link
+                    href={`/word-lists/${doc.wordlistsId}`}
+                    data-cy="click-on-list-link"
+                  >
+                    <a data-cy={`click-on-list-link`} className="listNameLink">
+                      {doc.listName}
+                    </a>
+                  </Link>
+                  <div css={deleteButtonStyles} data-cy="click-delete-button">
+                    {editClicked ? (
+                      <button
+                        className="delete-button"
+                        onClick={async (e) => {
+                          // e.preventDefault();
 
-                        let id = doc.wordlistsId;
-                        const response = await fetch(`/api/words/profile`, {
-                          method: 'DELETE',
-                          headers: {
-                            'Content-Type': 'application/json',
-                            'Accept-Language': '*',
-                          },
-                          body: JSON.stringify({
-                            id,
-                          }),
-                        });
+                          let id = doc.wordlistsId;
+                          const response = await fetch(`/api/words/profile`, {
+                            method: 'DELETE',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Accept-Language': '*',
+                            },
+                            body: JSON.stringify({
+                              id,
+                            }),
+                          });
 
-                        const { success } = await response.json();
+                          const { success } = await response.json();
 
-                        if (!success) {
-                          setErrorMessage('Word not deleted from list!');
-                        } else {
-                          setErrorMessage('Success!');
-                          deleteList(id, updatedList);
-                          console.log('list after deletion', list);
-                        }
-                      }}
-                    >
-                      Delete List
-                    </button>
-                  ) : null}
-                </div>
-              </li>
+                          if (!success) {
+                            setErrorMessage('Word not deleted from list!');
+                          } else {
+                            setErrorMessage('Success!');
+                            deleteList(id, updatedList);
+                            console.log('list after deletion', list);
+                          }
+                        }}
+                      >
+                        Delete List
+                      </button>
+                    ) : null}
+                  </div>
+                </li>
+              </>
             ))
           ) : (
             <div css={noListStyles}>
@@ -170,13 +179,11 @@ function ListOfVocabLists({ setList, list, deleteList }) {
           )}
         </div>
       </ul>
-      <button
-        data-cy="click-edit-list"
-        css={editButtonStyles}
-        onClick={handleEdit}
-      >
-        Edit Lists
-      </button>
+      <div css={editButtonStyles}>
+        <button data-cy="click-edit-list" onClick={handleEdit}>
+          Edit Lists
+        </button>
+      </div>
     </div>
   );
 }

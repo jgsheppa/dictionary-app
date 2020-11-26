@@ -1,25 +1,8 @@
-import {
-  addProductToCookieCart,
-  deleteProductFromCookieCart,
-} from '../util/testUtils';
+import { registerUser } from '../util/database';
 
-const cart = [
-  { id: 1, count: 0 },
-  { id: 2, count: 5 },
-  { id: 3, count: 10 },
-];
-
-const cart1 = [
-  { id: 1, count: 0 },
-  { id: 2, count: 5 },
-  { id: 3, count: 10 },
-];
-
-const cart2 = [
-  { id: 1, count: 0 },
-  { id: 2, count: 5 },
-  { id: 3, count: 10 },
-];
+test('cart sum is 8', () => {
+  expect(sumQuantityOfProducts(cart1)).toBe(8);
+});
 
 test('Add one to count of 0', () => {
   expect(addProductToCookieCart(cart, 1)).toContainEqual({ id: 1, count: 1 });

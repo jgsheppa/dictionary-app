@@ -54,7 +54,7 @@ export default function Home(props) {
   return (
     <>
       <Head>
-        <title>WordDiwan</title>
+        <title>WordDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
@@ -64,7 +64,7 @@ export default function Home(props) {
           </div>
           <div css={introStyles}>
             <h4 style={{ color: '#4D13AD' }}>
-              Store Your Words With WordDiwan
+              Store Your Words With WordDivan
             </h4>
             <p>
               If you have ever tried to learn a language, then you have probably
