@@ -184,6 +184,7 @@ export default function Header(props) {
                     className="dropdownbtn"
                     onClick={handleMenuClick}
                     data-cy="hamburger-menu"
+                    disabled={false}
                   >
                     ☰
                   </button>
