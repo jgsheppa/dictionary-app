@@ -15,7 +15,14 @@ jobs:
           postgresql user: ${{ secrets.PGUSERNAME }}
           postgresql password: ${{ secrets.PGPASSWORD }}
       - name: Checkout
-        uses: actions/checkout@v1
+        uses:
+          actions/checkout@v1
+          # Use the official setup-node action:
+      # https://github.com/actions/setup-node
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '15.x'
       # Use Cypress GitHub action to run tests
       # https://github.com/cypress-io/github-action
       - name: Cypress run
