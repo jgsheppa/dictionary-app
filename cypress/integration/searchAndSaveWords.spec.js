@@ -39,11 +39,11 @@ describe('Create account and login', () => {
     cy.get('[data-cy=close-list-box]').click();
 
     // Go to Profile
-    cy.get('[data-cy=go-to-profile]').click();
+    cy.get('[data-cy=go-to-profile]').click({ force: true });
 
     // Click on edit
     cy.get('[data-cy=click-edit-list]').click();
-    cy.get('[data-cy=click-delete-button]').click();
+    cy.get('[data-cy=click-delete-button]').click({ multiple: true });
     // Logout
     cy.get('[data-cy=hamburger-menu]').click();
     cy.get('[data-cy=go-to-logout]').click();

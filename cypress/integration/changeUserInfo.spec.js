@@ -9,7 +9,7 @@ describe('Create account and login', () => {
     cy.get('[data-cy=go-to-login]').click();
 
     // Enter username
-    cy.get('[data-cy=username]').type('rocky');
+    cy.get('[data-cy=username]').type('yyy');
     // Enter password
     cy.get('[data-cy=password]').type('zzz');
     cy.get('[data-cy=login]').click();
