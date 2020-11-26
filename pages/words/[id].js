@@ -121,6 +121,9 @@ const adjectiveStyles = css`
 `;
 
 const addToListButtonStyles = css`
+  .dropdownbtn {
+    background-color: #6121c9;
+  }
   button {
     font-size: 20px;
     color: #fff;
