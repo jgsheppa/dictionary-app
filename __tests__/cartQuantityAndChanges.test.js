@@ -19,13 +19,6 @@ test('Remove all items from Id 1', () => {
   });
 });
 
-test('Remove all items from Id 2', () => {
-  expect(deleteProductFromCookieCart(cart1, 2)).toContainEqual({
-    id: 2,
-    count: 0,
-  });
-});
-
 test('Remove all items from Id 3', () => {
   expect(deleteProductFromCookieCart(cart2, 3)).toContainEqual({
     id: 3,
