@@ -2,10 +2,6 @@
   "name": "dictionary-app",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "15.3.0",
-    "yarn": "1.x"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
