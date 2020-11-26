@@ -121,9 +121,6 @@ const adjectiveStyles = css`
 `;
 
 const addToListButtonStyles = css`
-  .dropdownbtn {
-    background-color: #6121c9;
-  }
   button {
     font-size: 20px;
     color: #fff;
@@ -250,6 +247,16 @@ const verbExamplePopUpStyles = css`
     color: red;
     cursor: pointer;
   }
+`;
+
+const exampleButton = css`
+  font-size: 20px;
+  color: #fff;
+  border-radius: 4px;
+  padding: 12px 24px;
+  background-color: #6121c9;
+  cursor: pointer;
+  transition: ease 0.3s background-color;
 `;
 
 export default function Id(props) {
@@ -747,6 +754,7 @@ export default function Id(props) {
                                 ref={nounContainer}
                               >
                                 <button
+                                  css={exampleButton}
                                   className="dropdownbtn"
                                   onClick={handleNounExampleClick}
                                 >
