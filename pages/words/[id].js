@@ -250,10 +250,10 @@ const verbExamplePopUpStyles = css`
 `;
 
 const exampleButton = css`
-  font-size: 20px;
+  font-size: 16px;
   color: #fff;
   border-radius: 4px;
-  padding: 12px 24px;
+  padding: 8px 20px;
   background-color: #6121c9;
   cursor: pointer;
   transition: ease 0.3s background-color;
@@ -271,7 +271,7 @@ export default function Id(props) {
   const [arrayOfWordsInDB, setArrayOfWordsInDB] = useState(props.wordsArray);
   const wholeVocabList = [...vocabList] || [];
 
-  console.log('lists from server', props.vocabLists);
+  console.log('data', props.data);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -501,65 +501,69 @@ export default function Id(props) {
                                   );
                                 })}
                               </div>
-                              {/* Examples of the verb in use*/}
-
-                              <button
-                                className="dropdownbtn"
-                                onClick={handleVerbExampleClick}
-                              >
-                                Examples
-                              </button>
-
-                              {verbExamplesOpen && (
-                                <div>
-                                  {translation.ex?.map((example) => {
-                                    return (
-                                      <Draggable>
-                                        <div css={verbExamplePopUpStyles}>
-                                          <div
-                                            className="container1"
-                                            ref={container1}
-                                          >
-                                            {
-                                              <div className="modal-content">
-                                                <div
-                                                  css={exampleStylesContainer}
-                                                >
-                                                  <div css={exampleStyles}>
-                                                    {example.text}
+                              {translation.ex ? (
+                                <>
+                                  <button
+                                    css={exampleButton}
+                                    className="dropdownbtn"
+                                    onClick={handleVerbExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {verbExamplesOpen && (
+                                    <div>
+                                      {translation.ex?.map((example) => {
+                                        return (
+                                          <Draggable>
+                                            <div css={verbExamplePopUpStyles}>
+                                              <div
+                                                className="container1"
+                                                ref={container1}
+                                              >
+                                                {
+                                                  <div className="modal-content">
+                                                    <div
+                                                      css={
+                                                        exampleStylesContainer
+                                                      }
+                                                    >
+                                                      <div css={exampleStyles}>
+                                                        {example.text}
+                                                      </div>
+                                                      <div>
+                                                        {example.tr.map(
+                                                          (translation) => {
+                                                            return (
+                                                              <div>
+                                                                <i
+                                                                  css={
+                                                                    exampleStyles
+                                                                  }
+                                                                >
+                                                                  {translation.text
+                                                                    .charAt(0)
+                                                                    .toUpperCase() +
+                                                                    translation.text.slice(
+                                                                      1,
+                                                                    )}
+                                                                </i>
+                                                              </div>
+                                                            );
+                                                          },
+                                                        )}
+                                                      </div>
+                                                    </div>
                                                   </div>
-                                                  <div>
-                                                    {example.tr.map(
-                                                      (translation) => {
-                                                        return (
-                                                          <div>
-                                                            <i
-                                                              css={
-                                                                exampleStyles
-                                                              }
-                                                            >
-                                                              {translation.text
-                                                                .charAt(0)
-                                                                .toUpperCase() +
-                                                                translation.text.slice(
-                                                                  1,
-                                                                )}
-                                                            </i>
-                                                          </div>
-                                                        );
-                                                      },
-                                                    )}
-                                                  </div>
-                                                </div>
+                                                }
                                               </div>
-                                            }
-                                          </div>
-                                        </div>
-                                      </Draggable>
-                                    );
-                                  })}
-                                </div>
-                              )}
+                                            </div>
+                                          </Draggable>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
                             </div>
                           </div>
                         );
@@ -601,6 +605,7 @@ export default function Id(props) {
                               </div>
                               <div className="container" ref={container}>
                                 <button
+                                  css={exampleButton}
                                   className="dropdownbtn"
                                   onClick={handleVerbExampleClick}
                                 >
@@ -806,34 +811,39 @@ export default function Id(props) {
                               className="adjectiveContainer"
                               ref={adjectiveContainer}
                             >
-                              <button
-                                className="dropdownbtn"
-                                onClick={handleAdjectiveExampleClick}
-                              >
-                                Examples
-                              </button>
-                              {adjectiveExamplesOpen &&
-                                translation.ex?.map((example) => {
-                                  return (
-                                    <div>
-                                      <div>{example.text}</div>
-                                      <div>
-                                        {example.tr.map((translation) => {
-                                          return (
-                                            <div>
-                                              <i>
-                                                {translation.text
-                                                  .charAt(0)
-                                                  .toUpperCase() +
-                                                  translation.text.slice(1)}
-                                              </i>
-                                            </div>
-                                          );
-                                        })}
-                                      </div>
-                                    </div>
-                                  );
-                                })}
+                              {translation.ex ? (
+                                <>
+                                  <button
+                                    css={exampleButton}
+                                    className="dropdownbtn"
+                                    onClick={handleAdjectiveExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {adjectiveExamplesOpen &&
+                                    translation.ex?.map((example) => {
+                                      return (
+                                        <div>
+                                          <div>{example.text}</div>
+                                          <div>
+                                            {example.tr.map((translation) => {
+                                              return (
+                                                <div>
+                                                  <i>
+                                                    {translation.text
+                                                      .charAt(0)
+                                                      .toUpperCase() +
+                                                      translation.text.slice(1)}
+                                                  </i>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                </>
+                              ) : null}
                             </div>
                           </div>
                         );
@@ -860,6 +870,7 @@ export default function Id(props) {
                                   ref={adverbContainer}
                                 >
                                   <button
+                                    css={exampleButton}
                                     className="dropdownbtn"
                                     onClick={handleAdverbExampleClick}
                                   >
@@ -901,6 +912,271 @@ export default function Id(props) {
                             </div>
                           </div>
                         );
+                      } else if (translation.pos === 'participle') {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbUndecided}>
+                                {translation.text.charAt(0).toUpperCase() +
+                                  translation.text.slice(1)}
+                              </div>
+                              <div>
+                                <div
+                                  className="adverbContainer"
+                                  ref={adverbContainer}
+                                >
+                                  {translation.ex ? (
+                                    <button
+                                      css={exampleButton}
+                                      className="dropdownbtn"
+                                      onClick={handleAdverbExampleClick}
+                                    >
+                                      Examples
+                                    </button>
+                                  ) : null}
+                                  {/* <button
+                                    css={exampleButton}
+                                    className="dropdownbtn"
+                                    onClick={handleAdverbExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {adverbExamplesOpen &&
+                                    translation.ex?.map((example) => {
+                                      return (
+                                        <div>
+                                          <div>{example.text}</div>
+                                          <div>
+                                            {example.tr.map((translation) => {
+                                              return (
+                                                <div>
+                                                  <i>{translation.text}</i>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </div>
+                                      );
+                                    })} */}
+                                </div>
+                              </div>
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>{example.text}</div>
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return <div>{translation.text}</div>;
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      } else if (translation.pos === 'preposition') {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbImperfective}>
+                                {translation.text.charAt(0).toUpperCase() +
+                                  translation.text.slice(1)}
+                              </div>
+                              {/* Meaning of the verb */}
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>
+                                        {example.text.charAt(0).toUpperCase() +
+                                          example.text.slice(1)}
+                                      </div>
+
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return (
+                                            <div>
+                                              {translation.text
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                translation.text.slice(1)}
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              {translation.ex ? (
+                                <>
+                                  <button
+                                    css={exampleButton}
+                                    className="dropdownbtn"
+                                    onClick={handleVerbExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {verbExamplesOpen && (
+                                    <div>
+                                      {translation.ex?.map((example) => {
+                                        return (
+                                          <Draggable>
+                                            <div css={verbExamplePopUpStyles}>
+                                              <div
+                                                className="container1"
+                                                ref={container1}
+                                              >
+                                                {
+                                                  <div className="modal-content">
+                                                    <div
+                                                      css={
+                                                        exampleStylesContainer
+                                                      }
+                                                    >
+                                                      <div css={exampleStyles}>
+                                                        {example.text}
+                                                      </div>
+                                                      <div>
+                                                        {example.tr.map(
+                                                          (translation) => {
+                                                            return (
+                                                              <div>
+                                                                <i
+                                                                  css={
+                                                                    exampleStyles
+                                                                  }
+                                                                >
+                                                                  {translation.text
+                                                                    .charAt(0)
+                                                                    .toUpperCase() +
+                                                                    translation.text.slice(
+                                                                      1,
+                                                                    )}
+                                                                </i>
+                                                              </div>
+                                                            );
+                                                          },
+                                                        )}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                }
+                                              </div>
+                                            </div>
+                                          </Draggable>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        );
+                      } else if (translation.pos === 'particle') {
+                        return (
+                          <div css={verbStylesContainer}>
+                            <div css={verbStyles}>
+                              <div css={russianVerbImperfective}>
+                                {translation.text.charAt(0).toUpperCase() +
+                                  translation.text.slice(1)}
+                              </div>
+                              {/* Meaning of the verb */}
+                              <div>
+                                {translation.mean?.map((example) => {
+                                  return (
+                                    <div>
+                                      <div>
+                                        {example.text.charAt(0).toUpperCase() +
+                                          example.text.slice(1)}
+                                      </div>
+
+                                      <div>
+                                        {example.tr?.map((translation) => {
+                                          return (
+                                            <div>
+                                              {translation.text
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                                translation.text.slice(1)}
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                              {translation.ex ? (
+                                <>
+                                  <button
+                                    css={exampleButton}
+                                    className="dropdownbtn"
+                                    onClick={handleVerbExampleClick}
+                                  >
+                                    Examples
+                                  </button>
+                                  {verbExamplesOpen && (
+                                    <div>
+                                      {translation.ex?.map((example) => {
+                                        return (
+                                          <Draggable>
+                                            <div css={verbExamplePopUpStyles}>
+                                              <div
+                                                className="container1"
+                                                ref={container1}
+                                              >
+                                                {
+                                                  <div className="modal-content">
+                                                    <div
+                                                      css={
+                                                        exampleStylesContainer
+                                                      }
+                                                    >
+                                                      <div css={exampleStyles}>
+                                                        {example.text}
+                                                      </div>
+                                                      <div>
+                                                        {example.tr.map(
+                                                          (translation) => {
+                                                            return (
+                                                              <div>
+                                                                <i
+                                                                  css={
+                                                                    exampleStyles
+                                                                  }
+                                                                >
+                                                                  {translation.text
+                                                                    .charAt(0)
+                                                                    .toUpperCase() +
+                                                                    translation.text.slice(
+                                                                      1,
+                                                                    )}
+                                                                </i>
+                                                              </div>
+                                                            );
+                                                          },
+                                                        )}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                }
+                                              </div>
+                                            </div>
+                                          </Draggable>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                        );
                       } else if (!translation.pos) {
                         return null;
                       }
@@ -932,9 +1208,9 @@ export async function getServerSideProps(context) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
+  console.log('data', data);
   const vocabLists = await getVocabLists(user?.id);
   const wordsArray = await getWordsArray(searchTerm);
-  console.log('get words array', wordsArray);
 
   if (typeof user === 'undefined') {
     return {
