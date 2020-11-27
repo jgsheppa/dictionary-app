@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 import Draggable from 'react-draggable';
-import Popup from '../../components/Popup.tsx';
+import Popup from '../../components/Popup.js';
 import Layout from '../../components/Layout.tsx';
 import SearchBar from '../../components/SearchBar.tsx';
 import { isSessionTokenValid } from '../../util/auth';
@@ -32,6 +32,7 @@ const wordPositionStyles = css`
     cursor: pointer;
     transition: ease 0.3s background-color;
     margin-bottom: 16px;
+    border: solid 2px #6121c9;
   }
 
   button:hover {

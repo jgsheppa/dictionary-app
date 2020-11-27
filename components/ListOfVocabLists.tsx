@@ -29,7 +29,7 @@ const unorderedListStyles = css`
     list-style-type: none;
     border-width: 4px;
     border-radius: 8px;
-    padding: 5px 0;
+    height: 36px;
   }
 
   .listOfWordsRowStyle {
@@ -46,8 +46,9 @@ const unorderedListStyles = css`
     color: #2d2525;
     font-size: 24px;
     height: 32px;
+    border: 2px;
     text-decoration: none !important;
-    transition: color 0.3s ease;
+    transition: color 0.3s, border 0.3s ease;
   }
 
   li .listNameLink:hover {

@@ -68,7 +68,7 @@ const dropdown = css`
     color: white;
     padding: 16px;
     font-size: 24px;
-    border: none;
+    border: solid 2px #6121c9;
     border-radius: 4px;
     margin-left: 2rem;
     transition: ease background-color 0.5s;

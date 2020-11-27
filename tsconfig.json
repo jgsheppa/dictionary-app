@@ -21,7 +21,8 @@
     "util/database.js",
     "util/extractHerokuDatabaseEnvVars.js",
     "components/Header.js",
-    "pages/profile.js"
+    "pages/profile.js",
+    "components/Popup.js"
   ],
   "exclude": ["node_modules"]
 }
