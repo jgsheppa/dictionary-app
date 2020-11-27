@@ -17,6 +17,7 @@ const unorderedListStyles = css`
     padding: 32px 40px;
     border: solid #6121c9;
     border-radius: 8px;
+    background: #ece9e9;
   }
 
   .word-name {

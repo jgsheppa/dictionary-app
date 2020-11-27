@@ -5,6 +5,7 @@ import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../../util/auth';
 import Layout from '../../components/Layout';
 import ListOfVocabLists from '../../components/WordList';
+import SearchBar from '../../components/SearchBar.tsx';
 import WordList from '../../components/WordList';
 
 const pageContainer = css`

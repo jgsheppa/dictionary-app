@@ -6,6 +6,9 @@ import Draggable from 'react-draggable';
 import WordList from './WordList';
 
 const popUpStyles = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: move;
 
   > div {
@@ -39,6 +42,29 @@ const popUpStyles = css`
     cursor: pointer;
   }
 
+  .submit {
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 30px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #6121c9;
+    width: 200px;
+    border-radius: 4px;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit:hover {
+    background-color: #874de4;
+  }
+
+  .new-list-input {
+    font-size: 16px;
+    border: solid 2px #635757;
+    border-radius: 8px;
+  }
   form {
     margin-top: 20px;
   }
@@ -51,6 +77,7 @@ const vocabListStyles = css`
     height: 1.5em;
     width: 1.5em;
   }
+
   .listNameStyles {
     text-decoration: none;
     color: black;
@@ -61,37 +88,18 @@ const vocabListStyles = css`
     color: blue;
   }
 `;
-type Props = {
-  searchTerm;
-  vocabLists;
-  user;
-  toggle;
-  wholeVocabList;
-  setVocabList;
-  wordsArray;
-  setWordsArray;
-};
 
-export default function Popup(props: Props) {
+export default function Popup(props) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  console.log('fetcher', fetcher);
   const { data, mutate, error } = useSWR('/api/word-lists/', fetcher);
-
-  console.log('word array', data?.wordArray);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [newListName, setNewListName] = useState('');
   const [id, setId] = useState(props.user.id);
   const [term, setTerm] = useState(props.searchTerm);
-  const [wordsArray, setWordsArray] = useState(props.wordsArray);
 
   const onlyListIds = data?.wordArray.map((word) => word.listId);
-  console.log('only list ids', onlyListIds);
-
-  // function handelSubmit() {
-  //   wholeList.push({ listName: newListName });
-  //   setWordList(wholeList);
-  //   props.setVocabList(wholeList);
-  // }
 
   function handleCheckBox(e, id, checked) {
     e.target.checked = !checked;
@@ -227,13 +235,14 @@ export default function Popup(props: Props) {
                   <input
                     type="text"
                     name="name"
+                    className="new-list-input"
                     value={newListName}
                     onChange={(e) => setNewListName(e.target.value)}
                     data-cy="enter-list-name"
                   />
                 </label>
                 <br />
-                <input data-cy="submit-list" type="submit" />
+                <input className="submit" data-cy="submit-list" type="submit" />
               </form>
             </div>
           </div>

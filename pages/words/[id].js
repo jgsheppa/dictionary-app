@@ -451,7 +451,11 @@ export default function Id(props) {
                           </i>
                         ) : (
                           <>
-                            <button tabIndex={7} onClick={handleToggleVerb}>
+                            <button
+                              tabIndex={7}
+                              key={entry.text}
+                              onClick={handleToggleVerb}
+                            >
                               <i>
                                 {entry.pos?.charAt(0).toUpperCase() +
                                   entry.pos?.slice(1)}
