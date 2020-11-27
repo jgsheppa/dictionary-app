@@ -36,8 +36,8 @@ const dropdownAndProfileStyles = css`
   > div a:hover {
     text-decoration: none;
     color: #000000;
-    border-color: #666;
-    border: solid;
+    /* border-color: #666;
+    border: solid; */
     border-width: 2px;
     border-radius: 4px;
   }
@@ -91,7 +91,7 @@ const dropdown = css`
     left: 0;
     width: 180px;
     z-index: 2;
-    /* border: 1px solid #874de4; */
+    border: 1px solid #874de4;
     background: #f4d35e;
 
     ul {
@@ -104,27 +104,27 @@ const dropdown = css`
       }
 
       li:hover {
-        color: #fff;
         background-color: #874de4;
         cursor: pointer;
       }
     }
-    a .dropdownitem {
+    a {
       color: black;
       padding: 12px 16px;
       text-decoration: none;
       display: block;
-      border: solid #f4d35e;
+      border: none;
+      /* border: solid #f4d35e; */
       transition: font-color 0.4s, background-color 0.4s, border 0.4s, ease;
     }
 
-    a .dropdownitem:focus {
+    a:focus {
       outline: none !important;
       border: solid 2px #e02e2e;
       border-radius: 4px;
     }
 
-    a .dropdownitem:hover {
+    a:hover {
       color: #fff;
       background-color: #874de4;
     }
