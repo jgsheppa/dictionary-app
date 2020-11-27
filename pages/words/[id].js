@@ -53,8 +53,7 @@ const nounStyles = css`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid;
-  border-color: #6121c9;
+  border-bottom: double;
 
   div {
     margin: 10px;
@@ -94,6 +93,12 @@ const russianVerbImperfective = css`
   padding: 0.3rem 1rem 0.3rem 0.25rem;
 `;
 
+const meaningStyles = css`
+  .meaning-text {
+    margin-bottom: 8px;
+  }
+`;
+
 const russianVerbPerfective = css`
   background-color: #34a1ff;
   border-radius: 8px;
@@ -113,8 +118,7 @@ const verbStylesContainer = css`
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid;
-  border-color: #6121c9;
+  border-bottom: double;
   padding: 10px 30px;
 `;
 
@@ -173,8 +177,6 @@ const verbInfoStyles = css`
     background-color: #fff;
     border: solid #6121c9;
     padding: 0 0 0 12px;
-
-    /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
   }
 
   .modal-content {
@@ -215,31 +217,25 @@ const verbInfoStyles = css`
 `;
 
 const verbExamplePopUpStyles = css`
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex: 1;
+  flex: 1; */
   cursor: move;
 
   > div {
-    /* position: fixed;
+    position: fixed;
     z-index: 1;
     width: 300px;
-   
     background-color: #fff;
     border: solid #6121c9;
     padding: 12px 24px;
-    margin-bottom: 200px; */
-
+    margin-bottom: 200px;
     background-color: white;
-    position: absolute;
-    /* top: 100px; */
     right: 200px;
     padding: 20px;
     border-radius: 5px;
     border: 2px solid black;
-
-    /* box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7); */
   }
 
   .modal-content {
@@ -289,7 +285,7 @@ export default function Id(props) {
   const [arrayOfWordsInDB, setArrayOfWordsInDB] = useState(props.wordsArray);
   const wholeVocabList = [...vocabList] || [];
 
-  console.log('data', props.data);
+  const foreignTerm = props.data.def[0].tr[0].text;
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -421,6 +417,7 @@ export default function Id(props) {
 
                   {toggle ? (
                     <Popup
+                      foreignTerm={foreignTerm}
                       wordsArray={arrayOfWordsInDB}
                       setWordsArray={setArrayOfWordsInDB}
                       wholeVocabList={wholeVocabList}
@@ -501,8 +498,8 @@ export default function Id(props) {
                               <div>
                                 {translation.mean?.map((example) => {
                                   return (
-                                    <div>
-                                      <div>
+                                    <div css={meaningStyles}>
+                                      <div className="meaning-text">
                                         {example.text.charAt(0).toUpperCase() +
                                           example.text.slice(1)}
                                       </div>
@@ -630,7 +627,7 @@ export default function Id(props) {
                                       translation.ex?.map((example) => {
                                         return (
                                           <div>
-                                            <div css={exampleStyles}>
+                                            <div css={verbExamplePopUpStyles}>
                                               {example.text}
                                             </div>
                                             <div>

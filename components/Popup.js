@@ -12,7 +12,6 @@ const popUpStyles = css`
   cursor: move;
 
   > div {
-    /* display: flex; */
     position: fixed;
     z-index: 1;
     width: 200px;
@@ -105,6 +104,7 @@ export default function Popup(props) {
     e.target.checked = !checked;
     props.setVocabList(props.vocabLists);
   }
+  console.log(encodeURIComponent(props.foreignTerm));
 
   return (
     <>
@@ -150,6 +150,7 @@ export default function Popup(props) {
                                 body: JSON.stringify({
                                   wordListId,
                                   term: term,
+                                  foreignTerm: props.foreignTerm,
                                 }),
                               },
                             );
@@ -176,6 +177,7 @@ export default function Popup(props) {
                                 body: JSON.stringify({
                                   wordListId,
                                   term: term,
+                                  foreignTerm: props.foreignTerm,
                                 }),
                               },
                             );

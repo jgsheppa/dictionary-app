@@ -102,6 +102,7 @@ const editButtonStyles = css`
   background-color: #6121c9;
   border-radius: 4px;
   margin: 0 24px 0 24px;
+  cursor: pointer;
 `;
 
 const wordListContainer = css`
@@ -144,7 +145,9 @@ function WordList({ words, setListWords, deleteWord }) {
               : updatedList.map((word) => (
                   <li className="word-row" key={word.id}>
                     <Link href={`/words/${word.lang1}`}>
-                      <a className="word-name">{word.lang1}</a>
+                      <a className="word-name">
+                        {word.lang1} - {word.lang2}
+                      </a>
                     </Link>
                     {word.ru}
                     <div>
@@ -155,6 +158,7 @@ function WordList({ words, setListWords, deleteWord }) {
                             // e.preventDefault();
                             const wordId = word.id;
                             const id = word.listId;
+                            const foreignTerm = word.lang2;
                             const response = await fetch(
                               `/api/word-lists/${word.listId}`,
                               {
@@ -166,6 +170,7 @@ function WordList({ words, setListWords, deleteWord }) {
                                 body: JSON.stringify({
                                   id,
                                   lang1: word.lang1,
+                                  foreignTerm,
                                 }),
                               },
                             );

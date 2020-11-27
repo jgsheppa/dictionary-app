@@ -71,7 +71,6 @@ const dropdown = css`
     border: solid 2px #6121c9;
     border-radius: 4px;
     margin-left: 2rem;
-    transition: ease background-color 0.5s;
     cursor: pointer;
     transition: ease 0.3s background-color;
   }
@@ -92,7 +91,7 @@ const dropdown = css`
     left: 0;
     width: 180px;
     z-index: 2;
-    border: 1px solid #874de4;
+    /* border: 1px solid #874de4; */
     background: #f4d35e;
 
     ul {
@@ -105,11 +104,12 @@ const dropdown = css`
       }
 
       li:hover {
+        color: #fff;
         background-color: #874de4;
         cursor: pointer;
       }
     }
-    a {
+    a .dropdownitem {
       color: black;
       padding: 12px 16px;
       text-decoration: none;
@@ -118,13 +118,13 @@ const dropdown = css`
       transition: font-color 0.4s, background-color 0.4s, border 0.4s, ease;
     }
 
-    a:focus {
+    a .dropdownitem:focus {
       outline: none !important;
       border: solid 2px #e02e2e;
       border-radius: 4px;
     }
 
-    a:hover {
+    a .dropdownitem:hover {
       color: #fff;
       background-color: #874de4;
     }

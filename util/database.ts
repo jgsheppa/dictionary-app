@@ -303,23 +303,31 @@ export async function deleteListById(id: string) {
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function insertWordsToVocabList(word: string, listId: number) {
+export async function insertWordsToVocabList(
+  word: string,
+  foreignTerm: string,
+  listId: number,
+) {
   const lists = await sql<{ id: number; word: string; listId: number }[]>`
  
     INSERT INTO words
-      (lang_1, list_id)
+      (lang_1, lang_2, list_id)
     VALUES
-      (${word}, ${listId})
+      (${word}, ${foreignTerm}, ${listId})
     RETURNING *;
   `;
 
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function deleteWordsFromList(word: string, listId: number) {
+export async function deleteWordsFromList(
+  word: string,
+  foreignTerm: string,
+  listId: number,
+) {
   const lists = await sql<string[]>`
  DELETE FROM words
-  WHERE list_id=${listId} AND lang_1=${word}
+  WHERE list_id=${listId} AND lang_1=${word} 
    RETURNING *;
   `;
 
@@ -348,7 +356,7 @@ export async function getListBySessionToken(token: string | undefined) {
 
 export async function getWordsFromVocabList(id: number) {
   const lists = await sql<string[]>`
-    SELECT id, lang_1, list_id
+    SELECT id, lang_1, lang_2, list_id
     FROM 
     words
     WHERE 

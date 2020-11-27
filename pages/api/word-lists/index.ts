@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getVocabLists } from '../../../util/database';
 import { getSessionByToken, getWordsArray } from '../../../util/database';
 import { isSessionTokenValid } from '../../../util/auth';
-import { searchTerm } from '../../../util/cookie';
 
 export default async function handler(
   request: NextApiRequest,
@@ -10,6 +9,7 @@ export default async function handler(
 ) {
   const token = request.cookies.session;
   const session = await getSessionByToken(token);
+  const validToken = await isSessionTokenValid(token);
 
   const vocabLists = await getVocabLists(session.userId);
 
@@ -21,5 +21,9 @@ export default async function handler(
     return response.status(401).send({ success: false });
   }
 
-  return response.status(200).json({ vocabLists: vocabLists, wordArray });
+  if (validToken === true) {
+    return response.status(200).json({ vocabLists: vocabLists, wordArray });
+  } else {
+    return response.status(401).send({ success: false });
+  }
 }
