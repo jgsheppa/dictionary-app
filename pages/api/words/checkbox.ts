@@ -27,7 +27,7 @@ export default async function handler(
     }
   } else if (request.method === 'DELETE') {
     const { wordListId, term, foreignTerm } = request.body;
-    const deleteWord = await deleteWordsFromList(term, foreignTerm, wordListId);
+    const deleteWord = await deleteWordsFromList(term, wordListId);
   }
 
   response.send({ success: true });

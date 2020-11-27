@@ -320,11 +320,7 @@ export async function insertWordsToVocabList(
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
-export async function deleteWordsFromList(
-  word: string,
-  foreignTerm: string,
-  listId: number,
-) {
+export async function deleteWordsFromList(word: string, listId: number) {
   const lists = await sql<string[]>`
  DELETE FROM words
   WHERE list_id=${listId} AND lang_1=${word} 

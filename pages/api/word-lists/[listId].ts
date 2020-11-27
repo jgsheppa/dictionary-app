@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   const { id, lang1, foreignTerm } = request.body;
 
-  const deleteWordFromList = await deleteWordsFromList(lang1, foreignTerm, id);
+  const deleteWordFromList = await deleteWordsFromList(lang1, id);
   console.log('delete word from list', deleteWordFromList);
 
   if (typeof deleteWordFromList === 'undefined') {
