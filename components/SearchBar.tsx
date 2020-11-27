@@ -39,13 +39,13 @@ const searchStyles = css`
 
   div .searchLink {
     color: #fff;
-    padding: 10px 30px;
+    padding: 8px 28px;
     text-decoration: none;
     text-align: center;
     background-color: #6121c9;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    border: none;
+    border: solid 2px #6121c9;
     font-size: 28px;
     transition: ease 0.3s background-color;
   }

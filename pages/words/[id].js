@@ -61,6 +61,24 @@ const nounStyles = css`
   }
 `;
 
+const prepositionStyles = css`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const particleStyles = css`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const verbStyles = css`
   display: flex;
   flex-direction: row;
@@ -68,7 +86,6 @@ const verbStyles = css`
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  /* width: 800px; */
 `;
 const russianVerbImperfective = css`
   background-color: #ffe216;
@@ -578,17 +595,7 @@ export default function Id(props) {
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </p>
-                              {/* <div>
-                                {translation.syn?.map((synonym) => {
-                                  return (
-                                    <div>
-                                      <p>Synonyms</p>
-                                      <p>{synonym.text}</p>
-                                    </div>
-                                  );
-                                })}
-                              </div> */}
-                              <div></div>
+
                               <div>
                                 {translation.mean?.map((example) => {
                                   return (
@@ -604,38 +611,44 @@ export default function Id(props) {
                                 })}
                               </div>
                               <div className="container" ref={container}>
-                                <button
-                                  css={exampleButton}
-                                  className="dropdownbtn"
-                                  onClick={handleVerbExampleClick}
-                                >
-                                  Examples
-                                </button>
-                                {verbExamplesOpen &&
-                                  translation.ex?.map((example) => {
-                                    return (
-                                      <div>
-                                        <div css={exampleStyles}>
-                                          {example.text}
-                                        </div>
-                                        <div>
-                                          {example.tr.map((translation) => {
-                                            return (
-                                              <div>
-                                                <i css={exampleStyles}>
-                                                  {translation.text
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    translation.text.slice(1)}
-                                                </i>
-                                              </div>
-                                            );
-                                          })}
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
-                                {/* </div> */}
+                                {translation.ex ? (
+                                  <>
+                                    {' '}
+                                    <button
+                                      css={exampleButton}
+                                      className="dropdownbtn"
+                                      onClick={handleVerbExampleClick}
+                                    >
+                                      Examples
+                                    </button>
+                                    {verbExamplesOpen &&
+                                      translation.ex?.map((example) => {
+                                        return (
+                                          <div>
+                                            <div css={exampleStyles}>
+                                              {example.text}
+                                            </div>
+                                            <div>
+                                              {example.tr.map((translation) => {
+                                                return (
+                                                  <div>
+                                                    <i css={exampleStyles}>
+                                                      {translation.text
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        translation.text.slice(
+                                                          1,
+                                                        )}
+                                                    </i>
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
+                                          </div>
+                                        );
+                                      })}{' '}
+                                  </>
+                                ) : null}
                               </div>
                             </div>
                           </div>
@@ -717,16 +730,6 @@ export default function Id(props) {
                                     translation.text.slice(1)}
                                 </p>
                               </div>
-
-                              {/* <div>
-                                {translation.syn?.map((synonym) => {
-                                  return (
-                                    <div>
-                                      <p>{synonym.text}</p>
-                                    </div>
-                                  );
-                                })}
-                              </div> */}
                             </div>
                             <div>
                               {translation.mean?.map((example) => {
@@ -758,42 +761,48 @@ export default function Id(props) {
                                 className="nounContainer"
                                 ref={nounContainer}
                               >
-                                <button
-                                  css={exampleButton}
-                                  className="dropdownbtn"
-                                  onClick={handleNounExampleClick}
-                                >
-                                  Examples
-                                </button>
-                                {nounExamplesOpen &&
-                                  translation.ex?.map((example) => {
-                                    return (
-                                      <div>
-                                        <div>
-                                          <p>
-                                            {example.text
-                                              .charAt(0)
-                                              .toUpperCase() +
-                                              example.text.slice(1)}
-                                          </p>
-                                        </div>
-                                        <div>
-                                          {example.tr.map((translation) => {
-                                            return (
+                                {translation.ex ? (
+                                  <>
+                                    <button
+                                      css={exampleButton}
+                                      className="dropdownbtn"
+                                      onClick={handleNounExampleClick}
+                                    >
+                                      Examples
+                                    </button>
+                                    {nounExamplesOpen &&
+                                      translation.ex?.map((example) => {
+                                        return (
+                                          <div>
+                                            <div>
                                               <p>
-                                                <i>
-                                                  {translation.text
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    translation.text.slice(1)}
-                                                </i>
+                                                {example.text
+                                                  .charAt(0)
+                                                  .toUpperCase() +
+                                                  example.text.slice(1)}
                                               </p>
-                                            );
-                                          })}
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
+                                            </div>
+                                            <div>
+                                              {example.tr.map((translation) => {
+                                                return (
+                                                  <p>
+                                                    <i>
+                                                      {translation.text
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        translation.text.slice(
+                                                          1,
+                                                        )}
+                                                    </i>
+                                                  </p>
+                                                );
+                                              })}
+                                            </div>
+                                          </div>
+                                        );
+                                      })}{' '}
+                                  </>
+                                ) : null}
                               </div>
                             </div>
                           </div>
@@ -855,45 +864,39 @@ export default function Id(props) {
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </div>
+
                               <div>
-                                {/* {translation.syn?.map((synonym) => {
-                                  return (
-                                    <div>
-                                      <div>{synonym.text}</div>
-                                    </div>
-                                  );
-                                })} */}
-                              </div>
-                              <div>
-                                <div
-                                  className="adverbContainer"
-                                  ref={adverbContainer}
-                                >
-                                  <button
-                                    css={exampleButton}
-                                    className="dropdownbtn"
-                                    onClick={handleAdverbExampleClick}
+                                {translation.ex ? (
+                                  <div
+                                    className="adverbContainer"
+                                    ref={adverbContainer}
                                   >
-                                    Examples
-                                  </button>
-                                  {adverbExamplesOpen &&
-                                    translation.ex?.map((example) => {
-                                      return (
-                                        <div>
-                                          <div>{example.text}</div>
+                                    <button
+                                      css={exampleButton}
+                                      className="dropdownbtn"
+                                      onClick={handleAdverbExampleClick}
+                                    >
+                                      Examples
+                                    </button>
+                                    {adverbExamplesOpen &&
+                                      translation.ex?.map((example) => {
+                                        return (
                                           <div>
-                                            {example.tr.map((translation) => {
-                                              return (
-                                                <div>
-                                                  <i>{translation.text}</i>
-                                                </div>
-                                              );
-                                            })}
+                                            <div>{example.text}</div>
+                                            <div>
+                                              {example.tr.map((translation) => {
+                                                return (
+                                                  <div>
+                                                    <i>{translation.text}</i>
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
                                           </div>
-                                        </div>
-                                      );
-                                    })}
-                                </div>
+                                        );
+                                      })}
+                                  </div>
+                                ) : null}
                               </div>
                               <div>
                                 {translation.mean?.map((example) => {
@@ -934,30 +937,6 @@ export default function Id(props) {
                                       Examples
                                     </button>
                                   ) : null}
-                                  {/* <button
-                                    css={exampleButton}
-                                    className="dropdownbtn"
-                                    onClick={handleAdverbExampleClick}
-                                  >
-                                    Examples
-                                  </button>
-                                  {adverbExamplesOpen &&
-                                    translation.ex?.map((example) => {
-                                      return (
-                                        <div>
-                                          <div>{example.text}</div>
-                                          <div>
-                                            {example.tr.map((translation) => {
-                                              return (
-                                                <div>
-                                                  <i>{translation.text}</i>
-                                                </div>
-                                              );
-                                            })}
-                                          </div>
-                                        </div>
-                                      );
-                                    })} */}
                                 </div>
                               </div>
                               <div>
@@ -981,7 +960,7 @@ export default function Id(props) {
                         return (
                           <div css={verbStylesContainer}>
                             <div css={verbStyles}>
-                              <div css={russianVerbImperfective}>
+                              <div>
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </div>
@@ -1081,7 +1060,7 @@ export default function Id(props) {
                         return (
                           <div css={verbStylesContainer}>
                             <div css={verbStyles}>
-                              <div css={russianVerbImperfective}>
+                              <div>
                                 {translation.text.charAt(0).toUpperCase() +
                                   translation.text.slice(1)}
                               </div>
