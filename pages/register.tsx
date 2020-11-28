@@ -131,7 +131,7 @@ export default function Register(props: Props) {
   return (
     <>
       <Head>
-        <title>TransDiwan</title>
+        <title>TransDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn} user={null} username={null}>

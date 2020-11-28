@@ -36,8 +36,8 @@ const dropdownAndProfileStyles = css`
   > div a:hover {
     text-decoration: none;
     color: #000000;
-    /* border-color: #666;
-    border: solid; */
+    border-color: #666;
+    border: solid;
     border-width: 2px;
     border-radius: 4px;
   }

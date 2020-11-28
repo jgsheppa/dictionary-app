@@ -162,7 +162,6 @@ export default function SearchBar({ data, setWord }) {
           >
             <option value="de-en">Choose a Language</option>
             <option value="de-en">German - English</option>
-            <option value="de-de">German - German</option>
             <option value="de-ru">German - Russian</option>
             <option value="en-de">English - German</option>
             <option value="en-fr">English - French</option>
@@ -171,7 +170,6 @@ export default function SearchBar({ data, setWord }) {
               English - Russian
             </option>
             <option value="fr-en">French - English</option>
-            <option value="fr-de">French - German</option>
             <option value="fr-ru">French - Russian</option>
             <option value="it-en">Italian - English</option>
             <option value="ru-en">Russian - English</option>

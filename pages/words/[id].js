@@ -268,6 +268,21 @@ const verbExamplePopUpStyles = css`
   }
 `;
 
+const notFoundStyles = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ece9e9;
+  border-radius: 8px;
+  width: 400px;
+  height: 160px;
+  margin-top: 40px;
+
+  p {
+    font-size: 40px;
+  }
+`;
+
 const exampleButton = css`
   font-size: 16px;
   color: #fff;
@@ -279,6 +294,7 @@ const exampleButton = css`
 `;
 
 export default function Id(props) {
+  console.log(props.data);
   searchTermCookie(props.searchTerm);
 
   const [data, setData] = useState(props.data);
@@ -290,7 +306,7 @@ export default function Id(props) {
   const [arrayOfWordsInDB, setArrayOfWordsInDB] = useState(props.wordsArray);
   const wholeVocabList = [...vocabList] || [];
 
-  const foreignTerm = props.data.def[0].tr[0].text;
+  const foreignTerm = props.data.def[0]?.tr[0].text;
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -388,12 +404,37 @@ export default function Id(props) {
     };
   }, [verbExamplesOpen, nounExamplesOpen, adjectiveExamplesOpen]);
 
-  if (!data) return <div>Term not found</div>;
-
+  if (data.def.length === 0)
+    return (
+      <>
+        <Head>
+          <title>TransDivan</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              marginBottom: '20px',
+            }}
+          >
+            <SearchBar data={data} setWord={setWord}></SearchBar>
+            <div css={notFoundStyles}>
+              {' '}
+              <p>Term not found</p>
+            </div>
+          </div>
+        </Layout>
+      </>
+    );
   return (
     <>
       <Head>
-        <title>TransDiwan</title>
+        <title>TransDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props?.user?.username} loggedIn={props.loggedIn}>

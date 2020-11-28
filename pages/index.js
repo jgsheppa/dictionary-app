@@ -85,7 +85,7 @@ export default function Home(props) {
               >
                 freedom
               </a>{' '}
-              in English. At WordDiwan, we're all about scribbling words down,
+              in English. At WordDivan, we're all about scribbling words down,
               but we also offer a way to save your lists - just in case.{' '}
             </p>
           </div>

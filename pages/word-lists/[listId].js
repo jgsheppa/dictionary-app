@@ -33,7 +33,7 @@ export default function list(props) {
   return (
     <>
       <Head>
-        <title>TransDiwan</title>
+        <title>TransDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props.user?.username} loggedIn={props.loggedIn}>
