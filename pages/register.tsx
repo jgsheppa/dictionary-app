@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import Layout from './../components/Layout';
 import { useState } from 'react';
-import { User } from '../util/types';
-import { registerFormStyles } from '../styles/style';
 import { css } from '@emotion/core';
 import { isSessionTokenValid } from './../util/auth';
 import { validateEmail } from './../util/helper';

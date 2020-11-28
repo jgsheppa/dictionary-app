@@ -184,7 +184,9 @@ export default function SearchBar({ data, setWord }) {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-                router.push(`/words/${searchTerm}`);
+                searchTerm === ''
+                  ? router.push(`/words/`)
+                  : router.push(`/words/${searchTerm}`);
               }}
             >
               <input

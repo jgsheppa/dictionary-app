@@ -12,6 +12,11 @@ import { searchTermCookie } from '../../util/cookie';
 
 const style = css`
   margin-bottom: 100px;
+
+  h3 {
+    padding: 0 0 8px;
+    border-bottom: double;
+  }
 `;
 
 const partOfSpeechContainer = css`
@@ -435,6 +440,7 @@ export default function Id(props) {
         </div>
 
         <div css={style}>
+          <h3>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)}</h3>
           {word.map((entry) => {
             if (entry.pos) {
               return (

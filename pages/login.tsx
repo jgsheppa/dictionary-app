@@ -24,7 +24,11 @@ const formContainerStyles = css`
   }
 
   form {
-    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 24px 40px;
     border-radius: 4px;
     transition: all 0.3s ease;
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0);
@@ -63,7 +67,7 @@ const formContainerStyles = css`
       background-color: #6121c9;
       border-radius: 4px;
       border: none;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
       width: 300px;
       font-size: 24px;
       transition: ease background-color 0.5s;
@@ -158,12 +162,12 @@ export default function Login(props: Props) {
 
               <button data-cy="login">Log in</button>
             </div>
+            <Link href="/register" data-cy="go-to-register">
+              <a data-cy="go-to-register" className="register">
+                Don't have an account? Register here.
+              </a>
+            </Link>
           </form>
-          <Link href="/register" data-cy="go-to-register">
-            <a data-cy="go-to-register" className="register">
-              Don't have an account? Register here.
-            </a>
-          </Link>
         </div>
       </Layout>
     </>
