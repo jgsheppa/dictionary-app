@@ -131,7 +131,7 @@ export default function Register(props: Props) {
   return (
     <>
       <Head>
-        <title>TransDivan</title>
+        <title>WordDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn} user={null} username={null}>
@@ -183,6 +183,7 @@ export default function Register(props: Props) {
             <label>
               First Name
               <input
+                disabled={false}
                 tabIndex={7}
                 value={firstName}
                 onChange={(event) => setFirstName(event.currentTarget.value)}
@@ -192,6 +193,7 @@ export default function Register(props: Props) {
             <label>
               Last Name
               <input
+                disabled={false}
                 tabIndex={8}
                 value={lastName}
                 onChange={(event) => setLastName(event.currentTarget.value)}
@@ -201,6 +203,7 @@ export default function Register(props: Props) {
             <label>
               E-mail
               <input
+                disabled={false}
                 data-cy="email"
                 tabIndex={9}
                 value={email}
@@ -224,6 +227,7 @@ export default function Register(props: Props) {
             <label>
               Username
               <input
+                disabled={false}
                 data-cy="username"
                 tabIndex={10}
                 value={username}
@@ -238,6 +242,7 @@ export default function Register(props: Props) {
             <label>
               Password
               <input
+                disabled={false}
                 data-cy="password"
                 tabIndex={11}
                 type="password"
