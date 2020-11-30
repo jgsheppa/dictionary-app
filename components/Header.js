@@ -30,16 +30,12 @@ const dropdownAndProfileStyles = css`
     border: solid 2px #fff;
     border-color: #fff;
     border-radius: 4px;
-    transition: border 0.2s ease-in-out;
+    transition: border 0.3s ease;
   }
 
   > div a:hover {
     text-decoration: none;
     color: #000000;
-    border-color: #666;
-    border: solid;
-    border-width: 2px;
-    border-radius: 4px;
   }
 `;
 const navContainerStyles = css`
@@ -72,7 +68,7 @@ const dropdown = css`
     border-radius: 4px;
     margin-left: 2rem;
     cursor: pointer;
-    transition: ease 0.3s background-color;
+    transition: 0.3s background-color ease;
   }
 
   .dropdownbtn:hover {
@@ -115,7 +111,7 @@ const dropdown = css`
       display: block;
       border: none;
       /* border: solid #f4d35e; */
-      transition: font-color 0.4s, background-color 0.4s, border 0.4s, ease;
+      transition: font-color 0.3s, background-color 0.3s, border 0.3s, ease;
     }
 
     a:focus {
