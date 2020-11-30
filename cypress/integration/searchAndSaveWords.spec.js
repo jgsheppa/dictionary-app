@@ -1,13 +1,4 @@
 describe('Search for words and save them to list', () => {
-  Cypress.on('fail', (error, runnable) => {
-    debugger;
-
-    // we now have access to the err instance
-    // and the mocha runnable this failed on
-
-    throw error; // throw error to have test still fail
-  });
-
   it('Should save words and then delete them', () => {
     cy.viewport(1440, 1192);
     // Verify that the cart link works
