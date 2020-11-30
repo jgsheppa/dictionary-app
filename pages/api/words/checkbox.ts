@@ -1,17 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSessionByToken } from '../../../util/database';
 import { isSessionTokenValid } from '../../../util/auth';
 import {
   insertWordsToVocabList,
   deleteWordsFromList,
-  getVocabLists,
-  getWordsArray,
 } from '../../../util/database';
 
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
+  const token = request.cookies.session;
+  const validToken = await isSessionTokenValid(token);
+
+  if (!validToken) {
+    return response.status(401).send({ success: false });
+  }
+
   if (request.method === 'POST') {
     const { wordListId, term, foreignTerm } = request.body;
     console.log(request.body);

@@ -4,12 +4,14 @@ import {
   getVocabListsById,
   deleteWordsFromList,
 } from '../../../util/database';
+import { isSessionTokenValid } from '../../../util/auth';
 
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  console.log('request', request.body);
+  const token = request.cookies.session;
+  const validToken = await isSessionTokenValid(token);
 
   if (request.method === 'POST') {
     const { newListName, id } = request.body;
@@ -29,5 +31,9 @@ export default async function handler(
     const deleteWord = await deleteWordsFromList(term, wordListId);
   }
 
-  response.send({ success: true });
+  if (validToken) {
+    return response.send({ success: true });
+  } else {
+    return response.status(401).send({ success: false });
+  }
 }

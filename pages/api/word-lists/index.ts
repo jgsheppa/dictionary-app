@@ -11,6 +11,10 @@ export default async function handler(
   const session = await getSessionByToken(token);
   const validToken = await isSessionTokenValid(token);
 
+  if (!validToken) {
+    return response.status(401).send({ success: false });
+  }
+
   const vocabLists = await getVocabLists(session.userId);
 
   const currentSearchTerm = request.cookies.searchTerm;
@@ -21,9 +25,5 @@ export default async function handler(
     return response.status(401).send({ success: false });
   }
 
-  if (validToken === true) {
-    return response.status(200).json({ vocabLists: vocabLists, wordArray });
-  } else {
-    return response.status(401).send({ success: false });
-  }
+  response.status(200).json({ vocabLists: vocabLists, wordArray });
 }

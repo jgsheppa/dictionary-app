@@ -1229,6 +1229,7 @@ export async function getServerSideProps(context) {
     '../../util/database'
   );
 
+  console.log('token', typeof token);
   const user = (await getUserBySessionToken(token)) || [];
 
   const res = await fetch(
