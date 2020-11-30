@@ -17,11 +17,12 @@ const pageContainer = css`
 export default function list(props) {
   const [wordList, setWordList] = useState(props.mapList);
   const [listWords, setListWords] = useState(props.words || []);
-  console.log('list words', listWords);
+  console.log('list words', wordList);
 
   function deleteWord(wordID, word) {
     const itemToDelete = word.filter((info) => info.id === wordID);
     const indexOfItemToDelete = word.indexOf(itemToDelete[0]);
+    console.log('indexOfItemToDelete', itemToDelete);
 
     if (indexOfItemToDelete > -1) {
       word.splice(indexOfItemToDelete, 1);
