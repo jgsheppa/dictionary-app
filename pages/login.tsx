@@ -142,7 +142,7 @@ export default function Login(props: Props) {
               <label>
                 Username
                 <input
-                  data-cy="username"
+                  data-cy="login-username"
                   disabled={false}
                   value={username}
                   onChange={(e) => setUsername(e.currentTarget.value)}

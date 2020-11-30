@@ -30,7 +30,7 @@ describe('Create account and login', () => {
     cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
     cy.get('[data-cy=go-to-login]').should('be.visible').click();
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=login-username]').type('catdog');
     // Enter password
     cy.get('[data-cy=password]').type('dogcat');
     cy.get('[data-cy=login]').click();

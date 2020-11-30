@@ -32,7 +32,7 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=hamburger-menu]').click();
     cy.get('[data-cy=go-to-login]').click();
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=login-username]').type('catdog');
     // Enter password
     cy.get('[data-cy=password]').type('dogcat');
     cy.get('[data-cy=login]').click();
