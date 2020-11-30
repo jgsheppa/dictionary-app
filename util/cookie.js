@@ -5,6 +5,11 @@ export function getSearchInfo() {
   return lang;
 }
 
+export function getFullLanguagePair() {
+  const languagePair = cookies.getJSON('fullLanguage') || [];
+  return languagePair;
+}
+
 export function searchTerm() {
   const term = cookies.getJSON('searchTerm') || [];
   return term;
@@ -12,10 +17,6 @@ export function searchTerm() {
 
 export function setLanguage(lang) {
   const currentLanguage = getSearchInfo();
-
-  // If language has not been set, then set it.
-  // If language has been set, replace current
-  // language with new language.
 
   const newLanguage = { language: lang };
 
@@ -28,6 +29,42 @@ export function setLanguage(lang) {
   cookies.set('language', newLanguage);
 
   return newLanguage;
+}
+
+export function showDictionaryWithCookieInfo(cookieDictionary) {
+  const shortHandLanguage1 = cookieDictionary.slice(0, 2);
+  const shortHandLanguage2 = cookieDictionary.slice(3);
+  let firstLanguage = '';
+  let secondLanguage = '';
+
+  if (shortHandLanguage1 === 'de') {
+    firstLanguage = 'German';
+  } else if (shortHandLanguage1 === 'en') {
+    firstLanguage = 'English';
+  } else if (shortHandLanguage1 === 'fr') {
+    firstLanguage = 'French';
+  } else if (shortHandLanguage1 === 'it') {
+    firstLanguage = 'Italian';
+  } else if (shortHandLanguage1 === 'ru') {
+    firstLanguage = 'Russian';
+  }
+
+  if (shortHandLanguage2 === 'de') {
+    secondLanguage = 'German';
+  } else if (shortHandLanguage2 === 'en') {
+    secondLanguage = 'English';
+  } else if (shortHandLanguage2 === 'fr') {
+    secondLanguage = 'French';
+  } else if (shortHandLanguage2 === 'it') {
+    secondLanguage = 'Italian';
+  } else if (shortHandLanguage2 === 'ru') {
+    secondLanguage = 'Russian';
+  }
+
+  const fullDictionaryName = `${firstLanguage} - ${secondLanguage}`;
+  cookies.set('fullLanguage', fullDictionaryName);
+
+  return fullDictionaryName;
 }
 
 export function addSearchTermCookie(word) {

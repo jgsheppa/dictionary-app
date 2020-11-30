@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { css } from '@emotion/core';
 import {
   setLanguage,
   getSearchInfo,
-  addSearchTermToRecentSearchList,
+  showDictionaryWithCookieInfo,
+  getFullLanguagePair,
 } from './../util/cookie';
 
 const searchComponentStyles = css`
@@ -133,7 +134,16 @@ export default function SearchBar({ data, setWord }) {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
-  const cookie = getSearchInfo();
+  // let cookie = getSearchInfo();
+  const [cookieState, setCookieState] = useState(getSearchInfo());
+  console.log(cookieState.language);
+  const [entireLanguagePair, setEntireLanguagePair] = useState(
+    getFullLanguagePair(),
+  );
+  console.log(entireLanguagePair);
+
+  // let fullDictionaryName = showDictionaryWithCookieInfo(cookieState.language);
+  // console.log(fullDictionaryName);
 
   const handleTermChange = (e) => {
     setSearchTerm(e.target.value);
@@ -157,10 +167,14 @@ export default function SearchBar({ data, setWord }) {
           <select
             aria-label="dictionary choice dropdown"
             tabIndex={1}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => {
+              setLanguage(e.target.value);
+              showDictionaryWithCookieInfo(cookieState.language);
+            }}
             data-cy="change-language"
           >
-            <option value="de-en">Choose a Language</option>
+            <option>{getFullLanguagePair}</option>
+
             <option value="de-en">German - English</option>
             <option value="de-ru">German - Russian</option>
             <option value="en-de">English - German</option>

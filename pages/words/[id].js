@@ -294,7 +294,6 @@ const exampleButton = css`
 `;
 
 export default function Id(props) {
-  console.log(props.data);
   searchTermCookie(props.searchTerm);
 
   const [data, setData] = useState(props.data);
