@@ -45,7 +45,7 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=search]').click();
 
     // Create list
-    cy.get('[data-cy=click-on-list]').click();
+    cy.get('[data-cy=click-on-list]').should('be.visible').click();
     cy.get('[data-cy=enter-list-name]').type('airplane');
     cy.get('[data-cy=submit-list]').click();
     cy.get('[data-cy=close-list-box]').click();
