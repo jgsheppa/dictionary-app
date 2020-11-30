@@ -305,7 +305,8 @@ export default function Id(props) {
   const [arrayOfWordsInDB, setArrayOfWordsInDB] = useState(props.wordsArray);
   const wholeVocabList = [...vocabList] || [];
 
-  // const foreignTerm = props.data.def[0]?.tr[0].text;
+  const foreignTerm = props.data.def[0]?.tr[0].text;
+  console.log('foreignTerm', foreignTerm);
 
   const container = React.createRef();
   const container1 = React.createRef();
