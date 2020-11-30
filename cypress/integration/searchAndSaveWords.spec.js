@@ -5,7 +5,8 @@ describe('Search for words and save them to list', () => {
     cy.visit('localhost:3000');
 
     // Click and go to login
-    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
+    cy.get('[data-cy=hamburger-menu]').should('be.visible');
+    cy.get('[data-cy=hamburger-menu]').click();
     cy.get('[data-cy=go-to-login]').click();
 
     // Click and go to register
