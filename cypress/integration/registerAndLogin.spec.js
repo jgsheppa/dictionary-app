@@ -5,7 +5,7 @@ describe('Create account and login', () => {
     cy.visit('localhost:3000');
 
     // Click and go to login
-    cy.get('[data-cy=hamburger-menu]').click();
+    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
     cy.get('[data-cy=go-to-login]').click();
 
     // Click and go to register
@@ -27,7 +27,7 @@ describe('Create account and login', () => {
     cy.get('[data-cy=register-user]').click();
 
     // Go to login
-    cy.get('[data-cy=hamburger-menu]').click();
+    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
     cy.get('[data-cy=go-to-login]').click();
     // Enter username
     cy.get('[data-cy=username]').type('catdog');
