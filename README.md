@@ -25,4 +25,6 @@ The user can then click on a specific list and view the words saved in it. Below
 
 ## Testing
 
-![cypress screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/cypress_screenshot.png)
+This project uses `Cypress` to run E2E tests.
+
+![cypress screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/cypress_test.gif)
