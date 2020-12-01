@@ -90,7 +90,6 @@ const vocabListStyles = css`
 
 export default function Popup(props) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  console.log('fetcher', fetcher);
   const { data, mutate, error } = useSWR('/api/word-lists/', fetcher);
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -104,7 +103,6 @@ export default function Popup(props) {
     e.target.checked = !checked;
     props.setVocabList(props.vocabLists);
   }
-  console.log(encodeURIComponent(props.foreignTerm));
 
   return (
     <>
@@ -126,7 +124,6 @@ export default function Popup(props) {
                 {data?.vocabLists.map((list) => {
                   const wordListId = list.wordlistsId;
                   let checked = onlyListIds.includes(wordListId);
-                  console.log('did checked change', checked);
 
                   return (
                     <div key={wordListId} css={vocabListStyles}>
@@ -161,7 +158,6 @@ export default function Popup(props) {
                               setErrorMessage('Word not added to list!');
                             } else {
                               handleCheckBox(e, wordListId, checked);
-                              console.log('is box chekced', checked);
                               setErrorMessage('');
                               mutate();
                             }

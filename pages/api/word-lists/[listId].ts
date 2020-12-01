@@ -16,7 +16,6 @@ export default async function handler(
   }
 
   const deleteWordFromList = await deleteWordsFromList(lang1, id);
-  console.log('delete word from list', deleteWordFromList);
 
   if (typeof deleteWordFromList === 'undefined') {
     // TODO: Return proper message from the server

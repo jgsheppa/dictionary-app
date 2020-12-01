@@ -136,11 +136,9 @@ export default function SearchBar({ data, setWord }) {
 
   // let cookie = getSearchInfo();
   const [cookieState, setCookieState] = useState(getSearchInfo());
-  console.log(cookieState.language);
   const [entireLanguagePair, setEntireLanguagePair] = useState(
     getFullLanguagePair(),
   );
-  console.log(entireLanguagePair);
 
   // let fullDictionaryName = showDictionaryWithCookieInfo(cookieState.language);
   // console.log(fullDictionaryName);

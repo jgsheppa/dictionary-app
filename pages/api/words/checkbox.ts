@@ -18,7 +18,6 @@ export default async function handler(
 
   if (request.method === 'POST') {
     const { wordListId, term, foreignTerm } = request.body;
-    console.log(request.body);
     const addWordsToList = await insertWordsToVocabList(
       term,
       foreignTerm,

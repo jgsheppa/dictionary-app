@@ -173,10 +173,6 @@ function ListOfVocabLists({ setList, list, deleteList }) {
                               setErrorMessage('Word not deleted from list!');
                             } else {
                               setErrorMessage('Success!');
-                              console.log(
-                                'list after deletion',
-                                deleteList(id, updatedList),
-                              );
                               deleteList(id, updatedList);
                             }
                           }}

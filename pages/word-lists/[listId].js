@@ -17,12 +17,10 @@ const pageContainer = css`
 export default function list(props) {
   const [wordList, setWordList] = useState(props.mapList);
   const [listWords, setListWords] = useState(props.words || []);
-  console.log('list words', wordList);
 
   function deleteWord(wordID, word) {
     const itemToDelete = word.filter((info) => info.id === wordID);
     const indexOfItemToDelete = word.indexOf(itemToDelete[0]);
-    console.log('indexOfItemToDelete', itemToDelete);
 
     if (indexOfItemToDelete > -1) {
       word.splice(indexOfItemToDelete, 1);
@@ -64,8 +62,6 @@ export async function getServerSideProps(context) {
   } = await import('../../util/database');
   const idContext = parseInt(context.query.listId);
 
-  console.log('term from context', termFromContext);
-
   if (!(await isSessionTokenValid(token))) {
     return {
       redirect: {
@@ -93,10 +89,6 @@ export async function getServerSideProps(context) {
     }
     list;
   });
-
-  // console.log('mapList', mapList);
-  // console.log('vocab list', vocabLists, 'donzo');
-  console.log('server words', words, 'donzo');
 
   if (words === 'undefined') {
     return { props: { user, loggedIn, vocabLists, mapList } };

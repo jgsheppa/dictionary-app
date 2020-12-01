@@ -132,7 +132,6 @@ const dropdown = css`
 export default function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
   const [menuOpen, setMenuopen] = useState(false);
-  console.log(typeof props.username);
 
   function handleMenuClick() {
     setMenuopen(!menuOpen);

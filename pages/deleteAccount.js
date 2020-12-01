@@ -167,7 +167,5 @@ export async function getServerSideProps(context) {
   const user = await getUserBySessionToken(token);
   const vocabLists = await getVocabLists(user?.id);
 
-  console.log(vocabLists);
-
   return { props: { user, loggedIn, vocabLists, searchTerm, data } };
 }

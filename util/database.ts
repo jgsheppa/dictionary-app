@@ -299,7 +299,7 @@ export async function deleteListById(id: string) {
       RETURNING *;
     
   `;
-  console.log('lists', lists);
+
   return lists.map((u) => camelcaseKeys(u))[0];
 }
 
@@ -344,8 +344,6 @@ export async function getListBySessionToken(token: string | undefined) {
       sessions.token = ${token} AND
       wordlists.user_id_num = sessions.user_id;
   `;
-
-  console.log('lists from db', lists);
 
   return lists.map((u) => camelcaseKeys(u))[0];
 }

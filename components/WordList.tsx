@@ -119,7 +119,6 @@ function WordList({ words, setListWords, deleteWord }) {
 
   setListWords(words);
   const updatedList = [...words];
-  console.log('updated list', updatedList);
 
   function handleEdit() {
     setEditClicked(!editClicked);
@@ -180,10 +179,6 @@ function WordList({ words, setListWords, deleteWord }) {
                               setErrorMessage('Word not deleted from list!');
                             } else {
                               setErrorMessage('Success!');
-                              console.log(
-                                'delete word function',
-                                deleteWord(wordId, updatedList),
-                              );
                               deleteWord(wordId, updatedList);
                             }
                           }}

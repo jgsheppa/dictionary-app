@@ -306,7 +306,6 @@ export default function Id(props) {
   const wholeVocabList = [...vocabList] || [];
 
   const foreignTerm = props.data.def[0]?.tr[0].text;
-  console.log('foreignTerm', foreignTerm);
 
   const container = React.createRef();
   const container1 = React.createRef();
@@ -1230,14 +1229,13 @@ export async function getServerSideProps(context) {
     '../../util/database'
   );
 
-  console.log('token', typeof token);
   const user = (await getUserBySessionToken(token)) || [];
 
   const res = await fetch(
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
-  console.log('data', data);
+  
   const vocabLists = await getVocabLists(user?.id);
   const wordsArray = await getWordsArray(searchTerm);
 
