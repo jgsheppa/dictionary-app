@@ -23,6 +23,12 @@ The user can then click on a specific list and view the words saved in it. Below
 
 ![profile screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/vocab-list-page-screenshot.png)
 
+#### Creating Your Lists
+
+You can create and add words to your lists on each dictionary entry page.
+
+![cypress screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/create-list-ex.gif)
+
 ## Testing
 
 This project uses `Cypress` to run E2E tests.
