@@ -12,6 +12,11 @@ verbs - `yellow` for `imperfective` and `blue` for `perfective`. See below for a
 
 ![verb aspect screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/verb-aspect-screenshot.png)
 
+WordDivan's main purpose is to serve as a language learning tool, which allows users to look up words, as well as save them
+to vocabulary lists. These lists can only be made if a user creates a profile.
+
+Upon registration, users can begin to create vocabulary lists and view them on their profile page.
+
 ![profile screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/profile_screenshot.png)
 
 ## Testing
