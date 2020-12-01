@@ -32,7 +32,7 @@ export default function list(props) {
   return (
     <>
       <Head>
-        <title>TransDivan</title>
+        <title>WordDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props.user?.username} loggedIn={props.loggedIn}>

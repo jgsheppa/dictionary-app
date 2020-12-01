@@ -25,7 +25,8 @@ The user can then click on a specific list and view the words saved in it. Below
 
 #### Creating Your Lists
 
-You can create and add words to your lists on each dictionary entry page.
+You can create and add words to your lists on each dictionary entry page. This component uses `Vercel's` `SWR` to render client side,
+so that the vocabulary lists are updated as they are created and words are added.
 
 ![cypress screenshot](https://github.com/jgsheppa/dictionary-app/blob/master/public/create-list-ex.gif)
 

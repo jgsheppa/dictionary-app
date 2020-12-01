@@ -407,7 +407,7 @@ export default function Id(props) {
     return (
       <>
         <Head>
-          <title>TransDivan</title>
+          <title>WordDivan</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
@@ -433,7 +433,7 @@ export default function Id(props) {
   return (
     <>
       <Head>
-        <title>TransDivan</title>
+        <title>WordDivan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout username={props?.user?.username} loggedIn={props.loggedIn}>
@@ -457,7 +457,7 @@ export default function Id(props) {
                     tabIndex={8}
                     onClick={() => togglePop()}
                   >
-                    Add To List
+                    Your Vocabulary Lists
                   </button>
 
                   {toggle ? (
@@ -1235,7 +1235,7 @@ export async function getServerSideProps(context) {
     `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=${key}&lang=${currentLanguage}&text=${searchTerm}`,
   );
   const data = await res.json();
-  
+
   const vocabLists = await getVocabLists(user?.id);
   const wordsArray = await getWordsArray(searchTerm);
 

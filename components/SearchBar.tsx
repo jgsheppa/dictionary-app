@@ -171,8 +171,7 @@ export default function SearchBar({ data, setWord }) {
             }}
             data-cy="change-language"
           >
-            <option>{getFullLanguagePair}</option>
-
+            <option value="en-ru">Select a dictionary</option>
             <option value="de-en">German - English</option>
             <option value="de-ru">German - Russian</option>
             <option value="en-de">English - German</option>
