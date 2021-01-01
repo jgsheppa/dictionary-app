@@ -10,6 +10,11 @@ export function getFullLanguagePair() {
   return languagePair;
 }
 
+export function getImageUrl() {
+  const imageUrl = cookies.getJSON('userImage') || [];
+  return imageUrl;
+}
+
 export function searchTerm() {
   const term = cookies.getJSON('searchTerm') || [];
   return term;

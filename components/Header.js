@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import cookies from 'js-cookie';
 import { css } from '@emotion/core';
-import { Style } from '../util/types';
+import { getImageUrl } from '../util/cookie';
 
 const headerStyles = css`
   margin: 0 10%;
@@ -137,6 +138,8 @@ export default function Header(props) {
     setMenuopen(!menuOpen);
   }
 
+  const profilePhotoUrl = getImageUrl();
+
   let container = React.createRef();
 
   useEffect(() => {
@@ -163,74 +166,100 @@ export default function Header(props) {
           <Link href="/">
             <a css={navStyles}>WordDivan</a>
           </Link>
-          <div css={dropdownAndProfileStyles}>
-            {typeof props.username === 'string' ? (
-              <div>
-                <Link href="/profile" data-cy="go-to-profile">
-                  <a data-cy="go-to-profile">{props.username}</a>
-                </Link>
-              </div>
-            ) : null}
-            <div css={navContainerStyles}>
-              <div css={dropdown}>
-                <div className="container" ref={container}>
-                  <button
-                    tabIndex={4}
-                    className="dropdownbtn"
-                    onClick={handleMenuClick}
-                    data-cy="hamburger-menu"
-                    disabled={false}
-                  >
-                    ☰
-                  </button>
-                  {menuOpen && (
-                    <div className="dropdown-content">
-                      <ul>
-                        <li>
-                          {' '}
-                          <Link href="/profile">
-                            <a tabIndex={5} className="dropdownitem">
-                              Profile
-                            </a>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/masthead">
-                            <a tabIndex={6} className="dropdownitem">
-                              Impressum
-                            </a>
-                          </Link>
-                        </li>
-                        <li>
-                          {' '}
-                          {!loggedInPassed ? null : props.loggedIn ? (
-                            <Link href="/logout">
-                              <a
-                                data-cy="go-to-logout"
-                                tabIndex={7}
-                                className="dropdownitem"
-                              >
-                                Log out
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '200px',
+            }}
+          >
+            <div css={dropdownAndProfileStyles}>
+              {typeof props.username === 'string' ? (
+                <div>
+                  <Link href="/profile" data-cy="go-to-profile">
+                    <a data-cy="go-to-profile">{props.username}</a>
+                  </Link>
+                </div>
+              ) : null}
+              <div css={navContainerStyles}>
+                <div css={dropdown}>
+                  <div className="container" ref={container}>
+                    <button
+                      tabIndex={4}
+                      className="dropdownbtn"
+                      onClick={handleMenuClick}
+                      data-cy="hamburger-menu"
+                      disabled={false}
+                    >
+                      ☰
+                    </button>
+                    {menuOpen && (
+                      <div className="dropdown-content">
+                        <ul>
+                          <li>
+                            {' '}
+                            <Link href="/profile">
+                              <a tabIndex={5} className="dropdownitem">
+                                Profile
                               </a>
                             </Link>
-                          ) : (
-                            <Link href="/login">
-                              <a
-                                tabIndex={7}
-                                data-cy="go-to-login"
-                                className="dropdownitem"
-                              >
-                                Log in
+                          </li>
+                          <li>
+                            <Link href="/masthead">
+                              <a tabIndex={6} className="dropdownitem">
+                                Impressum
                               </a>
                             </Link>
-                          )}
-                        </li>
-                      </ul>
-                    </div>
-                  )}
+                          </li>
+                          <li>
+                            {' '}
+                            {!loggedInPassed ? null : props.loggedIn ? (
+                              <Link href="/logout">
+                                <a
+                                  data-cy="go-to-logout"
+                                  tabIndex={7}
+                                  className="dropdownitem"
+                                  onClick={() => cookies.set('userImage', '')}
+                                >
+                                  Log out
+                                </a>
+                              </Link>
+                            ) : (
+                              <Link href="/login">
+                                <a
+                                  tabIndex={7}
+                                  data-cy="go-to-login"
+                                  className="dropdownitem"
+                                >
+                                  Log in
+                                </a>
+                              </Link>
+                            )}
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+            {profilePhotoUrl.length > 0 && (
+              <Link href="/profile">
+                <a>
+                  <img
+                    style={{
+                      borderRadius: '50%',
+                      height: '60px',
+                      width: '60px',
+                      marginTop: '4px',
+                    }}
+                    src={profilePhotoUrl}
+                  />
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </header>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import cookies from 'js-cookie';
+import { getImageUrl } from '../util/cookie';
 
 const CLIENT_ID =
   '590521728726-33qsv0pqr8qfsta3knjeompp5b92tnpr.apps.googleusercontent.com';
@@ -14,18 +15,11 @@ export default function GoogleBtn() {
     accessToken: '',
   });
 
-  function getImageUrl() {
-    const imageUrl = cookies.getJSON('user image') || [];
-    return imageUrl;
-  }
-
   const [imageUrl, setImageUrl] = useState('');
 
   function googleLogin(response) {
-    console.log('full response', response);
-    console.log(response.profileObj);
     if (response.accessToken) {
-      cookies.set('user image', response.profileObj.imageUrl);
+      cookies.set('userImage', response.profileObj.imageUrl);
       setImageUrl(getImageUrl());
       setIsLoggedIn({
         loggedIn: true,
