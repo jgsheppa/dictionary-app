@@ -1,5 +1,5 @@
 describe('Create account and login', () => {
-  it('Should register and log in the user', () => {
+  it('Should change the information of the user', () => {
     cy.viewport(1440, 1192);
     // Verify that the cart link works
     cy.visit('localhost:3000');

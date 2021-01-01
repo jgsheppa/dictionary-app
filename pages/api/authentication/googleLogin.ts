@@ -1,6 +1,4 @@
-import crypto from 'crypto';
 import { NextApiRequest, NextApiResponse } from 'next';
-import argon2 from 'argon2';
 import cookie from 'cookie';
 import {
   deleteExpiredSessions,
@@ -18,16 +16,12 @@ export default async function handler(
   const googleIdAlreadyTaken =
     typeof (await getUserByGoogleId(userProfileInfo.googleId)) !== 'undefined';
 
-  console.log('googleId already taken?', googleIdAlreadyTaken);
-
   if (googleIdAlreadyTaken) {
     const googleUser = await getUserByGoogleId(userProfileInfo.googleId);
-    console.log(googleUser);
     await insertSession(googleToken, googleUser.id);
   }
 
   if (!googleIdAlreadyTaken) {
-    console.log(userProfileInfo);
     await registerGoogleUser(userProfileInfo);
   }
 
@@ -40,11 +34,9 @@ export default async function handler(
     maxAge,
 
     expires: new Date(Date.now() + maxAge * 1000),
-
     // Important for security
     // Deny cookie access from frontend JavaScript
     httpOnly: true,
-
     // Important for security
     // Set secure cookies on production
     secure: isProduction,

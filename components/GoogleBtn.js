@@ -18,6 +18,7 @@ export default function GoogleBtn() {
   const [imageUrl, setImageUrl] = useState('');
 
   function googleLogin(response) {
+    console.log(response);
     if (response.accessToken) {
       cookies.set('userImage', response.profileObj.imageUrl);
       setImageUrl(getImageUrl());
