@@ -15,6 +15,15 @@ export type User = {
   slug: string;
 };
 
+export type googleUser = {
+  id: number;
+  givenName: string;
+  familyName: string;
+  email: string;
+  externalType: string;
+  googleId: string;
+};
+
 export type Session = {
   id: number;
   token: string;

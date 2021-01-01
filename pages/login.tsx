@@ -7,6 +7,7 @@ import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import { isSessionTokenValid } from '../util/auth';
 import Layout from './../components/Layout';
+import GoogleBtn from './../components/GoogleBtn';
 
 const headerStyles = css`
   text-align: center;
@@ -99,7 +100,11 @@ const formContainerStyles = css`
   }
 `;
 
-type Props = { loggedIn: boolean; redirectDestination: string; user: string };
+type Props = {
+  loggedIn: boolean;
+  redirectDestination: string;
+  user: string;
+};
 
 export default function Login(props: Props) {
   const [username, setUsername] = useState('');
@@ -114,6 +119,7 @@ export default function Login(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn} user={null} username={null}>
+        <GoogleBtn />
         <h1 css={headerStyles}>Sign In</h1>
         <div css={formContainerStyles}>
           <form
@@ -175,6 +181,7 @@ export default function Login(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const redirectDestination = context?.query?.returnTo ?? '/';
+  const googleClientId = process.env.OAuthGoogleClientID;
 
   if (await isSessionTokenValid(token)) {
     return {
@@ -186,6 +193,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { loggedIn: false, redirectDestination: redirectDestination },
+    props: {
+      loggedIn: false,
+      redirectDestination: redirectDestination,
+      googleClientId,
+    },
   };
 }

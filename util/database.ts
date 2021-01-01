@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
-import { User, Session, WordList } from './types';
+import { User, Session, googleUser } from './types';
 import extractHerokuDatabaseEnvVars from './extractHerokuDatabaseEnvVars';
 
 extractHerokuDatabaseEnvVars();
@@ -94,6 +94,14 @@ export async function getUserByUsername(username: string) {
   `;
 
   return users.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function getUserByGoogleId(googleId: string) {
+  const userGoogleId = await sql<User[]>`
+    SELECT * FROM users WHERE google_id = ${googleId};
+  `;
+
+  return userGoogleId.map((u) => camelcaseKeys(u))[0];
 }
 
 export async function updateUserById(id: string, user: User) {
@@ -368,4 +376,41 @@ export async function getWordsArray(term: string) {
     words.lang_1  = ${term};
   `;
   return lists.map((u) => camelcaseKeys(u));
+}
+
+export async function insertGoogleLoginInformation(type: string, id: string) {
+  const userLoginInfor = await sql<[]>`
+ 
+    INSERT INTO users
+      (google_type, google_id)
+    VALUES
+      (${type}, ${id})
+    RETURNING *;
+  `;
+
+  return userLoginInfor.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function registerGoogleUser(googleUser: googleUser) {
+  const users = await sql<googleUser[]>`
+    INSERT INTO users
+      (first_name, last_name, email, external_type, google_id)
+    VALUES
+      (${googleUser.givenName}, ${googleUser.familyName}, ${googleUser.email}, ${googleUser.externalType}, ${googleUser.googleId})
+    RETURNING *;
+  `;
+
+  return users.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function insertGoogleSession(token: string, userId: number) {
+  const googleSessions = await sql<Session[]>`
+    INSERT INTO googleSessions
+      (token, user_id)
+    VALUES
+      (${token}, ${userId})
+    RETURNING *;
+  `;
+
+  return googleSessions.map((s) => camelcaseKeys(s))[0];
 }
