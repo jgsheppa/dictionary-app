@@ -13,6 +13,25 @@ export default async function handler(
 ) {
   const { userProfileInfo, googleToken } = request.body;
 
+  // Retrieve Google Endpoint to verify user credentials
+  const verifiedAccessToken = `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${googleToken}`;
+
+  const res = await fetch(verifiedAccessToken);
+  const data = await res.json();
+
+  const clientIdEnv = process.env.OAuthGoogleClientID.split('.');
+  const clientIdEndpoint = data.aud.split('.');
+  const emailVerified = data.email_verified;
+  const tokenExpirationDate = data.expires_in;
+
+  if (
+    emailVerified === false ||
+    tokenExpirationDate === 0 ||
+    clientIdEndpoint[0] !== clientIdEnv[0]
+  ) {
+    return response.status(401).send({ success: false });
+  }
+
   const googleIdAlreadyTaken =
     typeof (await getUserByGoogleId(userProfileInfo.googleId)) !== 'undefined';
 

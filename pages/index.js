@@ -97,13 +97,9 @@ export default function Home(props) {
 
 export async function getServerSideProps(context) {
   const { getUserBySessionToken } = await import('./../util/database');
-  console.log('context', context);
   const { session: token } = nextCookies(context);
-  console.log('session token', token);
   const loggedIn = await isSessionTokenValid(token);
-  console.log('logged in', loggedIn);
   const user = await getUserBySessionToken(token);
-  console.log('user', user);
 
   if (typeof user === 'undefined') {
     return {

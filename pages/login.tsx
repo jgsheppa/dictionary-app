@@ -73,6 +73,22 @@ const formContainerStyles = css`
       font-size: 24px;
       transition: ease background-color 0.5s;
       cursor: pointer;
+
+      span {
+        font-size: 24px;
+      }
+
+      div {
+        width: 50px;
+        height: 50px;
+
+        svg {
+          g {
+            width: 50px;
+            height: 50px;
+          }
+        }
+      }
     }
     button:hover {
       background-color: #7838e0;
@@ -163,12 +179,11 @@ export default function Login(props: Props) {
                   onChange={(e) => setPassword(e.currentTarget.value)}
                 />
               </label>
-
-              <button data-cy="login">Log in</button>
+              <button data-cy="login">Login</button>
             </div>
             <Link href="/register" data-cy="go-to-register">
               <a data-cy="go-to-register" className="register">
-                Don't have an account? Register here or sign in with Google.
+                Don't have an account? Register here.
               </a>
             </Link>
           </form>
