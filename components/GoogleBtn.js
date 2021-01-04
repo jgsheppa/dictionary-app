@@ -18,7 +18,6 @@ export default function GoogleBtn() {
   const [imageUrl, setImageUrl] = useState('');
 
   function googleLogin(response) {
-    console.log(response);
     if (response.accessToken) {
       cookies.set('userImage', response.profileObj.imageUrl);
       setImageUrl(getImageUrl());
@@ -35,7 +34,6 @@ export default function GoogleBtn() {
     userProfileInfo['externalType'] = externalLoginType;
 
     const googleToken = userGoogleData.tokenObj.access_token;
-    console.log(googleToken);
 
     const response = await fetch('/api/authentication/googleLogin', {
       method: 'POST',
