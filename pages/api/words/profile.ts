@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { deleteListById, deleteWordsFromList } from '../../../util/database';
+import { deleteListById } from '../../../util/database';
 import { isSessionTokenValid } from '../../../util/auth';
 
 export default async function handler(
