@@ -176,13 +176,6 @@ export default function Header(props) {
             }}
           >
             <div css={dropdownAndProfileStyles}>
-              {typeof props.username === 'string' ? (
-                <div>
-                  <Link href="/profile" data-cy="go-to-profile">
-                    <a data-cy="go-to-profile">{props.username}</a>
-                  </Link>
-                </div>
-              ) : null}
               <div css={navContainerStyles}>
                 <div css={dropdown}>
                   <div className="container" ref={container}>
@@ -246,8 +239,8 @@ export default function Header(props) {
               </div>
             </div>
             {profilePhotoUrl.length > 0 && (
-              <Link href="/profile">
-                <a>
+              <Link href="/profile" data-cy="go-to-profile">
+                <a data-cy="go-to-profile">
                   <img
                     style={{
                       borderRadius: '50%',
