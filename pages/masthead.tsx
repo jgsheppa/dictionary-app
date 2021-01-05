@@ -23,11 +23,7 @@ export default function Register(props: Props) {
         <title>Masthead</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout
-        loggedIn={props.loggedIn}
-        user={props.user}
-        username={props.user?.username}
-      >
+      <Layout loggedIn={true} user={props.user} username={props.user?.username}>
         <h1>Impressum und Offenlegung </h1>
         <p>Offenlegung gem. Mediengesetz: WORD-DIVAN.HEROKUAPP.com</p>
         <div>
