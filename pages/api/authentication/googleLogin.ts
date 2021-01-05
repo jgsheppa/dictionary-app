@@ -26,7 +26,7 @@ export default async function handler(
 
   if (
     emailVerified === false ||
-    tokenExpirationDate === 0 ||
+    tokenExpirationDate <= 0 ||
     clientIdEndpoint[0] !== clientIdEnv[0]
   ) {
     return response.status(401).send({ success: false });

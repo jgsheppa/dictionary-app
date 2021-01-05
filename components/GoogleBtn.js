@@ -4,10 +4,10 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import cookies from 'js-cookie';
 import { getImageUrl } from '../util/cookie';
 
-const CLIENT_ID =
-  '590521728726-33qsv0pqr8qfsta3knjeompp5b92tnpr.apps.googleusercontent.com';
+// const CLIENT_ID =
+//   '590521728726-33qsv0pqr8qfsta3knjeompp5b92tnpr.apps.googleusercontent.com';
 
-export default function GoogleBtn() {
+export default function GoogleBtn({ clientId }) {
   const router = useRouter();
   const [error, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState({
@@ -77,7 +77,7 @@ export default function GoogleBtn() {
     <div>
       {isLoggedIn.loggedIn ? (
         <GoogleLogout
-          clientId={CLIENT_ID}
+          clientId={clientId}
           buttonText="Logout"
           onLogoutSuccess={logout}
           onFailure={handleLogoutFailure}
@@ -106,7 +106,7 @@ export default function GoogleBtn() {
         ></GoogleLogout>
       ) : (
         <GoogleLogin
-          clientId={CLIENT_ID}
+          clientId={clientId}
           buttonText="Login"
           onSuccess={(e) => {
             fullLogin(e);

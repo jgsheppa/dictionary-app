@@ -120,6 +120,7 @@ type Props = {
   loggedIn: boolean;
   redirectDestination: string;
   user: string;
+  clientId: string;
 };
 
 export default function Login(props: Props) {
@@ -137,7 +138,7 @@ export default function Login(props: Props) {
       <Layout loggedIn={props.loggedIn} user={null} username={null}>
         <h1 css={headerStyles}>Sign In</h1>
         <div css={formContainerStyles}>
-          <GoogleBtn />
+          <GoogleBtn clientId={props.clientId} />
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -196,6 +197,7 @@ export default function Login(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const redirectDestination = context?.query?.returnTo ?? '/';
+  const clientId = process.env.OAuthGoogleClientID;
 
   if (await isSessionTokenValid(token)) {
     return {
@@ -208,6 +210,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      clientId,
       loggedIn: false,
       redirectDestination: redirectDestination,
     },
