@@ -213,7 +213,7 @@ export default function Header(props) {
                           <li>
                             {' '}
                             {!loggedInPassed ? null : props.loggedIn ? (
-                              <Link href="/logout">
+                              <Link href="/logout" data-cy="go-to-logout">
                                 <a
                                   data-cy="go-to-logout"
                                   tabIndex={7}
@@ -224,7 +224,7 @@ export default function Header(props) {
                                 </a>
                               </Link>
                             ) : (
-                              <Link href="/login">
+                              <Link href="/login" data-cy="go-to-login">
                                 <a
                                   tabIndex={7}
                                   data-cy="go-to-login"
