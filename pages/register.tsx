@@ -135,7 +135,9 @@ export default function Register(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn} user={null} username={null}>
-        <h1 css={headerStyles}>Create an Account</h1>
+        <h1 css={headerStyles} data-cy="create-an-account">
+          Create an Account
+        </h1>
         <div css={formContainerStyles}>
           <form
             onSubmit={async (e) => {

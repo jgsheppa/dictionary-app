@@ -9,10 +9,11 @@ describe('Create account and login', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').click({ force: true });
+    cy.get('[data-cy=sign-in]').should('be.visible');
 
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible');
-    cy.get('[data-cy=go-to-register]').click();
+    cy.get('[data-cy=go-to-register]').click({ force: true });
 
     // Enter registration information
     // Enter first name
