@@ -16,6 +16,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '15.x'
+      - name: E2E on Chrome
+        steps:
+          - uses: actions/checkout@v1
+          - uses: cypress-io/github-action@v2
+            with:
+              browser: chrome
       - name: Cypress run
         uses: cypress-io/github-action@v2.2.7
         with:
