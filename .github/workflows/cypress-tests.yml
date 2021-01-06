@@ -19,8 +19,9 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2.2.7
         with:
-          build: yarn migrate up
+          build: yarn heroku-postbuild
           start: yarn dev
+          browser: chrome
         env:
           PGHOST: localhost
           PGDATABASE: ${{ secrets.PGDATABASE }}
