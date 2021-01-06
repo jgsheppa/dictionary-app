@@ -8,9 +8,8 @@ describe('Create account and login', () => {
     cy.get('[data-cy=hamburger-menu]')
       .should('be.visible')
       .click({ force: true });
-    cy.get('[data-cy=go-to-login]').click({ force: true });
-    // cy.get('[data-cy=sign-in]').should('be.visible');
-
+    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible');
     cy.get('[data-cy=go-to-register]').click({ force: true });
@@ -33,9 +32,8 @@ describe('Create account and login', () => {
     cy.get('[data-cy=hamburger-menu]')
       .should('be.visible')
       .click({ force: true });
-    cy.get('[data-cy=go-to-login]').click({ force: true });
-    // cy.get('[data-cy=sign-in]').should('be.visible');
-    // Enter username
+    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible'); // Enter username
     cy.get('[data-cy=login-username]').should('be.visible').type('catdog');
 
     // Enter password
