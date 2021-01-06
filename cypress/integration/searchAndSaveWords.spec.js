@@ -5,12 +5,14 @@ describe('Search for words and save them to list', () => {
     cy.visit('localhost:3000');
 
     // Click and go to login
-    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
-    cy.get('[data-cy=go-to-login]').should('be.visible').click();
+    cy.get('[data-cy=hamburger-menu]')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('[data-cy=go-to-login]').should('be.visible').click({ force: true });
 
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible');
-    cy.get('[data-cy=go-to-register]').click();
+    cy.get('[data-cy=go-to-register]').click({ force: true });
 
     // Enter registration information
     // Enter first name
@@ -28,8 +30,9 @@ describe('Search for words and save them to list', () => {
 
     // Go to login
     cy.get('[data-cy=hamburger-menu]').should('be.visible');
-    cy.get('[data-cy=hamburger-menu]').click();
-    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=hamburger-menu]').click({ force: true });
+    cy.get('[data-cy=go-to-login]').click({ force: true });
+    cy.get('[data-cy=sign-in]').should('be.visible');
     // Enter username
     cy.get('[data-cy=login-username]').type('catdog');
     // Enter password
@@ -61,16 +64,18 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=close-list-box]').click();
 
     // Go to Profile
+    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
     cy.get('[data-cy=go-to-profile]').click({ force: true });
 
     // Click on edit
     cy.get('[data-cy=click-edit-list]').click();
     cy.get('[data-cy=click-delete-button]').click({ multiple: true });
     // Go to Profile
-    cy.get('[data-cy=go-to-profile]').click();
+    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
+    cy.get('[data-cy=go-to-profile]').click({ force: true });
 
     // Click delete profile link
-    cy.get('[data-cy=go-to-delete-account]').click();
+    cy.get('[data-cy=go-to-delete-account]').click({ force: true });
     // Delete Account
     cy.get('[data-cy=delete-profile]').click();
   });

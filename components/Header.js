@@ -194,7 +194,11 @@ export default function Header(props) {
                           <li>
                             {' '}
                             <Link href="/profile">
-                              <a tabIndex={5} className="dropdownitem">
+                              <a
+                                tabIndex={5}
+                                data-cy="go-to-profile"
+                                className="dropdownitem"
+                              >
                                 Profile
                               </a>
                             </Link>

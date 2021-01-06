@@ -66,7 +66,7 @@ export default function Home(props) {
             <h4 style={{ color: '#4D13AD' }}>
               Store Your Words With WordDivan
             </h4>
-            <p>
+            <p data-cy="home-page-text">
               If you have ever tried to learn a language, then you have probably
               spent time making lists of words. Perhaps you read a Russian poem,
               but you didn't know that{' '}

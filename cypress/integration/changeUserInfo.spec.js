@@ -5,8 +5,10 @@ describe('Create account and login', () => {
     cy.visit('localhost:3000');
 
     // Click and go to login
-    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
-    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=hamburger-menu]')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('[data-cy=go-to-login]').click({ force: true });
 
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible');
@@ -27,8 +29,11 @@ describe('Create account and login', () => {
     cy.get('[data-cy=register-user]').click();
 
     // Go to login
-    cy.get('[data-cy=hamburger-menu]').should('be.visible').click();
-    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=hamburger-menu]')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('[data-cy=go-to-login]').click({ force: true });
+    cy.get('[data-cy=sign-in]').should('be.visible');
     // Enter username
     cy.get('[data-cy=login-username]').should('be.visible').type('catdog');
 
@@ -37,8 +42,11 @@ describe('Create account and login', () => {
     cy.get('[data-cy=login]').click();
 
     // Go to Profile
-    // cy.get('[data-cy=hamburger-menu]').click();
-    cy.get('[data-cy=go-to-profile]').click();
+    cy.get('[data-cy=home-page-text]').should('be.visible');
+    cy.get('[data-cy=hamburger-menu]')
+      .should('be.visible')
+      .click({ force: true });
+    cy.get('[data-cy=go-to-profile]').click({ force: true });
 
     cy.get('[data-cy=edit-user-info]').click();
 

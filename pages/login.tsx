@@ -136,7 +136,9 @@ export default function Login(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout loggedIn={props.loggedIn} user={null} username={null}>
-        <h1 css={headerStyles}>Sign In</h1>
+        <h1 css={headerStyles} data-cy="sign-in">
+          Sign In
+        </h1>
         <div css={formContainerStyles}>
           <GoogleBtn clientId={props.clientId} />
           <form
