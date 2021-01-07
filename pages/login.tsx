@@ -202,6 +202,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const redirectDestination = context?.query?.returnTo ?? '/';
   const clientId = process.env.OAuthGoogleClientID;
+  console.log(process.env);
 
   if (await isSessionTokenValid(token)) {
     return {
