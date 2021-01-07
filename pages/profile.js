@@ -183,7 +183,7 @@ export default function Profile(props) {
       </div>
       <div css={profileContainerStyles}>
         {!toggleEdit ? (
-          <aside className="userInfoStyles">
+          <aside data-cy="user-info" className="userInfoStyles">
             <h2 css={h2Styles}>Profile</h2>
             <div className="userInfo">
               <b>Name:</b>

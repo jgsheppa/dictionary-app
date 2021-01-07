@@ -55,7 +55,7 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=search]').should('be.visible').click();
 
     // Create list
-    cy.get('[data-cy=click-on-list]').should('be.visible').focus().click();
+    cy.get('[data-cy=click-on-list]').should('be.visible').click();
     cy.get('[data-cy=enter-list-name]').type('airplane').blur();
     cy.get('[data-cy=submit-list]').click();
     cy.get('[data-cy=close-list-box]').click();
@@ -63,11 +63,12 @@ describe('Search for words and save them to list', () => {
     // Change language to German
     cy.get('[data-cy=change-language]').select('English - German');
     // Enter German search term
-    cy.get('[data-cy= search-for-term]').type('work');
+    cy.get('[data-cy=search-for-term]').type('work');
     cy.get('[data-cy=search]').should('be.visible').click();
+    cy.get('[data-cy=user-info]').should('be.visible');
 
     // Add word to list
-    cy.get('[data-cy=click-on-list]').should('be.visible').focus().click();
+    cy.get('[data-cy=click-on-list]').should('be.visible').click();
     cy.get('[data-cy=add-to-list]').click({ multiple: true });
     cy.get('[data-cy=close-list-box]').click();
 
