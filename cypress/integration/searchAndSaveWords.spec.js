@@ -9,7 +9,7 @@ describe('Search for words and save them to list', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').should('be.visible').focus().click();
-    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy=sign-in]').should('be.visible');
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible').focus();
     cy.get('[data-cy=go-to-register]').click({ force: true }).blur();
