@@ -8,7 +8,11 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=hamburger-menu]')
       .should('be.visible')
       .click({ force: true });
-    cy.get('[data-cy=go-to-login]').should('be.visible').focus().click();
+    cy.get('[data-cy=go-to-login]')
+      .focus()
+      .should('be.visible')
+      .focus()
+      .click();
     cy.get('[data-cy=sign-in]').should('be.visible');
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible').focus();
@@ -38,7 +42,7 @@ describe('Search for words and save them to list', () => {
 
     cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Enter username
-    cy.get('[data-cy=login-username]').type('catdog');
+    cy.get('[data-cy=login-username]').type('catdog').focus().blur();
     // Enter password
     cy.get('[data-cy=password]').type('dogcat');
     cy.get('[data-cy=login]').click();
