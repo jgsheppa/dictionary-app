@@ -8,7 +8,7 @@ describe('Create account and login', () => {
     cy.get('[data-cy=hamburger-menu]')
       .should('be.visible')
       .click({ force: true });
-    cy.get('[data-cy=go-to-login]').click();
+    cy.get('[data-cy=go-to-login]').should('be.visible').click();
     // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible').focus();
