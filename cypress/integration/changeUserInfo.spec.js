@@ -11,22 +11,22 @@ describe('Create account and login', () => {
     cy.get('[data-cy=go-to-login]').click();
     // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Click and go to register
-    cy.get('[data-cy=go-to-register]').should('be.visible');
-    cy.get('[data-cy=go-to-register]').click({ force: true });
+    cy.get('[data-cy=go-to-register]').should('be.visible').focus();
+    cy.get('[data-cy=go-to-register]').click({ force: true }).blur();
 
     // Enter registration information
     // Enter first name
-    cy.get('[data-cy=firstname]').type('John');
+    cy.get('[data-cy=firstname]').type('John').blur();
     // Enter last name
-    cy.get('[data-cy=lastname]').type('Smith');
+    cy.get('[data-cy=lastname]').type('Smith').focus().blur();
     // Enter email
-    cy.get('[data-cy=email]').type('JSmith@catdog.com');
+    cy.get('[data-cy=email]').type('JSmith@catdog.com').focus().blur();
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=username]').type('catdog').focus().blur();
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('dogcat').focus().blur();
     // Register
-    cy.get('[data-cy=register-user]').click();
+    cy.get('[data-cy=register-user]').click().focus().blur();
 
     // Go to login
     cy.get('[data-cy=hamburger-menu]')
@@ -58,10 +58,10 @@ describe('Create account and login', () => {
     cy.get('[data-cy=edit-user-firstname]').type('Jane').blur();
     // Edit last name
     cy.get('[data-cy=edit-user-lastname]').clear();
-    cy.get('[data-cy=edit-user-lastname]').type('Crane').blur();
+    cy.get('[data-cy=edit-user-lastname]').type('Crane').focus().blur();
     // Edit username
     cy.get('[data-cy=edit-user-username]').clear();
-    cy.get('[data-cy=edit-user-username]').type('roky2').blur();
+    cy.get('[data-cy=edit-user-username]').type('roky2').focus().blur();
     //Edit email
     cy.get('[data-cy=edit-user-email]').clear();
     cy.get('[data-cy=edit-user-email]').type('rocky1@bear.com');
@@ -74,10 +74,10 @@ describe('Create account and login', () => {
     cy.get('[data-cy=edit-user-firstname]').type('Jake').blur();
     // Edit last name
     cy.get('[data-cy=edit-user-lastname]').clear();
-    cy.get('[data-cy=edit-user-lastname]').type('Snake').blur();
+    cy.get('[data-cy=edit-user-lastname]').type('Snake').focus().blur();
     // Edit username
     cy.get('[data-cy=edit-user-username]').clear();
-    cy.get('[data-cy=edit-user-username]').type('yxy').blur();
+    cy.get('[data-cy=edit-user-username]').type('yxy').focus().blur();
     //Edit email
     cy.get('[data-cy=edit-user-email]').clear();
     cy.get('[data-cy=edit-user-email]').type('JSm@catdog.com');
