@@ -33,7 +33,7 @@ describe('Create account and login', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').click();
-    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible'); // Enter username
+    cy.get('[data-cy=sign-in]').should('be.visible'); // Enter username
 
     cy.get('[data-cy=login-username]')
       .should('be.visible')
