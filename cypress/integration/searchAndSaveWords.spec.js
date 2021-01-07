@@ -48,11 +48,13 @@ describe('Search for words and save them to list', () => {
 
     // Enter search term
     cy.get('[data-cy=search-for-term]').type('work');
-    cy.get('[data-cy=search]').click();
+    cy.get('[data-cy=search]').should('be.visible').click();
 
     // Create list
-    cy.get('[data-cy=click-on-list]').should('be.visible').click();
-    cy.get('[data-cy=enter-list-name]').type('airplane');
+    cy.get('[data-cy=click-on-list]', { timeout: 5000 })
+      .should('be.visible')
+      .click();
+    cy.get('[data-cy=enter-list-name]').type('airplane').blur();
     cy.get('[data-cy=submit-list]').click();
     cy.get('[data-cy=close-list-box]').click();
 

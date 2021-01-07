@@ -34,7 +34,7 @@ describe('Create account and login', () => {
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').click();
 
-    cy.get('[data-cy=login-username]', { force: true })
+    cy.get('[data-cy=login-username]', { timout: 5000 })
       .focus()
       .type('catdog')
       .blur();
