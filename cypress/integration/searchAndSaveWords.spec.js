@@ -65,7 +65,7 @@ describe('Search for words and save them to list', () => {
     // Enter German search term
     cy.get('[data-cy=search-for-term]').type('work');
     cy.get('[data-cy=search]').should('be.visible').click();
-    cy.get('[data-cy=user-info]').should('be.visible');
+    // cy.get('[data-cy=modal]').should('be.visible');
 
     // Add word to list
     cy.get('[data-cy=click-on-list]').should('be.visible').click();

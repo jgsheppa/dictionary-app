@@ -107,7 +107,7 @@ export default function Popup(props) {
   return (
     <>
       <Draggable>
-        <div css={popUpStyles}>
+        <div data-cy="modal" css={popUpStyles}>
           <div css={popUpStyles}>
             <div className="modal-content">
               {/* <span className="close" onClick={props.handleClick}></span> */}
