@@ -32,7 +32,7 @@ describe('Search for words and save them to list', () => {
     cy.get('[data-cy=hamburger-menu]').should('be.visible');
     cy.get('[data-cy=hamburger-menu]').click({ force: true });
     cy.get('[data-cy=go-to-login]')
-      .should('be visible')
+      .should('be.visible')
       .focus()
       .click({ force: true });
 
