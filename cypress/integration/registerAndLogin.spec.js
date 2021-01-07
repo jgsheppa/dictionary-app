@@ -9,7 +9,7 @@ describe('Create account and login', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').click();
-    // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Click and go to register
     cy.get('[data-cy=go-to-register]').should('be.visible').focus();
     cy.get('[data-cy=go-to-register]').click({ force: true }).blur();
@@ -33,7 +33,7 @@ describe('Create account and login', () => {
       .should('be.visible')
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').should('be.visible').click({ force: true });
-    // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Enter username
     cy.get('[data-cy=login-username]').type('catdog').blur();
     // Enter password
