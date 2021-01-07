@@ -16,15 +16,15 @@ describe('Create account and login', () => {
 
     // Enter registration information
     // Enter first name
-    cy.get('[data-cy=firstname]').type('John');
+    cy.get('[data-cy=firstname]').type('John').blur();
     // Enter last name
-    cy.get('[data-cy=lastname]').type('Smith');
+    cy.get('[data-cy=lastname]').type('Smith').focus().blur();
     // Enter email
-    cy.get('[data-cy=email]').type('JSmith@catdog.com');
+    cy.get('[data-cy=email]').type('JSmith@catdog.com').focus().blur();
     // Enter username
-    cy.get('[data-cy=username]').type('catdog');
+    cy.get('[data-cy=username]').type('catdog').focus().blur();
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('dogcat').focus().blur();
     // Register
     cy.get('[data-cy=register-user]').click();
 
@@ -35,9 +35,9 @@ describe('Create account and login', () => {
     cy.get('[data-cy=go-to-login]').should('be.visible').click({ force: true });
     // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible');
     // Enter username
-    cy.get('[data-cy=login-username]').type('catdog');
+    cy.get('[data-cy=login-username]').type('catdog').blur();
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('dogcat', { force: true }).focus().blur();
     cy.get('[data-cy=login]').click({ force: true });
 
     // Go to Profile

@@ -35,6 +35,8 @@ export default function GoogleBtn({ clientId }) {
 
     const googleToken = userGoogleData.tokenObj.access_token;
 
+    console.log(userGoogleData);
+
     const response = await fetch('/api/authentication/googleLogin', {
       method: 'POST',
       headers: {

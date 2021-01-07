@@ -34,10 +34,13 @@ describe('Create account and login', () => {
       .click({ force: true });
     cy.get('[data-cy=go-to-login]').click();
     // cy.get('[data-cy=sign-in]', { timeout: 10000 }).should('be.visible'); // Enter username
-    cy.get('[data-cy=login-username]').should('be.visible').type('catdog');
+    cy.get('[data-cy=login-username]')
+      .should('be.visible')
+      .type('catdog')
+      .blur();
 
     // Enter password
-    cy.get('[data-cy=password]').type('dogcat');
+    cy.get('[data-cy=password]').type('dogcat', { force: true });
     cy.get('[data-cy=login]').click();
 
     // Go to Profile
@@ -52,13 +55,13 @@ describe('Create account and login', () => {
     // Edit user info
     // Edit first name
     cy.get('[data-cy=edit-user-firstname]').clear();
-    cy.get('[data-cy=edit-user-firstname]').type('Jane');
+    cy.get('[data-cy=edit-user-firstname]').type('Jane').blur();
     // Edit last name
     cy.get('[data-cy=edit-user-lastname]').clear();
-    cy.get('[data-cy=edit-user-lastname]').type('Crane');
+    cy.get('[data-cy=edit-user-lastname]').type('Crane').blur();
     // Edit username
     cy.get('[data-cy=edit-user-username]').clear();
-    cy.get('[data-cy=edit-user-username]').type('roky2');
+    cy.get('[data-cy=edit-user-username]').type('roky2').blur();
     //Edit email
     cy.get('[data-cy=edit-user-email]').clear();
     cy.get('[data-cy=edit-user-email]').type('rocky1@bear.com');
@@ -68,13 +71,13 @@ describe('Create account and login', () => {
     cy.get('[data-cy=edit-user-info]').click();
     // Edit first name
     cy.get('[data-cy=edit-user-firstname]').clear();
-    cy.get('[data-cy=edit-user-firstname]').type('Jake');
+    cy.get('[data-cy=edit-user-firstname]').type('Jake').blur();
     // Edit last name
     cy.get('[data-cy=edit-user-lastname]').clear();
-    cy.get('[data-cy=edit-user-lastname]').type('Snake');
+    cy.get('[data-cy=edit-user-lastname]').type('Snake').blur();
     // Edit username
     cy.get('[data-cy=edit-user-username]').clear();
-    cy.get('[data-cy=edit-user-username]').type('yxy');
+    cy.get('[data-cy=edit-user-username]').type('yxy').blur();
     //Edit email
     cy.get('[data-cy=edit-user-email]').clear();
     cy.get('[data-cy=edit-user-email]').type('JSm@catdog.com');

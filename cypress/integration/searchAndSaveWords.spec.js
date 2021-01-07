@@ -1,5 +1,5 @@
 describe('Search for words and save them to list', () => {
-  it('Should save words and then delete them', () => {
+  it('Should save words to list and then delete them', () => {
     cy.viewport(1440, 1192);
     // Verify that the cart link works
     cy.visit('localhost:3000');
